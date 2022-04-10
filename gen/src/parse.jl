@@ -120,45 +120,39 @@ function read_rules_m_file(fname)
        end
 	return rule_strings
 end
-	
-function rule_out_string(r)
-    sr = rulestr2sstring(r)
-		
-    rule = "@rule"*" "*sr[1][1]*" => "
-    if length(sr[2])>1
-        rule *= " if "*sr[2][2]*" \n "
-    end
-    rule *= sr[2][1]
-    if length(sr[2])>1
-        rule*="\n end"
-    end
-    rule = replace(rule,"α"=>"~") #we have created all free symbols with an α to be replaced by ~ for the rule
-    rule = replace(rule,  r"~(.)\^" => s"(~\1)^") #fix the ~x^ parsing problem
-    rule = replace(rule,  r"~(.)\(" => s"(~\1)(") #fix the ~f(~x) parsing problem
-
-    return rule
-end
 
 
 function write_rules_jl_file(rulestrs, fname)
-	outrules = []
-	fails = 0
-	for r in rulestrs
-        rule = rule_out_string(r)
-		if contains(rule, "ϵ")
-			fails +=1
-		end
-		push!(outrules,rule)
-	end
-		
-	open(fname,"w") do io
-		for r in outrules
-			write(io,r)
-			write(io,"\n\n")
-		end
+    outrules = []
+    fails = 0
+    for r in rulestrs
+        sr = rulestr2sstring(r) #map(sr -> string.(sr),ml_string_to_sym.(r))
+        
+        rule = "@rule"*" "*sr[1][1]*" => "
+        if length(sr[2])>1
+            rule *= " if "*sr[2][2]*" \n "
+        end
+        rule *= sr[2][1]
+        if length(sr[2])>1
+            rule*="\n end"
+        end
+        rule = replace(rule,"α"=>"~") #we have created all free symbols with an α to be replaced by ~ for the rule
+        rule = replace(rule,  r"~(.)\^" => s"(~\1)^") #fix the ~x^ parsing problem
+        rule = replace(rule,  r"~(.)\(" => s"(~\1)(") #fix the ~f(~x) parsing problem
+        if contains(rule, "ϵ")
+            fails +=1
+        end
+        push!(outrules,rule)
+    end
+        
+    open(fname,"w") do io
+        for r in outrules
+            write(io,r)
+            write(io,"\n\n")
+        end
 
-	end
-	fails
+    end
+    fails
 end
 
 function all_rules(rulesdir,jldir)

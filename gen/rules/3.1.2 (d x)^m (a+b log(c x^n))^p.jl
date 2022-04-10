@@ -1,24 +1,48 @@
-@rule ~x*(((~n)^-1)*((~c*((~x)^~n))^(-((~n)^-1))))*Subst(integrate(((~E)^(~x*((~n)^-1)))*((~a + ~b*~x)^~p), ~x), ~x, Log(~c*((~x)^~n))) => integrate((~a + ~b*Log(~c*((~x)^~n)))*((~x)^-1), ~x)
+@rule integrate((~a + ~b*Log(~c*((~x)^~n)))*((~x)^-1), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~n), ~x) 
+ ((~a + ~b*Log(~c*((~x)^~n)))^2)*((1//2)*((~b)^-1)*((~n)^-1))
+ end
 
-@rule ((~a + ~b*Log(~c*((~x)^~n)))^2)*((1//2)*((~b)^-1)*((~n)^-1)) => integrate(((~x)^-1)*((~a + ~b*Log(~c*((~x)^~n)))^~p), ~x)
+@rule integrate(((~x)^-1)*((~a + ~b*Log(~c*((~x)^~n)))^~p), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~n, ~p), ~x) 
+ (((~b)^-1)*((~n)^-1))*Subst(integrate((~x)^~p, ~x), ~x, ~a + ~b*Log(~c*((~x)^~n)))
+ end
 
-@rule (((~b)^-1)*((~n)^-1))*Subst(integrate((~x)^~p, ~x), ~x, ~a + ~b*Log(~c*((~x)^~n))) => integrate((~a + ~b*Log(~c*((~x)^~n)))*((~d*~x)^~m), ~x)
+@rule integrate((~a + ~b*Log(~c*((~x)^~n)))*((~d*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), NeQ(~m, -1), EqQ(~a*(1 + ~m) - ~b*~n, 0)) 
+ ~b*(((~d)^-1)*((1 + ~m)^-1))*((~d*~x)^(1 + ~m))*Log(~c*((~x)^~n))
+ end
 
-@rule ~b*(((~d)^-1)*((1 + ~m)^-1))*((~d*~x)^(1 + ~m))*Log(~c*((~x)^~n)) => integrate((~a + ~b*Log(~c*((~x)^~n)))*((~d*~x)^~m), ~x)
+@rule integrate((~a + ~b*Log(~c*((~x)^~n)))*((~d*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), NeQ(~m, -1)) 
+ (~a + ~b*Log(~c*((~x)^~n)))*(((~d)^-1)*((1 + ~m)^-1))*((~d*~x)^(1 + ~m)) - ~b*~n*(((~d)^-1)*((1 + ~m)^-2))*((~d*~x)^(1 + ~m))
+ end
 
-@rule (~a + ~b*Log(~c*((~x)^~n)))*(((~d)^-1)*((1 + ~m)^-1))*((~d*~x)^(1 + ~m)) - ~b*~n*(((~d)^-1)*((1 + ~m)^-2))*((~d*~x)^(1 + ~m)) => integrate(((~a + ~b*Log(~c*((~x)^~n)))^~p)*((~d*~x)^~m), ~x)
+@rule integrate(((~a + ~b*Log(~c*((~x)^~n)))^~p)*((~d*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), NeQ(~m, -1), GtQ(~p, 0)) 
+ ((~a + ~b*Log(~c*((~x)^~n)))^~p)*(((~d)^-1)*((1 + ~m)^-1))*((~d*~x)^(1 + ~m)) - ~b*~n*~p*((1 + ~m)^-1)*integrate(((~a + ~b*Log(~c*((~x)^~n)))^(~p - 1))*((~d*~x)^~m), ~x)
+ end
 
-@rule ((~a + ~b*Log(~c*((~x)^~n)))^~p)*(((~d)^-1)*((1 + ~m)^-1))*((~d*~x)^(1 + ~m)) - ~b*~n*~p*((1 + ~m)^-1)*integrate(((~a + ~b*Log(~c*((~x)^~n)))^(~p - 1))*((~d*~x)^~m), ~x) => integrate(((~a + ~b*Log(~c*((~x)^~n)))^~p)*((~d*~x)^~m), ~x)
+@rule integrate(((~a + ~b*Log(~c*((~x)^~n)))^~p)*((~d*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), NeQ(~m, -1), LtQ(~p, -1)) 
+ ((~a + ~b*Log(~c*((~x)^~n)))^(1 + ~p))*((~d*~x)^(1 + ~m))*(((~b)^-1)*((~d)^-1)*((~n)^-1)*((1 + ~p)^-1)) - (1 + ~m)*(((~b)^-1)*((~n)^-1)*((1 + ~p)^-1))*integrate(((~a + ~b*Log(~c*((~x)^~n)))^(1 + ~p))*((~d*~x)^~m), ~x)
+ end
 
-@rule ((~a + ~b*Log(~c*((~x)^~n)))^(1 + ~p))*((~d*~x)^(1 + ~m))*(((~b)^-1)*((~d)^-1)*((~n)^-1)*((1 + ~p)^-1)) - (1 + ~m)*(((~b)^-1)*((~n)^-1)*((1 + ~p)^-1))*integrate(((~a + ~b*Log(~c*((~x)^~n)))^(1 + ~p))*((~d*~x)^~m), ~x) => integrate(((~x)^~m)*(Log(~c*((~x)^~n))^-1), ~x)
+@rule integrate(((~x)^~m)*(Log(~c*((~x)^~n))^-1), ~x) =>  if And(FreeQ(List(~c, ~m, ~n), ~x), EqQ(~m, ~n - 1)) 
+ ((~n)^-1)*Subst(integrate(Log(~c*~x)^-1, ~x), ~x, (~x)^~n)
+ end
 
-@rule ((~n)^-1)*Subst(integrate(Log(~c*~x)^-1, ~x), ~x, (~x)^~n) => integrate(((~d*~x)^~m)*(Log(~c*((~x)^~n))^-1), ~x)
+@rule integrate(((~d*~x)^~m)*(Log(~c*((~x)^~n))^-1), ~x) =>  if And(FreeQ(List(~c, ~d, ~m, ~n), ~x), EqQ(~m, ~n - 1)) 
+ ((~x)^(-~m))*((~d*~x)^~m)*integrate(((~x)^~m)*(Log(~c*((~x)^~n))^-1), ~x)
+ end
 
-@rule ((~x)^(-~m))*((~d*~x)^~m)*integrate(((~x)^~m)*(Log(~c*((~x)^~n))^-1), ~x) => integrate(((~x)^~m)*((~a + ~b*Log(~c*~x))^~p), ~x)
+@rule integrate(((~x)^~m)*((~a + ~b*Log(~c*~x))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~p), ~x), IntegerQ(~m)) 
+ ((~c)^(-1 - ~m))*Subst(integrate(((~E)^(~x*(1 + ~m)))*((~a + ~b*~x)^~p), ~x), ~x, Log(~c*~x))
+ end
 
-@rule ((~c)^(-1 - ~m))*Subst(integrate(((~E)^(~x*(1 + ~m)))*((~a + ~b*~x)^~p), ~x), ~x, Log(~c*~x)) => integrate(((~a + ~b*Log(~c*((~x)^~n)))^~p)*((~d*~x)^~m), ~x)
+@rule integrate(((~a + ~b*Log(~c*((~x)^~n)))^~p)*((~d*~x)^~m), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n, ~p), ~x) 
+ ((~d*~x)^(1 + ~m))*(((~d)^-1)*((~n)^-1)*((~c*((~x)^~n))^(-(1 + ~m)*((~n)^-1))))*Subst(integrate(((~E)^(~x*(1 + ~m)*((~n)^-1)))*((~a + ~b*~x)^~p), ~x), ~x, Log(~c*((~x)^~n)))
+ end
 
-@rule ((~d*~x)^(1 + ~m))*(((~d)^-1)*((~n)^-1)*((~c*((~x)^~n))^(-(1 + ~m)*((~n)^-1))))*Subst(integrate(((~E)^(~x*(1 + ~m)*((~n)^-1)))*((~a + ~b*~x)^~p), ~x), ~x, Log(~c*((~x)^~n))) => integrate(((~a + ~b*Log(~c*((~x)^~n)))^~p)*((~d*((~x)^~q))^~m), ~x)
+@rule integrate(((~a + ~b*Log(~c*((~x)^~n)))^~p)*((~d*((~x)^~q))^~m), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n, ~p, ~q), ~x) 
+ ((~x)^(-~m*~q))*((~d*((~x)^~q))^~m)*integrate(((~x)^(~m*~q))*((~a + ~b*Log(~c*((~x)^~n)))^~p), ~x)
+ end
 
-@rule ((~x)^(-~m*~q))*((~d*((~x)^~q))^~m)*integrate(((~x)^(~m*~q))*((~a + ~b*Log(~c*((~x)^~n)))^~p), ~x) => integrate(((~a + ~b*Log(~c*((~x)^~n)))^~p)*((~d1*((~x)^~q1))^~m1)*((~d2*((~x)^~q2))^~m2), ~x)
+@rule integrate(((~a + ~b*Log(~c*((~x)^~n)))^~p)*((~d1*((~x)^~q1))^~m1)*((~d2*((~x)^~q2))^~m2), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~d1, ~d2, ~m1, ~m2, ~n, ~p, ~q1, ~q2), ~x) 
+ ((~x)^(-~m1*~q1 - ~m2*~q2))*((~d1*((~x)^~q1))^~m1)*((~d2*((~x)^~q2))^~m2)*integrate(((~x)^(~m1*~q1 + ~m2*~q2))*((~a + ~b*Log(~c*((~x)^~n)))^~p), ~x)
+ end
 
