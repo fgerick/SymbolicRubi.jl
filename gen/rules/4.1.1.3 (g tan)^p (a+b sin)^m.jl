@@ -1,0 +1,56 @@
+@rule ((~g)^(2IntPart(~p)))*((~g*cos(~e + ~f*~x))^FracPart(~p))*((~g*Sec(~e + ~f*~x))^FracPart(~p))*integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*((~g*cos(~e + ~f*~x))^(-~p)), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^-1)*((~g*tan(~e + ~f*~x))^~p), ~x)
+
+@rule ((~a)^-1)*integrate(((~g*tan(~e + ~f*~x))^~p)*(Sec(~e + ~f*~x)^2), ~x) - (((~b)^-1)*((~g)^-1))*integrate(((~g*tan(~e + ~f*~x))^(1 + ~p))*Sec(~e + ~f*~x), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^~p), ~x)
+
+@rule ((~f)^-1)*Subst(integrate(((~x)^~p)*((~a + ~x)^(~m - (1//2)*(1 + ~p)))*((~a - ~x)^(-(1//2)*(1 + ~p))), ~x), ~x, ~b*sin(~e + ~f*~x)) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^~p), ~x)
+
+@rule ((~a)^~p)*integrate(((~a - ~b*sin(~e + ~f*~x))^(-~m))*(sin(~e + ~f*~x)^~p), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^~p), ~x)
+
+@rule ((~a)^~p)*integrate(ExpandIntegrand(((~a + ~b*sin(~e + ~f*~x))^(~m - (1//2)*~p))*((~a - ~b*sin(~e + ~f*~x))^(-(1//2)*~p))*(sin(~e + ~f*~x)^~p), ~x), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*((~g*tan(~e + ~f*~x))^~p), ~x)
+
+@rule integrate(ExpandIntegrand((~g*tan(~e + ~f*~x))^~p, (~a + ~b*sin(~e + ~f*~x))^~m, ~x), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*((~g*tan(~e + ~f*~x))^~p), ~x)
+
+@rule ((~a)^(2~m))*integrate(ExpandIntegrand(((~g*tan(~e + ~f*~x))^~p)*(Sec(~e + ~f*~x)^(-~m)), (~a*Sec(~e + ~f*~x) - ~b*tan(~e + ~f*~x))^(-~m), ~x), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^2), ~x)
+
+@rule ~b*((~a + ~b*sin(~e + ~f*~x))^~m)*(((~a)^-1)*((~f)^-1)*((2~m - 1)^-1)*(cos(~e + ~f*~x)^-1)) - (((~a)^-2)*((2~m - 1)^-1))*integrate(((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*(~a*~m - ~b*(2~m - 1)*sin(~e + ~f*~x))*(cos(~e + ~f*~x)^-2), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^2), ~x)
+
+@rule (((~b)^-1)*((~m)^-1))*integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(~a*sin(~e + ~f*~x) + ~b*(1 + ~m))*(cos(~e + ~f*~x)^-2), ~x) - ((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*(((~b)^-1)*((~f)^-1)*((~m)^-1)*(cos(~e + ~f*~x)^-1)) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^4), ~x)
+
+@rule integrate((~a + ~b*sin(~e + ~f*~x))^~m, ~x) - integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(1 - 2(sin(~e + ~f*~x)^2))*(cos(~e + ~f*~x)^-4), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^-2), ~x)
+
+@rule ((~b)^-2)*integrate(((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*(~b*~m - ~a*(1 + ~m)*sin(~e + ~f*~x))*(sin(~e + ~f*~x)^-1), ~x) - ((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*(((~a)^-1)*((~f)^-1)*(tan(~e + ~f*~x)^-1)) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^-2), ~x)
+
+@rule ((~a)^-1)*integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(~b*~m - ~a*(1 + ~m)*sin(~e + ~f*~x))*(sin(~e + ~f*~x)^-1), ~x) - ((~a + ~b*sin(~e + ~f*~x))^~m)*(((~f)^-1)*(tan(~e + ~f*~x)^-1)) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^-4), ~x)
+
+@rule ((~a)^-2)*integrate(((~a + ~b*sin(~e + ~f*~x))^(2 + ~m))*(1 + sin(~e + ~f*~x)^2)*(sin(~e + ~f*~x)^-4), ~x) - 2(((~a)^-1)*((~b)^-1))*integrate(((~a + ~b*sin(~e + ~f*~x))^(2 + ~m))*(sin(~e + ~f*~x)^-3), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^-4), ~x)
+
+@rule integrate((~a + ~b*sin(~e + ~f*~x))^~m, ~x) + integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(1 - 2(sin(~e + ~f*~x)^2))*(sin(~e + ~f*~x)^-4), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^~p), ~x)
+
+@rule (((~b)^-1)*((~f)^-1)*(cos(~e + ~f*~x)^-1))*sqrt(~a + ~b*sin(~e + ~f*~x))*sqrt(~a - ~b*sin(~e + ~f*~x))*Subst(integrate(((~x)^~p)*((~a + ~x)^(~m - (1//2)*(1 + ~p)))*((~a - ~x)^(-(1//2)*(1 + ~p))), ~x), ~x, ~b*sin(~e + ~f*~x)) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*((~g*tan(~e + ~f*~x))^~p), ~x)
+
+@rule ((~a + ~b*sin(~e + ~f*~x))^((1//2)*(1 + ~p)))*((~a - ~b*sin(~e + ~f*~x))^((1//2)*(1 + ~p)))*((~g*tan(~e + ~f*~x))^(1 + ~p))*(((~f)^-1)*((~g)^-1)*((~b*sin(~e + ~f*~x))^(-1 - ~p)))*Subst(integrate(((~x)^~p)*((~a + ~x)^(~m - (1//2)*(1 + ~p)))*((~a - ~x)^(-(1//2)*(1 + ~p))), ~x), ~x, ~b*sin(~e + ~f*~x)) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^~p), ~x)
+
+@rule ((~f)^-1)*Subst(integrate(((~x)^~p)*((~a + ~x)^~m)*(((~b)^2 - ((~x)^2))^(-(1//2)*(1 + ~p))), ~x), ~x, ~b*sin(~e + ~f*~x)) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*((~g*tan(~e + ~f*~x))^~p), ~x)
+
+@rule integrate(ExpandIntegrand((~g*tan(~e + ~f*~x))^~p, (~a + ~b*sin(~e + ~f*~x))^~m, ~x), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^-2), ~x)
+
+@rule integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(1 - (sin(~e + ~f*~x)^2))*(sin(~e + ~f*~x)^-2), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^-4), ~x)
+
+@rule -((1//3)*((~a)^-2)*((~b)^-1)*((1 + ~m)^-1))*integrate(((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*(sin(~e + ~f*~x)^-3)*Simp(6((~a)^2) + ~a*~b*(1 + ~m)*sin(~e + ~f*~x) - (3((~a)^2) - ~m*((~b)^2)*(~m - 2))*(sin(~e + ~f*~x)^2) - ((~b)^2)*(~m - 1)*(~m - 2), ~x), ~x) - ((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*((1//3)*((~a)^-1)*((~f)^-1)*(sin(~e + ~f*~x)^-3))*cos(~e + ~f*~x) - ((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*(3((~a)^2) + ((~b)^2)*(~m - 2))*((1//3)*((~a)^-2)*((~b)^-1)*((~f)^-1)*((1 + ~m)^-1)*(sin(~e + ~f*~x)^-2))*cos(~e + ~f*~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^-4), ~x)
+
+@rule -((1//6)*((~a)^-2))*integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(sin(~e + ~f*~x)^-2)*Simp(8((~a)^2) + ~a*~b*~m*sin(~e + ~f*~x) - (6((~a)^2) - ~m*((~b)^2)*(~m - 2))*(sin(~e + ~f*~x)^2) - ((~b)^2)*(~m - 1)*(~m - 2), ~x), ~x) - ((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*((1//3)*((~a)^-1)*((~f)^-1)*(sin(~e + ~f*~x)^-3))*cos(~e + ~f*~x) - ~b*(~m - 2)*((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*((1//6)*((~a)^-2)*((~f)^-1)*(sin(~e + ~f*~x)^-2))*cos(~e + ~f*~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^-6), ~x)
+
+@rule ((1//20)*((~a)^-2)*((~b)^-2)*((~m)^-1)*((~m - 1)^-1))*integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(sin(~e + ~f*~x)^-4)*Simp(60((~a)^4) + ~a*~b*~m*(20((~a)^2) - ~m*((~b)^2)*(~m - 1))*sin(~e + ~f*~x) + ~m*((~b)^4)*(~m - 1)*(~m - 3)*(~m - 4) - (40((~a)^4) + ~m*((~b)^4)*(~m - 1)*(~m - 2)*(~m - 4) - 20((~a)^2)*((~b)^2)*(~m - 1)*(1 + 2~m))*(sin(~e + ~f*~x)^2) - 44~m*((~a)^2)*((~b)^2)*(~m - 1), ~x), ~x) + ((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*(((~b)^-1)*((~f)^-1)*((~m)^-1)*(sin(~e + ~f*~x)^-2))*cos(~e + ~f*~x) + ~a*((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*(((~b)^-2)*((~f)^-1)*((~m)^-1)*((~m - 1)^-1)*(sin(~e + ~f*~x)^-3))*cos(~e + ~f*~x) - ((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*((1//5)*((~a)^-1)*((~f)^-1)*(sin(~e + ~f*~x)^-5))*cos(~e + ~f*~x) - ~b*(~m - 4)*((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*((1//20)*((~a)^-2)*((~f)^-1)*(sin(~e + ~f*~x)^-4))*cos(~e + ~f*~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^-1)*((~g*tan(~e + ~f*~x))^~p), ~x)
+
+@rule ~a*(((~a)^2 - ((~b)^2))^-1)*integrate(((~g*tan(~e + ~f*~x))^~p)*(sin(~e + ~f*~x)^-2), ~x) - ~b*~g*(((~a)^2 - ((~b)^2))^-1)*integrate(((~g*tan(~e + ~f*~x))^(~p - 1))*(cos(~e + ~f*~x)^-1), ~x) - ((~a)^2)*((~g)^2)*(((~a)^2 - ((~b)^2))^-1)*integrate(((~a + ~b*sin(~e + ~f*~x))^-1)*((~g*tan(~e + ~f*~x))^(~p - 2)), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^-1)*((~g*tan(~e + ~f*~x))^~p), ~x)
+
+@rule ((~a)^-1)*integrate(((~g*tan(~e + ~f*~x))^~p)*(cos(~e + ~f*~x)^-2), ~x) - ~b*(((~a)^-2)*((~g)^-1))*integrate(((~g*tan(~e + ~f*~x))^(1 + ~p))*(cos(~e + ~f*~x)^-1), ~x) - ((~a)^2 - ((~b)^2))*(((~a)^-2)*((~g)^-2))*integrate(((~a + ~b*sin(~e + ~f*~x))^-1)*((~g*tan(~e + ~f*~x))^(2 + ~p)), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^-1)*sqrt(~g*tan(~e + ~f*~x)), ~x)
+
+@rule (sqrt(sin(~e + ~f*~x))^-1)*sqrt(~g*tan(~e + ~f*~x))*sqrt(cos(~e + ~f*~x))*integrate((((~a + ~b*sin(~e + ~f*~x))^-1)*(sqrt(cos(~e + ~f*~x))^-1))*sqrt(sin(~e + ~f*~x)), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))*sqrt(~g*tan(~e + ~f*~x)))^-1, ~x)
+
+@rule ((sqrt(~g*tan(~e + ~f*~x))^-1)*(sqrt(cos(~e + ~f*~x))^-1))*sqrt(sin(~e + ~f*~x))*integrate((((~a + ~b*sin(~e + ~f*~x))^-1)*(sqrt(sin(~e + ~f*~x))^-1))*sqrt(cos(~e + ~f*~x)), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(tan(~e + ~f*~x)^~p), ~x)
+
+@rule integrate(ExpandIntegrand(((1 - (sin(~e + ~f*~x)^2))^(-(1//2)*~p))*((~a + ~b*sin(~e + ~f*~x))^~m)*(sin(~e + ~f*~x)^~p), ~x), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*((~g*tan(~e + ~f*~x))^~p), ~x)
+
+@rule Unintegrable(((~a + ~b*sin(~e + ~f*~x))^~m)*((~g*tan(~e + ~f*~x))^~p), ~x) => integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*((~g*cot(~e + ~f*~x))^~p), ~x)
+
