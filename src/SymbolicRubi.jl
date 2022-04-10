@@ -2,7 +2,7 @@ module SymbolicRubi
 
 # Write your package code here.
 using SymbolicUtils
-export @rule, @syms
+export @rule, @syms, simplify
 
 @syms integrate(f,x)
 export integrate
