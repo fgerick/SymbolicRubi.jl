@@ -11,7 +11,7 @@
  end
 
 @rule integrate(~Px*((~a + ~b*~x)^-1)*((~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~n), ~x), PolyQ(~Px, ~x), ILtQ(~n + 2^-1, 0), GtQ(Expon(~Px, ~x), 2)) 
- integrate(ExpandIntegrand(sqrt(~c + ~d*~x)^-1, ~Px*((~a + ~b*~x)^-1)*((~c + ~d*~x)^(~n + 2^-1)), ~x), ~x)
+ integrate(ExpandIntegrand(Sqrt(~c + ~d*~x)^-1, ~Px*((~a + ~b*~x)^-1)*((~c + ~d*~x)^(~n + 2^-1)), ~x), ~x)
  end
 
 @rule integrate(~Px*((~a + ~b*~x)^~m)*((~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), PolyQ(~Px, ~x), Or(IntegersQ(~m, ~n), IGtQ(~m, -2)), GtQ(Expon(~Px, ~x), 2)) 

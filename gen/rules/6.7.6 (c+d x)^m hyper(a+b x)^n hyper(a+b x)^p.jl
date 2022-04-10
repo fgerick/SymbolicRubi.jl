@@ -59,7 +59,7 @@
  end
 
 @rule integrate(((~c + ~d*~x)^~m)*(Csch(~a + ~b*~x)^~n)*(Sech(~a + ~b*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), RationalQ(~m), IntegerQ(~n)) 
- (2^~n)*integrate(((~c + ~d*~x)^~m)*(Csch(2~a + 2~b*~x)^~n), ~x)
+ (2^~n)*integrate(((~c + ~d*~x)^~m)*(Csch(2 * ~a + 2 * ~b*~x)^~n), ~x)
  end
 
 @rule integrate(((~c + ~d*~x)^~m)*(Csch(~a + ~b*~x)^~n)*(Sech(~a + ~b*~x)^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), IntegersQ(~n, ~p), GtQ(~m, 0), NeQ(~n, ~p)) 

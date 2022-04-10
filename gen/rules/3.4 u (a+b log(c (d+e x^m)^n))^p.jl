@@ -1,5 +1,5 @@
-@rule integrate((~Pq^~m)*Log(~u), ~x) =>  if And(IntegerQ(~m), PolyQ(~Pq, ~x), RationalFunctionQ(~u, ~x), LeQ(Part(RationalFunctionExponents(~u, ~x), 2), Expon(~Pq, ~x))) 
- With(List(Set(~C, FullSimplify((~Pq^~m)*(1 - ~u)*(D(~u, ~x)^-1)))), Condition(~C*PolyLog(2, 1 - ~u), FreeQ(~C, ~x)))
+@rule integrate(((~Pq)^~m)*Log(~u), ~x) =>  if And(IntegerQ(~m), PolyQ(~Pq, ~x), RationalFunctionQ(~u, ~x), LeQ(Part(RationalFunctionExponents(~u, ~x), 2), Expon(~Pq, ~x))) 
+ With(List(Set(~C, FullSimplify(((~Pq)^~m)*(1 - ~u)*(D(~u, ~x)^-1)))), Condition(~C*PolyLog(2, 1 - ~u), FreeQ(~C, ~x)))
  end
 
 @rule integrate(Log(~c*((~d + ~e*((~x)^~n))^~p)), ~x) =>  if FreeQ(List(~c, ~d, ~e, ~n, ~p), ~x) 

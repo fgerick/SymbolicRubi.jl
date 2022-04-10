@@ -31,11 +31,11 @@
  end
 
 @rule integrate(Sinh(~d*(~a + ~b*Log(~x)))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~p), ~x), Not(IntegerQ(~p))) 
- (((~x)^(-~b*~d*~p))*((1 - ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^(-~p)))*(Sinh(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(~b*~d*~p))*((1 - ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^~p), ~x)
+ (((~x)^(-~b*~d*~p))*((1 - ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^(-~p)))*(Sinh(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(~b*~d*~p))*((1 - ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^~p), ~x)
  end
 
 @rule integrate(Cosh(~d*(~a + ~b*Log(~x)))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~p), ~x), Not(IntegerQ(~p))) 
- (((~x)^(-~b*~d*~p))*((1 + (((~E)^(2~a*~d))*((~x)^(2~b*~d)))^-1)^(-~p)))*(Cosh(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(~b*~d*~p))*((1 + (((~E)^(2~a*~d))*((~x)^(2~b*~d)))^-1)^~p), ~x)
+ (((~x)^(-~b*~d*~p))*((1 + (((~E)^(2 * ~a*~d))*((~x)^(2 * ~b*~d)))^-1)^(-~p)))*(Cosh(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(~b*~d*~p))*((1 + (((~E)^(2 * ~a*~d))*((~x)^(2 * ~b*~d)))^-1)^~p), ~x)
  end
 
 @rule integrate(Sinh(~d*(~a + ~b*Log(~c*((~x)^~n))))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~n, ~p), ~x), Or(NeQ(~c, 1), NeQ(~n, 1))) 
@@ -71,11 +71,11 @@
  end
 
 @rule integrate(((~e*~x)^~m)*(Sinh(~d*(~a + ~b*Log(~x)))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~m, ~p), ~x), Not(IntegerQ(~p))) 
- (((~x)^(-~b*~d*~p))*((1 - ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^(-~p)))*(Sinh(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(~b*~d*~p))*((1 - ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^~p)*((~e*~x)^~m), ~x)
+ (((~x)^(-~b*~d*~p))*((1 - ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^(-~p)))*(Sinh(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(~b*~d*~p))*((1 - ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^~p)*((~e*~x)^~m), ~x)
  end
 
 @rule integrate(((~e*~x)^~m)*(Cosh(~d*(~a + ~b*Log(~x)))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~m, ~p), ~x), Not(IntegerQ(~p))) 
- (((~x)^(-~b*~d*~p))*((1 + (((~E)^(2~a*~d))*((~x)^(2~b*~d)))^-1)^(-~p)))*(Cosh(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(~b*~d*~p))*((1 + (((~E)^(2~a*~d))*((~x)^(2~b*~d)))^-1)^~p)*((~e*~x)^~m), ~x)
+ (((~x)^(-~b*~d*~p))*((1 + (((~E)^(2 * ~a*~d))*((~x)^(2 * ~b*~d)))^-1)^(-~p)))*(Cosh(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(~b*~d*~p))*((1 + (((~E)^(2 * ~a*~d))*((~x)^(2 * ~b*~d)))^-1)^~p)*((~e*~x)^~m), ~x)
  end
 
 @rule integrate(((~e*~x)^~m)*(Sinh(~d*(~a + ~b*Log(~c*((~x)^~n))))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~m, ~n, ~p), ~x), Or(NeQ(~c, 1), NeQ(~n, 1))) 
@@ -103,11 +103,11 @@
  end
 
 @rule integrate(Tanh(~d*(~a + ~b*Log(~x)))^~p, ~x) =>  if FreeQ(List(~a, ~b, ~d, ~p), ~x) 
- integrate(((((~E)^(2~a*~d))*((~x)^(2~b*~d)) - 1)^~p)*((1 + ((~E)^(2~a*~d))*((~x)^(2~b*~d)))^(-~p)), ~x)
+ integrate(((((~E)^(2 * ~a*~d))*((~x)^(2 * ~b*~d)) - 1)^~p)*((1 + ((~E)^(2 * ~a*~d))*((~x)^(2 * ~b*~d)))^(-~p)), ~x)
  end
 
 @rule integrate(Coth(~d*(~a + ~b*Log(~x)))^~p, ~x) =>  if FreeQ(List(~a, ~b, ~d, ~p), ~x) 
- integrate(((-1 - ((~E)^(2~a*~d))*((~x)^(2~b*~d)))^~p)*((1 - ((~E)^(2~a*~d))*((~x)^(2~b*~d)))^(-~p)), ~x)
+ integrate(((-1 - ((~E)^(2 * ~a*~d))*((~x)^(2 * ~b*~d)))^~p)*((1 - ((~E)^(2 * ~a*~d))*((~x)^(2 * ~b*~d)))^(-~p)), ~x)
  end
 
 @rule integrate(Tanh(~d*(~a + ~b*Log(~c*((~x)^~n))))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~n, ~p), ~x), Or(NeQ(~c, 1), NeQ(~n, 1))) 
@@ -119,11 +119,11 @@
  end
 
 @rule integrate(((~e*~x)^~m)*(Tanh(~d*(~a + ~b*Log(~x)))^~p), ~x) =>  if FreeQ(List(~a, ~b, ~d, ~e, ~m, ~p), ~x) 
- integrate(((((~E)^(2~a*~d))*((~x)^(2~b*~d)) - 1)^~p)*((1 + ((~E)^(2~a*~d))*((~x)^(2~b*~d)))^(-~p))*((~e*~x)^~m), ~x)
+ integrate(((((~E)^(2 * ~a*~d))*((~x)^(2 * ~b*~d)) - 1)^~p)*((1 + ((~E)^(2 * ~a*~d))*((~x)^(2 * ~b*~d)))^(-~p))*((~e*~x)^~m), ~x)
  end
 
 @rule integrate(((~e*~x)^~m)*(Coth(~d*(~a + ~b*Log(~x)))^~p), ~x) =>  if FreeQ(List(~a, ~b, ~d, ~e, ~m, ~p), ~x) 
- integrate(((-1 - ((~E)^(2~a*~d))*((~x)^(2~b*~d)))^~p)*((1 - ((~E)^(2~a*~d))*((~x)^(2~b*~d)))^(-~p))*((~e*~x)^~m), ~x)
+ integrate(((-1 - ((~E)^(2 * ~a*~d))*((~x)^(2 * ~b*~d)))^~p)*((1 - ((~E)^(2 * ~a*~d))*((~x)^(2 * ~b*~d)))^(-~p))*((~e*~x)^~m), ~x)
  end
 
 @rule integrate(((~e*~x)^~m)*(Tanh(~d*(~a + ~b*Log(~c*((~x)^~n))))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~m, ~n, ~p), ~x), Or(NeQ(~c, 1), NeQ(~n, 1))) 
@@ -135,19 +135,19 @@
  end
 
 @rule integrate(Sech(~d*(~a + ~b*Log(~x)))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~d), ~x), IntegerQ(~p)) 
- ((~E)^(-~a*~d*~p))*(2^~p)*integrate(((~x)^(-~b*~d*~p))*((1 + ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^(-~p)), ~x)
+ ((~E)^(-~a*~d*~p))*(2^~p)*integrate(((~x)^(-~b*~d*~p))*((1 + ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^(-~p)), ~x)
  end
 
 @rule integrate(Csch(~d*(~a + ~b*Log(~x)))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~d), ~x), IntegerQ(~p)) 
- ((~E)^(-~a*~d*~p))*(2^~p)*integrate(((~x)^(-~b*~d*~p))*((1 - ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^(-~p)), ~x)
+ ((~E)^(-~a*~d*~p))*(2^~p)*integrate(((~x)^(-~b*~d*~p))*((1 - ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^(-~p)), ~x)
  end
 
 @rule integrate(Sech(~d*(~a + ~b*Log(~x)))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~p), ~x), Not(IntegerQ(~p))) 
- ((~x)^(~b*~d*~p))*((1 + ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^~p)*(Sech(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(-~b*~d*~p))*((1 + ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^(-~p)), ~x)
+ ((~x)^(~b*~d*~p))*((1 + ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^~p)*(Sech(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(-~b*~d*~p))*((1 + ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^(-~p)), ~x)
  end
 
 @rule integrate(Csch(~d*(~a + ~b*Log(~x)))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~p), ~x), Not(IntegerQ(~p))) 
- ((~x)^(~b*~d*~p))*((1 - ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^~p)*(Csch(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(-~b*~d*~p))*((1 - ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^(-~p)), ~x)
+ ((~x)^(~b*~d*~p))*((1 - ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^~p)*(Csch(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(-~b*~d*~p))*((1 - ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^(-~p)), ~x)
  end
 
 @rule integrate(Sech(~d*(~a + ~b*Log(~c*((~x)^~n))))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~n, ~p), ~x), Or(NeQ(~c, 1), NeQ(~n, 1))) 
@@ -159,19 +159,19 @@
  end
 
 @rule integrate(((~e*~x)^~m)*(Sech(~d*(~a + ~b*Log(~x)))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~m), ~x), IntegerQ(~p)) 
- ((~E)^(-~a*~d*~p))*(2^~p)*integrate(((~x)^(-~b*~d*~p))*((1 + ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^(-~p))*((~e*~x)^~m), ~x)
+ ((~E)^(-~a*~d*~p))*(2^~p)*integrate(((~x)^(-~b*~d*~p))*((1 + ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^(-~p))*((~e*~x)^~m), ~x)
  end
 
 @rule integrate(((~e*~x)^~m)*(Csch(~d*(~a + ~b*Log(~x)))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~m), ~x), IntegerQ(~p)) 
- ((~E)^(-~a*~d*~p))*(2^~p)*integrate(((~x)^(-~b*~d*~p))*((1 - ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^(-~p))*((~e*~x)^~m), ~x)
+ ((~E)^(-~a*~d*~p))*(2^~p)*integrate(((~x)^(-~b*~d*~p))*((1 - ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^(-~p))*((~e*~x)^~m), ~x)
  end
 
 @rule integrate(((~e*~x)^~m)*(Sech(~d*(~a + ~b*Log(~x)))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~m, ~p), ~x), Not(IntegerQ(~p))) 
- ((~x)^(~b*~d*~p))*((1 + ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^~p)*(Sech(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(-~b*~d*~p))*((1 + ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^(-~p))*((~e*~x)^~m), ~x)
+ ((~x)^(~b*~d*~p))*((1 + ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^~p)*(Sech(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(-~b*~d*~p))*((1 + ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^(-~p))*((~e*~x)^~m), ~x)
  end
 
 @rule integrate(((~e*~x)^~m)*(Csch(~d*(~a + ~b*Log(~x)))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~m, ~p), ~x), Not(IntegerQ(~p))) 
- ((~x)^(~b*~d*~p))*((1 - ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^~p)*(Csch(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(-~b*~d*~p))*((1 - ((~E)^(-2~a*~d))*((~x)^(-2~b*~d)))^(-~p))*((~e*~x)^~m), ~x)
+ ((~x)^(~b*~d*~p))*((1 - ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^~p)*(Csch(~d*(~a + ~b*Log(~x)))^~p)*integrate(((~x)^(-~b*~d*~p))*((1 - ((~E)^(-2 * ~a*~d))*((~x)^(-2 * ~b*~d)))^(-~p))*((~e*~x)^~m), ~x)
  end
 
 @rule integrate(((~e*~x)^~m)*(Sech(~d*(~a + ~b*Log(~c*((~x)^~n))))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~m, ~n, ~p), ~x), Or(NeQ(~c, 1), NeQ(~n, 1))) 

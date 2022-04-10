@@ -66,11 +66,11 @@
  ((~h)^~m)*(((~b)^(-~m))*((~d)^(-~m)))*integrate(((~A + ~B*Log(~e*((~a + ~b*~x)^~n)*((~c + ~d*~x)^(-~n))))^~p)*((~a + ~b*~x)^~m)*((~c + ~d*~x)^~m), ~x)
  end
 
-@rule integrate((~P2x^~m)*((~A + ~B*Log(~e*(((~a + ~b*~x)*((~c + ~d*~x)^-1))^~n)))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~A, ~B, ~n), ~x), PolyQ(~P2x, ~x, 2), NeQ(~b*~c - ~a*~d, 0), IntegerQ(~m), IGtQ(~p, 0)) 
- With(List(Set(~f, Coeff(~P2x, ~x, 0)), Set(~g, Coeff(~P2x, ~x, 1)), Set(~h, Coeff(~P2x, ~x, 2))), (~b*~c - ~a*~d)*Subst(integrate(((~A + ~B*Log(~e*((~x)^~n)))^~p)*((~b - ~d*~x)^(-2 - 2~m))*((~h*((~a)^2) + ~f*((~b)^2) + (~f*((~d)^2) + ~h*((~c)^2) - ~c*~d*~g)*((~x)^2) - ~x*(2~b*~d*~f + 2~a*~c*~h - ~b*~c*~g - ~a*~d*~g) - ~a*~b*~g)^~m), ~x), ~x, (~a + ~b*~x)*((~c + ~d*~x)^-1)))
+@rule integrate(((~P2x)^~m)*((~A + ~B*Log(~e*(((~a + ~b*~x)*((~c + ~d*~x)^-1))^~n)))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~A, ~B, ~n), ~x), PolyQ(~P2x, ~x, 2), NeQ(~b*~c - ~a*~d, 0), IntegerQ(~m), IGtQ(~p, 0)) 
+ With(List(Set(~f, Coeff(~P2x, ~x, 0)), Set(~g, Coeff(~P2x, ~x, 1)), Set(~h, Coeff(~P2x, ~x, 2))), (~b*~c - ~a*~d)*Subst(integrate(((~A + ~B*Log(~e*((~x)^~n)))^~p)*((~b - ~d*~x)^(-2 - 2 * ~m))*((~h*((~a)^2) + ~f*((~b)^2) + (~f*((~d)^2) + ~h*((~c)^2) - ~c*~d*~g)*((~x)^2) - ~x*(2 * ~b*~d*~f + 2 * ~a*~c*~h - ~b*~c*~g - ~a*~d*~g) - ~a*~b*~g)^~m), ~x), ~x, (~a + ~b*~x)*((~c + ~d*~x)^-1)))
  end
 
-@rule integrate((~P2x^~m)*((~A + ~B*Log(~e*((~a + ~b*~x)^~n)*((~c + ~d*~x)^~mn)))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~A, ~B, ~n), ~x), PolyQ(~P2x, ~x, 2), EqQ(~mn + ~n, 0), IGtQ(~n, 0), NeQ(~b*~c - ~a*~d, 0), IntegerQ(~m), IGtQ(~p, 0)) 
- With(List(Set(~f, Coeff(~P2x, ~x, 0)), Set(~g, Coeff(~P2x, ~x, 1)), Set(~h, Coeff(~P2x, ~x, 2))), (~b*~c - ~a*~d)*Subst(integrate(((~A + ~B*Log(~e*((~x)^~n)))^~p)*((~b - ~d*~x)^(-2 - 2~m))*((~h*((~a)^2) + ~f*((~b)^2) + (~f*((~d)^2) + ~h*((~c)^2) - ~c*~d*~g)*((~x)^2) - ~x*(2~b*~d*~f + 2~a*~c*~h - ~b*~c*~g - ~a*~d*~g) - ~a*~b*~g)^~m), ~x), ~x, (~a + ~b*~x)*((~c + ~d*~x)^-1)))
+@rule integrate(((~P2x)^~m)*((~A + ~B*Log(~e*((~a + ~b*~x)^~n)*((~c + ~d*~x)^~mn)))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~A, ~B, ~n), ~x), PolyQ(~P2x, ~x, 2), EqQ(~mn + ~n, 0), IGtQ(~n, 0), NeQ(~b*~c - ~a*~d, 0), IntegerQ(~m), IGtQ(~p, 0)) 
+ With(List(Set(~f, Coeff(~P2x, ~x, 0)), Set(~g, Coeff(~P2x, ~x, 1)), Set(~h, Coeff(~P2x, ~x, 2))), (~b*~c - ~a*~d)*Subst(integrate(((~A + ~B*Log(~e*((~x)^~n)))^~p)*((~b - ~d*~x)^(-2 - 2 * ~m))*((~h*((~a)^2) + ~f*((~b)^2) + (~f*((~d)^2) + ~h*((~c)^2) - ~c*~d*~g)*((~x)^2) - ~x*(2 * ~b*~d*~f + 2 * ~a*~c*~h - ~b*~c*~g - ~a*~d*~g) - ~a*~b*~g)^~m), ~x), ~x, (~a + ~b*~x)*((~c + ~d*~x)^-1)))
  end
 

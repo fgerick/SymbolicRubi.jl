@@ -54,12 +54,12 @@
  (((~b)^-1)*((~d)^-1))*ExpIntegralEi(ProductLog(~a + ~b*~x))
  end
 
-@rule integrate(((~d + ~d*ProductLog(~a + ~b*~x))*sqrt(~c*ProductLog(~a + ~b*~x)))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), PosQ(~c)) 
- (((~b)^-1)*((~c)^-1)*((~d)^-1))*Erfi((Rt(~c, 2)^-1)*sqrt(~c*ProductLog(~a + ~b*~x)))*Rt(~Pi*~c, 2)
+@rule integrate(((~d + ~d*ProductLog(~a + ~b*~x))*Sqrt(~c*ProductLog(~a + ~b*~x)))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), PosQ(~c)) 
+ (((~b)^-1)*((~c)^-1)*((~d)^-1))*Erfi((Rt(~c, 2)^-1)*Sqrt(~c*ProductLog(~a + ~b*~x)))*Rt(~Pi*~c, 2)
  end
 
-@rule integrate(((~d + ~d*ProductLog(~a + ~b*~x))*sqrt(~c*ProductLog(~a + ~b*~x)))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NegQ(~c)) 
- (((~b)^-1)*((~c)^-1)*((~d)^-1))*Erf((Rt(-~c, 2)^-1)*sqrt(~c*ProductLog(~a + ~b*~x)))*Rt(-~Pi*~c, 2)
+@rule integrate(((~d + ~d*ProductLog(~a + ~b*~x))*Sqrt(~c*ProductLog(~a + ~b*~x)))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NegQ(~c)) 
+ (((~b)^-1)*((~c)^-1)*((~d)^-1))*Erf((Rt(-~c, 2)^-1)*Sqrt(~c*ProductLog(~a + ~b*~x)))*Rt(-~Pi*~c, 2)
  end
 
 @rule integrate(((~d + ~d*ProductLog(~a + ~b*~x))^-1)*((~c*ProductLog(~a + ~b*~x))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), LtQ(~p, -1)) 
@@ -91,11 +91,11 @@
  end
 
 @rule integrate(((~d + ~d*ProductLog(~a*((~x)^~n)))^-1)*((~c*ProductLog(~a*((~x)^~n)))^~p), ~x) =>  if And(FreeQ(List(~a, ~c, ~d), ~x), IntegerQ((~n)^-1), EqQ(~p, 2^-1 - ((~n)^-1)), PosQ(~c*~n)) 
- (((~a)^(-((~n)^-1)))*((~c)^(-((~n)^-1)))*((~d)^-1)*((~n)^-1))*Erfi((Rt(~c*~n, 2)^-1)*sqrt(~c*ProductLog(~a*((~x)^~n))))*Rt(~Pi*~c*~n, 2)
+ (((~a)^(-((~n)^-1)))*((~c)^(-((~n)^-1)))*((~d)^-1)*((~n)^-1))*Erfi((Rt(~c*~n, 2)^-1)*Sqrt(~c*ProductLog(~a*((~x)^~n))))*Rt(~Pi*~c*~n, 2)
  end
 
 @rule integrate(((~d + ~d*ProductLog(~a*((~x)^~n)))^-1)*((~c*ProductLog(~a*((~x)^~n)))^~p), ~x) =>  if And(FreeQ(List(~a, ~c, ~d), ~x), IntegerQ((~n)^-1), EqQ(~p, 2^-1 - ((~n)^-1)), NegQ(~c*~n)) 
- (((~a)^(-((~n)^-1)))*((~c)^(-((~n)^-1)))*((~d)^-1)*((~n)^-1))*Erf((Rt(-~c*~n, 2)^-1)*sqrt(~c*ProductLog(~a*((~x)^~n))))*Rt(-~Pi*~c*~n, 2)
+ (((~a)^(-((~n)^-1)))*((~c)^(-((~n)^-1)))*((~d)^-1)*((~n)^-1))*Erf((Rt(-~c*~n, 2)^-1)*Sqrt(~c*ProductLog(~a*((~x)^~n))))*Rt(-~Pi*~c*~n, 2)
  end
 
 @rule integrate(((~d + ~d*ProductLog(~a*((~x)^~n)))^-1)*((~c*ProductLog(~a*((~x)^~n)))^~p), ~x) =>  if And(FreeQ(List(~a, ~c, ~d), ~x), GtQ(~n, 0), GtQ(1 + ~n*(~p - 1), 0)) 
@@ -147,11 +147,11 @@
  end
 
 @rule integrate(((~x)^~m)*((~d + ~d*ProductLog(~a*((~x)^~n)))^-1)*((~c*ProductLog(~a*((~x)^~n)))^~p), ~x) =>  if And(FreeQ(List(~a, ~c, ~d, ~m, ~n), ~x), NeQ(~m, -1), IntegerQ(~p - (1//2)), EqQ(~m + ~n*(~p - (1//2)), -1), PosQ(~c*((~p - (1//2))^-1))) 
- ((~a)^(~p - (1//2)))*((~c)^(~p - (1//2)))*(((~d)^-1)*((~n)^-1))*Erf((Rt(~c*((~p - (1//2))^-1), 2)^-1)*sqrt(~c*ProductLog(~a*((~x)^~n))))*Rt(~Pi*~c*((~p - (1//2))^-1), 2)
+ ((~a)^(~p - (1//2)))*((~c)^(~p - (1//2)))*(((~d)^-1)*((~n)^-1))*Erf((Rt(~c*((~p - (1//2))^-1), 2)^-1)*Sqrt(~c*ProductLog(~a*((~x)^~n))))*Rt(~Pi*~c*((~p - (1//2))^-1), 2)
  end
 
 @rule integrate(((~x)^~m)*((~d + ~d*ProductLog(~a*((~x)^~n)))^-1)*((~c*ProductLog(~a*((~x)^~n)))^~p), ~x) =>  if And(FreeQ(List(~a, ~c, ~d, ~m, ~n), ~x), NeQ(~m, -1), IntegerQ(~p - (1//2)), EqQ(~m + ~n*(~p - (1//2)), -1), NegQ(~c*((~p - (1//2))^-1))) 
- ((~a)^(~p - (1//2)))*((~c)^(~p - (1//2)))*(((~d)^-1)*((~n)^-1))*Erfi((Rt(-~c*((~p - (1//2))^-1), 2)^-1)*sqrt(~c*ProductLog(~a*((~x)^~n))))*Rt(-~Pi*~c*((~p - (1//2))^-1), 2)
+ ((~a)^(~p - (1//2)))*((~c)^(~p - (1//2)))*(((~d)^-1)*((~n)^-1))*Erfi((Rt(-~c*((~p - (1//2))^-1), 2)^-1)*Sqrt(~c*ProductLog(~a*((~x)^~n))))*Rt(-~Pi*~c*((~p - (1//2))^-1), 2)
  end
 
 @rule integrate(((~x)^~m)*((~d + ~d*ProductLog(~a*((~x)^~n)))^-1)*((~c*ProductLog(~a*((~x)^~n)))^~p), ~x) =>  if And(FreeQ(List(~a, ~c, ~d, ~m, ~n, ~p), ~x), NeQ(~m, -1), GtQ(Simplify(~p + (1 + ~m)*((~n)^-1)), 1)) 

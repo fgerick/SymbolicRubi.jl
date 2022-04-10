@@ -19,7 +19,7 @@ const fdict = Dict( "Sin" => sin,
 					"Asin" => asin,
 					"Acos" => acos,
 					"Exp" => exp, 
-					"Sqrt" => sqrt,
+					# "Sqrt" => sqrt, #don't use it, or it will hardcode floats
 					"Times" => *, 
 					"Power" => SymbolicUtils.Pow, 
 					"Rational" => //,

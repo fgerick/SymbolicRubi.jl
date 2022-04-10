@@ -1,13 +1,13 @@
-@rule integrate(((~c + ~d*~x)^~m)*csc(~e + ~Pi*~k + ~f*~x*Complex(0, ~fz)), ~x) =>  if And(FreeQ(List(~c, ~d, ~e, ~f, ~fz), ~x), IntegerQ(2~k), IGtQ(~m, 0)) 
- ~d*~m*(((~I)^-1)*((~f)^-1)*(~fz^-1))*integrate(((~c + ~d*~x)^(~m - 1))*Log(1 + ((~E)^(~f*~fz*~x - ~I*~e))*((~E)^(-~I*~Pi*~k))), ~x) - 2((~c + ~d*~x)^~m)*(((~I)^-1)*((~f)^-1)*(~fz^-1))*ArcTanh(((~E)^(~f*~fz*~x - ~I*~e))*((~E)^(-~I*~Pi*~k))) - ~d*~m*(((~I)^-1)*((~f)^-1)*(~fz^-1))*integrate(((~c + ~d*~x)^(~m - 1))*Log(1 - ((~E)^(~f*~fz*~x - ~I*~e))*((~E)^(-~I*~Pi*~k))), ~x)
+@rule integrate(((~c + ~d*~x)^~m)*csc(~e + ~Pi*~k + ~f*~x*Complex(0, ~fz)), ~x) =>  if And(FreeQ(List(~c, ~d, ~e, ~f, ~fz), ~x), IntegerQ(2 * ~k), IGtQ(~m, 0)) 
+ ~d*~m*(((~I)^-1)*((~f)^-1)*((~fz)^-1))*integrate(((~c + ~d*~x)^(~m - 1))*Log(1 + ((~E)^(~f*~fz*~x - ~I*~e))*((~E)^(-~I*~Pi*~k))), ~x) - 2((~c + ~d*~x)^~m)*(((~I)^-1)*((~f)^-1)*((~fz)^-1))*ArcTanh(((~E)^(~f*~fz*~x - ~I*~e))*((~E)^(-~I*~Pi*~k))) - ~d*~m*(((~I)^-1)*((~f)^-1)*((~fz)^-1))*integrate(((~c + ~d*~x)^(~m - 1))*Log(1 - ((~E)^(~f*~fz*~x - ~I*~e))*((~E)^(-~I*~Pi*~k))), ~x)
  end
 
-@rule integrate(((~c + ~d*~x)^~m)*csc(~e + ~Pi*~k + ~f*~x), ~x) =>  if And(FreeQ(List(~c, ~d, ~e, ~f), ~x), IntegerQ(2~k), IGtQ(~m, 0)) 
+@rule integrate(((~c + ~d*~x)^~m)*csc(~e + ~Pi*~k + ~f*~x), ~x) =>  if And(FreeQ(List(~c, ~d, ~e, ~f), ~x), IntegerQ(2 * ~k), IGtQ(~m, 0)) 
  ~d*~m*((~f)^-1)*integrate(((~c + ~d*~x)^(~m - 1))*Log(1 + ((~E)^(~I*(~e + ~f*~x)))*((~E)^(~I*~Pi*~k))), ~x) - 2((~f)^-1)*((~c + ~d*~x)^~m)*ArcTanh(((~E)^(~I*(~e + ~f*~x)))*((~E)^(~I*~Pi*~k))) - ~d*~m*((~f)^-1)*integrate(((~c + ~d*~x)^(~m - 1))*Log(1 - ((~E)^(~I*(~e + ~f*~x)))*((~E)^(~I*~Pi*~k))), ~x)
  end
 
 @rule integrate(((~c + ~d*~x)^~m)*csc(~e + ~f*~x*Complex(0, ~fz)), ~x) =>  if And(FreeQ(List(~c, ~d, ~e, ~f, ~fz), ~x), IGtQ(~m, 0)) 
- ~d*~m*(((~I)^-1)*((~f)^-1)*(~fz^-1))*integrate(((~c + ~d*~x)^(~m - 1))*Log(1 + (~E)^(~f*~fz*~x - ~I*~e)), ~x) - 2((~c + ~d*~x)^~m)*(((~I)^-1)*((~f)^-1)*(~fz^-1))*ArcTanh((~E)^(~f*~fz*~x - ~I*~e)) - ~d*~m*(((~I)^-1)*((~f)^-1)*(~fz^-1))*integrate(((~c + ~d*~x)^(~m - 1))*Log(1 - ((~E)^(~f*~fz*~x - ~I*~e))), ~x)
+ ~d*~m*(((~I)^-1)*((~f)^-1)*((~fz)^-1))*integrate(((~c + ~d*~x)^(~m - 1))*Log(1 + (~E)^(~f*~fz*~x - ~I*~e)), ~x) - 2((~c + ~d*~x)^~m)*(((~I)^-1)*((~f)^-1)*((~fz)^-1))*ArcTanh((~E)^(~f*~fz*~x - ~I*~e)) - ~d*~m*(((~I)^-1)*((~f)^-1)*((~fz)^-1))*integrate(((~c + ~d*~x)^(~m - 1))*Log(1 - ((~E)^(~f*~fz*~x - ~I*~e))), ~x)
  end
 
 @rule integrate(((~c + ~d*~x)^~m)*csc(~e + ~f*~x), ~x) =>  if And(FreeQ(List(~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0)) 

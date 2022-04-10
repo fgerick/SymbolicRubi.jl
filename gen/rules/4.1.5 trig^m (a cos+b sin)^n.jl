@@ -27,15 +27,15 @@
  end
 
 @rule integrate((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^~n, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~n), ~x), Not(Or(GeQ(~n, 1), LeQ(~n, -1))), Not(Or(GtQ((~a)^2 + (~b)^2, 0), EqQ((~a)^2 + (~b)^2, 0)))) 
- ((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^~n)*(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))*(sqrt((~a)^2 + (~b)^2)^-1))^(-~n))*integrate(cos(~c + ~d*~x - ArcTan(~a, ~b))^~n, ~x)
+ ((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^~n)*(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))*(Sqrt((~a)^2 + (~b)^2)^-1))^(-~n))*integrate(cos(~c + ~d*~x - ArcTan(~a, ~b))^~n, ~x)
  end
 
 @rule integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^~n)*(sin(~c + ~d*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ(~m + ~n, 0), EqQ((~a)^2 + (~b)^2, 0), GtQ(~n, 1)) 
- 2~b*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 1))*(sin(~c + ~d*~x)^(1 - ~n)), ~x) - ~a*((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 1))*(((~d)^-1)*((~n - 1)^-1)*(sin(~c + ~d*~x)^(1 - ~n)))
+ 2 * ~b*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 1))*(sin(~c + ~d*~x)^(1 - ~n)), ~x) - ~a*((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 1))*(((~d)^-1)*((~n - 1)^-1)*(sin(~c + ~d*~x)^(1 - ~n)))
  end
 
 @rule integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^~n)*(cos(~c + ~d*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ(~m + ~n, 0), EqQ((~a)^2 + (~b)^2, 0), GtQ(~n, 1)) 
- ~b*((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 1))*(((~d)^-1)*((~n - 1)^-1)*(cos(~c + ~d*~x)^(1 - ~n))) + 2~a*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 1))*(cos(~c + ~d*~x)^(1 - ~n)), ~x)
+ ~b*((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 1))*(((~d)^-1)*((~n - 1)^-1)*(cos(~c + ~d*~x)^(1 - ~n))) + 2 * ~a*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 1))*(cos(~c + ~d*~x)^(1 - ~n)), ~x)
  end
 
 @rule integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^~n)*(sin(~c + ~d*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ(~m + ~n, 0), EqQ((~a)^2 + (~b)^2, 0), LtQ(~n, 0)) 
@@ -95,11 +95,11 @@
  end
 
 @rule integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^~n)*(sin(~c + ~d*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ((~a)^2 + (~b)^2, 0), GtQ(~n, 1), LtQ(~m, -1)) 
- ((~a)^2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 2))*(sin(~c + ~d*~x)^~m), ~x) + (-((~a)^2) - ((~b)^2))*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 2))*(sin(~c + ~d*~x)^(2 + ~m)), ~x) + 2~b*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 1))*(sin(~c + ~d*~x)^(1 + ~m)), ~x)
+ ((~a)^2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 2))*(sin(~c + ~d*~x)^~m), ~x) + (-((~a)^2) - ((~b)^2))*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 2))*(sin(~c + ~d*~x)^(2 + ~m)), ~x) + 2 * ~b*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 1))*(sin(~c + ~d*~x)^(1 + ~m)), ~x)
  end
 
 @rule integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^~n)*(cos(~c + ~d*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ((~a)^2 + (~b)^2, 0), GtQ(~n, 1), LtQ(~m, -1)) 
- ((~b)^2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 2))*(cos(~c + ~d*~x)^~m), ~x) + (-((~a)^2) - ((~b)^2))*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 2))*(cos(~c + ~d*~x)^(2 + ~m)), ~x) + 2~a*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 1))*(cos(~c + ~d*~x)^(1 + ~m)), ~x)
+ ((~b)^2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 2))*(cos(~c + ~d*~x)^~m), ~x) + (-((~a)^2) - ((~b)^2))*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 2))*(cos(~c + ~d*~x)^(2 + ~m)), ~x) + 2 * ~a*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(~n - 1))*(cos(~c + ~d*~x)^(1 + ~m)), ~x)
  end
 
 @rule integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^-1)*sin(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ((~a)^2 + (~b)^2, 0)) 
@@ -143,11 +143,11 @@
  end
 
 @rule integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^~n)*(sin(~c + ~d*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ((~a)^2 + (~b)^2, 0), LtQ(~n, -1), LtQ(~m, -1)) 
- ((~a)^-2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(2 + ~n))*(sin(~c + ~d*~x)^~m), ~x) + ((~a)^-2)*((~a)^2 + (~b)^2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^~n)*(sin(~c + ~d*~x)^(2 + ~m)), ~x) - 2~b*((~a)^-2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(1 + ~n))*(sin(~c + ~d*~x)^(1 + ~m)), ~x)
+ ((~a)^-2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(2 + ~n))*(sin(~c + ~d*~x)^~m), ~x) + ((~a)^-2)*((~a)^2 + (~b)^2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^~n)*(sin(~c + ~d*~x)^(2 + ~m)), ~x) - 2 * ~b*((~a)^-2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(1 + ~n))*(sin(~c + ~d*~x)^(1 + ~m)), ~x)
  end
 
 @rule integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^~n)*(cos(~c + ~d*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ((~a)^2 + (~b)^2, 0), LtQ(~n, -1), LtQ(~m, -1)) 
- ((~b)^-2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(2 + ~n))*(cos(~c + ~d*~x)^~m), ~x) + ((~b)^-2)*((~a)^2 + (~b)^2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^~n)*(cos(~c + ~d*~x)^(2 + ~m)), ~x) - 2~a*((~b)^-2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(1 + ~n))*(cos(~c + ~d*~x)^(1 + ~m)), ~x)
+ ((~b)^-2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(2 + ~n))*(cos(~c + ~d*~x)^~m), ~x) + ((~b)^-2)*((~a)^2 + (~b)^2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^~n)*(cos(~c + ~d*~x)^(2 + ~m)), ~x) - 2 * ~a*((~b)^-2)*integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^(1 + ~n))*(cos(~c + ~d*~x)^(1 + ~m)), ~x)
  end
 
 @rule integrate(((~a*cos(~c + ~d*~x) + ~b*sin(~c + ~d*~x))^~p)*(cos(~c + ~d*~x)^~m)*(sin(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), IGtQ(~p, 0)) 

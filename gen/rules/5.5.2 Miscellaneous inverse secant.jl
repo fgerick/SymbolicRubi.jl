@@ -1,9 +1,9 @@
 @rule integrate(ArcSec(~c + ~d*~x), ~x) =>  if FreeQ(List(~c, ~d), ~x) 
- (~c + ~d*~x)*((~d)^-1)*ArcSec(~c + ~d*~x) - integrate(((~c + ~d*~x)*sqrt(1 - ((~c + ~d*~x)^-2)))^-1, ~x)
+ (~c + ~d*~x)*((~d)^-1)*ArcSec(~c + ~d*~x) - integrate(((~c + ~d*~x)*Sqrt(1 - ((~c + ~d*~x)^-2)))^-1, ~x)
  end
 
 @rule integrate(ArcCsc(~c + ~d*~x), ~x) =>  if FreeQ(List(~c, ~d), ~x) 
- (~c + ~d*~x)*((~d)^-1)*ArcCsc(~c + ~d*~x) + integrate(((~c + ~d*~x)*sqrt(1 - ((~c + ~d*~x)^-2)))^-1, ~x)
+ (~c + ~d*~x)*((~d)^-1)*ArcCsc(~c + ~d*~x) + integrate(((~c + ~d*~x)*Sqrt(1 - ((~c + ~d*~x)^-2)))^-1, ~x)
  end
 
 @rule integrate((~a + ~b*ArcSec(~c + ~d*~x))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), IGtQ(~p, 0)) 
@@ -71,26 +71,26 @@
  end
 
 @rule integrate(ArcSec(~u), ~x) =>  if And(InverseFunctionFreeQ(~u, ~x), Not(FunctionOfExponentialQ(~u, ~x))) 
- ~x*ArcSec(~u) - ~u*(sqrt((~u)^2)^-1)*integrate(SimplifyIntegrand(~x*(((~u)^-1)*(sqrt((~u)^2 - 1)^-1))*D(~u, ~x), ~x), ~x)
+ ~x*ArcSec(~u) - ~u*(Sqrt((~u)^2)^-1)*integrate(SimplifyIntegrand(~x*(((~u)^-1)*(Sqrt((~u)^2 - 1)^-1))*D(~u, ~x), ~x), ~x)
  end
 
 @rule integrate(ArcCsc(~u), ~x) =>  if And(InverseFunctionFreeQ(~u, ~x), Not(FunctionOfExponentialQ(~u, ~x))) 
- ~x*ArcCsc(~u) + ~u*(sqrt((~u)^2)^-1)*integrate(SimplifyIntegrand(~x*(((~u)^-1)*(sqrt((~u)^2 - 1)^-1))*D(~u, ~x), ~x), ~x)
+ ~x*ArcCsc(~u) + ~u*(Sqrt((~u)^2)^-1)*integrate(SimplifyIntegrand(~x*(((~u)^-1)*(Sqrt((~u)^2 - 1)^-1))*D(~u, ~x), ~x), ~x)
  end
 
 @rule integrate((~a + ~b*ArcSec(~u))*((~c + ~d*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m), ~x), NeQ(~m, -1), InverseFunctionFreeQ(~u, ~x), Not(FunctionOfQ((~c + ~d*~x)^(1 + ~m), ~u, ~x)), Not(FunctionOfExponentialQ(~u, ~x))) 
- (~a + ~b*ArcSec(~u))*((~c + ~d*~x)^(1 + ~m))*(((~d)^-1)*((1 + ~m)^-1)) - ~b*~u*(((~d)^-1)*((1 + ~m)^-1)*(sqrt((~u)^2)^-1))*integrate(SimplifyIntegrand(((~c + ~d*~x)^(1 + ~m))*(((~u)^-1)*(sqrt((~u)^2 - 1)^-1))*D(~u, ~x), ~x), ~x)
+ (~a + ~b*ArcSec(~u))*((~c + ~d*~x)^(1 + ~m))*(((~d)^-1)*((1 + ~m)^-1)) - ~b*~u*(((~d)^-1)*((1 + ~m)^-1)*(Sqrt((~u)^2)^-1))*integrate(SimplifyIntegrand(((~c + ~d*~x)^(1 + ~m))*(((~u)^-1)*(Sqrt((~u)^2 - 1)^-1))*D(~u, ~x), ~x), ~x)
  end
 
 @rule integrate((~a + ~b*ArcCsc(~u))*((~c + ~d*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m), ~x), NeQ(~m, -1), InverseFunctionFreeQ(~u, ~x), Not(FunctionOfQ((~c + ~d*~x)^(1 + ~m), ~u, ~x)), Not(FunctionOfExponentialQ(~u, ~x))) 
- (~a + ~b*ArcCsc(~u))*((~c + ~d*~x)^(1 + ~m))*(((~d)^-1)*((1 + ~m)^-1)) + ~b*~u*(((~d)^-1)*((1 + ~m)^-1)*(sqrt((~u)^2)^-1))*integrate(SimplifyIntegrand(((~c + ~d*~x)^(1 + ~m))*(((~u)^-1)*(sqrt((~u)^2 - 1)^-1))*D(~u, ~x), ~x), ~x)
+ (~a + ~b*ArcCsc(~u))*((~c + ~d*~x)^(1 + ~m))*(((~d)^-1)*((1 + ~m)^-1)) + ~b*~u*(((~d)^-1)*((1 + ~m)^-1)*(Sqrt((~u)^2)^-1))*integrate(SimplifyIntegrand(((~c + ~d*~x)^(1 + ~m))*(((~u)^-1)*(Sqrt((~u)^2 - 1)^-1))*D(~u, ~x), ~x), ~x)
  end
 
 @rule integrate(~v*(~a + ~b*ArcSec(~u)), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), InverseFunctionFreeQ(~u, ~x), Not(MatchQ(~v, Condition((~c + ~d*~x)^~m, FreeQ(List(~c, ~d, ~m), ~x))))) 
- With(List(Set(~w, IntHide(~v, ~x))), Condition(Dist(~a + ~b*ArcSec(~u), ~w, ~x) - ~b*~u*(sqrt((~u)^2)^-1)*integrate(SimplifyIntegrand(~w*(((~u)^-1)*(sqrt((~u)^2 - 1)^-1))*D(~u, ~x), ~x), ~x), InverseFunctionFreeQ(~w, ~x)))
+ With(List(Set(~w, IntHide(~v, ~x))), Condition(Dist(~a + ~b*ArcSec(~u), ~w, ~x) - ~b*~u*(Sqrt((~u)^2)^-1)*integrate(SimplifyIntegrand(~w*(((~u)^-1)*(Sqrt((~u)^2 - 1)^-1))*D(~u, ~x), ~x), ~x), InverseFunctionFreeQ(~w, ~x)))
  end
 
 @rule integrate(~v*(~a + ~b*ArcCsc(~u)), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), InverseFunctionFreeQ(~u, ~x), Not(MatchQ(~v, Condition((~c + ~d*~x)^~m, FreeQ(List(~c, ~d, ~m), ~x))))) 
- With(List(Set(~w, IntHide(~v, ~x))), Condition(~b*~u*(sqrt((~u)^2)^-1)*integrate(SimplifyIntegrand(~w*(((~u)^-1)*(sqrt((~u)^2 - 1)^-1))*D(~u, ~x), ~x), ~x) + Dist(~a + ~b*ArcCsc(~u), ~w, ~x), InverseFunctionFreeQ(~w, ~x)))
+ With(List(Set(~w, IntHide(~v, ~x))), Condition(~b*~u*(Sqrt((~u)^2)^-1)*integrate(SimplifyIntegrand(~w*(((~u)^-1)*(Sqrt((~u)^2 - 1)^-1))*D(~u, ~x), ~x), ~x) + Dist(~a + ~b*ArcCsc(~u), ~w, ~x), InverseFunctionFreeQ(~w, ~x)))
  end
 

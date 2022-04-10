@@ -19,7 +19,7 @@
  end
 
 @rule integrate(~Pq*((~a*((~x)^~j) + ~b*((~x)^~n))^~p)*((~c*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~m, ~p), ~x), PolyQ(~Pq, ~x), Not(IntegerQ(~p)), IGtQ(~j, 0), IGtQ(~n, 0), LtQ(~j, ~n)) 
- With(List(Set(~q, Expon(~Pq, ~x))), Condition(With(List(Set(~Pqq, Coeff(~Pq, ~x, ~q))), ~Pqq*((~a*((~x)^~j) + ~b*((~x)^~n))^(1 + ~p))*((~c*~x)^(1 + ~m + ~q - ~n))*(((~b)^-1)*((~c)^(~n - 1 - ~q))*((1 + ~m + ~q + ~n*~p)^-1)) + integrate(((~a*((~x)^~j) + ~b*((~x)^~n))^~p)*((~c*~x)^~m)*ExpandToSum(~Pq - ~Pqq*((~x)^~q) - ~Pqq*~a*(1 + ~m + ~q - ~n)*((~x)^(~q - ~n))*(((~b)^-1)*((1 + ~m + ~q + ~n*~p)^-1)), ~x), ~x)), And(GtQ(~q, ~n - 1), NeQ(1 + ~m + ~q + ~n*~p, 0), Or(IntegerQ(2~p), IntegerQ(~p + (1 + ~q)*((1//2)*((~n)^-1)))))))
+ With(List(Set(~q, Expon(~Pq, ~x))), Condition(With(List(Set(~Pqq, Coeff(~Pq, ~x, ~q))), ~Pqq*((~a*((~x)^~j) + ~b*((~x)^~n))^(1 + ~p))*((~c*~x)^(1 + ~m + ~q - ~n))*(((~b)^-1)*((~c)^(~n - 1 - ~q))*((1 + ~m + ~q + ~n*~p)^-1)) + integrate(((~a*((~x)^~j) + ~b*((~x)^~n))^~p)*((~c*~x)^~m)*ExpandToSum(~Pq - ~Pqq*((~x)^~q) - ~Pqq*~a*(1 + ~m + ~q - ~n)*((~x)^(~q - ~n))*(((~b)^-1)*((1 + ~m + ~q + ~n*~p)^-1)), ~x), ~x)), And(GtQ(~q, ~n - 1), NeQ(1 + ~m + ~q + ~n*~p, 0), Or(IntegerQ(2 * ~p), IntegerQ(~p + (1 + ~q)*((1//2)*((~n)^-1)))))))
  end
 
 @rule integrate(~Pq*((~x)^~m)*((~a*((~x)^~j) + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~j, ~m, ~n, ~p), ~x), PolyQ(~Pq, (~x)^~n), Not(IntegerQ(~p)), NeQ(~n, ~j), IntegerQ(Simplify(~j*((~n)^-1))), IntegerQ(Simplify(~n*((1 + ~m)^-1))), Not(IntegerQ(~n))) 

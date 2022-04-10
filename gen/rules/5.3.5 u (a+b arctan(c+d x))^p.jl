@@ -62,19 +62,19 @@
  Unintegrable(((~c + ~d*((~x)^~n))^-1)*ArcCot(~a + ~b*~x), ~x)
  end
 
-@rule integrate(((~a + ~b*ArcTan(~c + ~d*~x))^~p)*((~A + ~B*~x + ~C*((~x)^2))^~q), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~A, ~B, ~C, ~p, ~q), ~x), EqQ(~B*(1 + (~c)^2) - 2~A*~c*~d, 0), EqQ(2~C*~c - ~B*~d, 0)) 
+@rule integrate(((~a + ~b*ArcTan(~c + ~d*~x))^~p)*((~A + ~B*~x + ~C*((~x)^2))^~q), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~A, ~B, ~C, ~p, ~q), ~x), EqQ(~B*(1 + (~c)^2) - 2 * ~A*~c*~d, 0), EqQ(2 * ~C*~c - ~B*~d, 0)) 
  ((~d)^-1)*Subst(integrate(((~a + ~b*ArcTan(~x))^~p)*((~C*((~d)^-2) + ~C*((~d)^-2)*((~x)^2))^~q), ~x), ~x, ~c + ~d*~x)
  end
 
-@rule integrate(((~a + ~b*ArcCot(~c + ~d*~x))^~p)*((~A + ~B*~x + ~C*((~x)^2))^~q), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~A, ~B, ~C, ~p, ~q), ~x), EqQ(~B*(1 + (~c)^2) - 2~A*~c*~d, 0), EqQ(2~C*~c - ~B*~d, 0)) 
+@rule integrate(((~a + ~b*ArcCot(~c + ~d*~x))^~p)*((~A + ~B*~x + ~C*((~x)^2))^~q), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~A, ~B, ~C, ~p, ~q), ~x), EqQ(~B*(1 + (~c)^2) - 2 * ~A*~c*~d, 0), EqQ(2 * ~C*~c - ~B*~d, 0)) 
  ((~d)^-1)*Subst(integrate(((~a + ~b*ArcCot(~x))^~p)*((~C*((~d)^-2) + ~C*((~d)^-2)*((~x)^2))^~q), ~x), ~x, ~c + ~d*~x)
  end
 
-@rule integrate(((~a + ~b*ArcTan(~c + ~d*~x))^~p)*((~e + ~f*~x)^~m)*((~A + ~B*~x + ~C*((~x)^2))^~q), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~A, ~B, ~C, ~m, ~p, ~q), ~x), EqQ(~B*(1 + (~c)^2) - 2~A*~c*~d, 0), EqQ(2~C*~c - ~B*~d, 0)) 
+@rule integrate(((~a + ~b*ArcTan(~c + ~d*~x))^~p)*((~e + ~f*~x)^~m)*((~A + ~B*~x + ~C*((~x)^2))^~q), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~A, ~B, ~C, ~m, ~p, ~q), ~x), EqQ(~B*(1 + (~c)^2) - 2 * ~A*~c*~d, 0), EqQ(2 * ~C*~c - ~B*~d, 0)) 
  ((~d)^-1)*Subst(integrate(((~a + ~b*ArcTan(~x))^~p)*((((~d)^-1)*(~d*~e - ~c*~f) + ~f*~x*((~d)^-1))^~m)*((~C*((~d)^-2) + ~C*((~d)^-2)*((~x)^2))^~q), ~x), ~x, ~c + ~d*~x)
  end
 
-@rule integrate(((~a + ~b*ArcCot(~c + ~d*~x))^~p)*((~e + ~f*~x)^~m)*((~A + ~B*~x + ~C*((~x)^2))^~q), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~A, ~B, ~C, ~m, ~p, ~q), ~x), EqQ(~B*(1 + (~c)^2) - 2~A*~c*~d, 0), EqQ(2~C*~c - ~B*~d, 0)) 
+@rule integrate(((~a + ~b*ArcCot(~c + ~d*~x))^~p)*((~e + ~f*~x)^~m)*((~A + ~B*~x + ~C*((~x)^2))^~q), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~A, ~B, ~C, ~m, ~p, ~q), ~x), EqQ(~B*(1 + (~c)^2) - 2 * ~A*~c*~d, 0), EqQ(2 * ~C*~c - ~B*~d, 0)) 
  ((~d)^-1)*Subst(integrate(((~a + ~b*ArcCot(~x))^~p)*((((~d)^-1)*(~d*~e - ~c*~f) + ~f*~x*((~d)^-1))^~m)*((~C*((~d)^-2) + ~C*((~d)^-2)*((~x)^2))^~q), ~x), ~x, ~c + ~d*~x)
  end
 

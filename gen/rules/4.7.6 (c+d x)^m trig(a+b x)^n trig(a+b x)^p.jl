@@ -59,7 +59,7 @@
  end
 
 @rule integrate(((~c + ~d*~x)^~m)*(Csc(~a + ~b*~x)^~n)*(Sec(~a + ~b*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m), ~x), IntegerQ(~n), RationalQ(~m)) 
- (2^~n)*integrate(((~c + ~d*~x)^~m)*(Csc(2~a + 2~b*~x)^~n), ~x)
+ (2^~n)*integrate(((~c + ~d*~x)^~m)*(Csc(2 * ~a + 2 * ~b*~x)^~n), ~x)
  end
 
 @rule integrate(((~c + ~d*~x)^~m)*(Csc(~a + ~b*~x)^~n)*(Sec(~a + ~b*~x)^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), IntegersQ(~n, ~p), GtQ(~m, 0), NeQ(~n, ~p)) 

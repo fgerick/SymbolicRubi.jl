@@ -62,8 +62,8 @@
  ((~a*((~x)^~j) + ~b*((~x)^~n))^~p)*((~c*~x)^(1 + ~m))*(((~c)^-1)*((~p)^-1)*((~n - ~j)^-1)) + ~a*((~c)^(-~j))*integrate(((~a*((~x)^~j) + ~b*((~x)^~n))^(~p - 1))*((~c*~x)^(~j + ~m)), ~x)
  end
 
-@rule integrate(((~x)^~m)*(sqrt(~a*((~x)^~j) + ~b*((~x)^~n))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~j, ~n), ~x), EqQ(~m, (1//2)*~j - 1), NeQ(~n, ~j)) 
- -2((~n - ~j)^-1)*Subst(integrate((1 - ~a*((~x)^2))^-1, ~x), ~x, ((~x)^((1//2)*~j))*(sqrt(~a*((~x)^~j) + ~b*((~x)^~n))^-1))
+@rule integrate(((~x)^~m)*(Sqrt(~a*((~x)^~j) + ~b*((~x)^~n))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~j, ~n), ~x), EqQ(~m, (1//2)*~j - 1), NeQ(~n, ~j)) 
+ -2((~n - ~j)^-1)*Subst(integrate((1 - ~a*((~x)^2))^-1, ~x), ~x, ((~x)^((1//2)*~j))*(Sqrt(~a*((~x)^~j) + ~b*((~x)^~n))^-1))
  end
 
 @rule integrate(((~a*((~x)^~j) + ~b*((~x)^~n))^~p)*((~c*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~j, ~m, ~n), ~x), ILtQ(~p + 2^-1, 0), NeQ(~n, ~j), EqQ(Simplify(1 + ~m + ~j*~p), 0), Or(IntegerQ(~j), GtQ(~c, 0))) 

@@ -26,20 +26,20 @@
  ~C*((~b)^-2)*integrate(((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*Simp(~b*sin(~e + ~f*~x) - ~a, ~x), ~x)
  end
 
-@rule integrate((~A + ~C*(sin(~e + ~f*~x)^2) + ~B*sin(~e + ~f*~x))*((~a + ~b*sin(~e + ~f*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~A, ~B, ~C, ~m), ~x), EqQ(~A + ~C - ~B, 0), Not(IntegerQ(2~m))) 
+@rule integrate((~A + ~C*(sin(~e + ~f*~x)^2) + ~B*sin(~e + ~f*~x))*((~a + ~b*sin(~e + ~f*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~A, ~B, ~C, ~m), ~x), EqQ(~A + ~C - ~B, 0), Not(IntegerQ(2 * ~m))) 
  ~C*integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*((1 + sin(~e + ~f*~x))^2), ~x) + (~A - ~C)*integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(1 + sin(~e + ~f*~x)), ~x)
  end
 
-@rule integrate((~A + ~C*(sin(~e + ~f*~x)^2))*((~a + ~b*sin(~e + ~f*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~A, ~C, ~m), ~x), EqQ(~A + ~C, 0), Not(IntegerQ(2~m))) 
+@rule integrate((~A + ~C*(sin(~e + ~f*~x)^2))*((~a + ~b*sin(~e + ~f*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~A, ~C, ~m), ~x), EqQ(~A + ~C, 0), Not(IntegerQ(2 * ~m))) 
  ~C*integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*((1 + sin(~e + ~f*~x))^2), ~x) + (~A - ~C)*integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*(1 + sin(~e + ~f*~x)), ~x)
  end
 
 @rule integrate((~A + ~C*(sin(~e + ~f*~x)^2) + ~B*sin(~e + ~f*~x))*((~a + ~b*sin(~e + ~f*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~A, ~B, ~C), ~x), LtQ(~m, -1), EqQ((~a)^2 - ((~b)^2), 0)) 
- (((~a)^-2)*((1 + 2~m)^-1))*integrate(((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*Simp(~m*(~B*~b - ~C*~a) + ~A*~a*(1 + ~m) + ~C*~b*(1 + 2~m)*sin(~e + ~f*~x), ~x), ~x) + (~A*~b + ~C*~b - ~B*~a)*((~a + ~b*sin(~e + ~f*~x))^~m)*(((~a)^-1)*((~f)^-1)*((1 + 2~m)^-1))*cos(~e + ~f*~x)
+ (((~a)^-2)*((1 + 2 * ~m)^-1))*integrate(((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*Simp(~m*(~B*~b - ~C*~a) + ~A*~a*(1 + ~m) + ~C*~b*(1 + 2 * ~m)*sin(~e + ~f*~x), ~x), ~x) + (~A*~b + ~C*~b - ~B*~a)*((~a + ~b*sin(~e + ~f*~x))^~m)*(((~a)^-1)*((~f)^-1)*((1 + 2 * ~m)^-1))*cos(~e + ~f*~x)
  end
 
 @rule integrate((~A + ~C*(sin(~e + ~f*~x)^2))*((~a + ~b*sin(~e + ~f*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~A, ~C), ~x), LtQ(~m, -1), EqQ((~a)^2 - ((~b)^2), 0)) 
- (((~a)^-2)*((1 + 2~m)^-1))*integrate(((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*Simp(~A*~a*(1 + ~m) + ~C*~b*(1 + 2~m)*sin(~e + ~f*~x) - ~C*~a*~m, ~x), ~x) + ~b*(~A + ~C)*((~a + ~b*sin(~e + ~f*~x))^~m)*(((~a)^-1)*((~f)^-1)*((1 + 2~m)^-1))*cos(~e + ~f*~x)
+ (((~a)^-2)*((1 + 2 * ~m)^-1))*integrate(((~a + ~b*sin(~e + ~f*~x))^(1 + ~m))*Simp(~A*~a*(1 + ~m) + ~C*~b*(1 + 2 * ~m)*sin(~e + ~f*~x) - ~C*~a*~m, ~x), ~x) + ~b*(~A + ~C)*((~a + ~b*sin(~e + ~f*~x))^~m)*(((~a)^-1)*((~f)^-1)*((1 + 2 * ~m)^-1))*cos(~e + ~f*~x)
  end
 
 @rule integrate((~A + ~C*(sin(~e + ~f*~x)^2) + ~B*sin(~e + ~f*~x))*((~a + ~b*sin(~e + ~f*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~A, ~B, ~C), ~x), LtQ(~m, -1), NeQ((~a)^2 - ((~b)^2), 0)) 

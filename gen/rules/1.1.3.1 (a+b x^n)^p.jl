@@ -22,7 +22,7 @@
  integrate(ExpandIntegrand((~a + ~b*((~x)^~n))^~p, ~x), ~x)
  end
 
-@rule integrate((~a + ~b*((~x)^~n))^~p, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ(~n, 0), GtQ(~p, 0), Or(IntegerQ(2~p), And(EqQ(~n, 2), IntegerQ(4~p)), And(EqQ(~n, 2), IntegerQ(3~p)), LtQ(Denominator(~p + (~n)^-1), Denominator(~p)))) 
+@rule integrate((~a + ~b*((~x)^~n))^~p, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ(~n, 0), GtQ(~p, 0), Or(IntegerQ(2 * ~p), And(EqQ(~n, 2), IntegerQ(4 * ~p)), And(EqQ(~n, 2), IntegerQ(3 * ~p)), LtQ(Denominator(~p + (~n)^-1), Denominator(~p)))) 
  ~x*((~a + ~b*((~x)^~n))^~p)*((1 + ~n*~p)^-1) + ~a*~n*~p*((1 + ~n*~p)^-1)*integrate((~a + ~b*((~x)^~n))^(~p - 1), ~x)
  end
 
@@ -35,10 +35,10 @@
  end
 
 @rule integrate((~a + ~b*((~x)^2))^((-7//1)*(1//6)), ~x) =>  if FreeQ(List(~a, ~b), ~x) 
- (((~a + ~b*((~x)^2))^((-2//1)*(1//3)))*((~a*((~a + ~b*((~x)^2))^-1))^((-2//1)*(1//3))))*Subst(integrate((1 - ~b*((~x)^2))^(-(1//3)), ~x), ~x, ~x*(sqrt(~a + ~b*((~x)^2))^-1))
+ (((~a + ~b*((~x)^2))^((-2//1)*(1//3)))*((~a*((~a + ~b*((~x)^2))^-1))^((-2//1)*(1//3))))*Subst(integrate((1 - ~b*((~x)^2))^(-(1//3)), ~x), ~x, ~x*(Sqrt(~a + ~b*((~x)^2))^-1))
  end
 
-@rule integrate((~a + ~b*((~x)^~n))^~p, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ(~n, 0), LtQ(~p, -1), Or(IntegerQ(2~p), And(Equal(~n, 2), IntegerQ(4~p)), And(Equal(~n, 2), IntegerQ(3~p)), Less(Denominator(~p + (~n)^-1), Denominator(~p)))) 
+@rule integrate((~a + ~b*((~x)^~n))^~p, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ(~n, 0), LtQ(~p, -1), Or(IntegerQ(2 * ~p), And(Equal(~n, 2), IntegerQ(4 * ~p)), And(Equal(~n, 2), IntegerQ(3 * ~p)), Less(Denominator(~p + (~n)^-1), Denominator(~p)))) 
  (1 + ~n*(1 + ~p))*(((~a)^-1)*((~n)^-1)*((1 + ~p)^-1))*integrate((~a + ~b*((~x)^~n))^(1 + ~p), ~x) - ~x*((~a + ~b*((~x)^~n))^(1 + ~p))*(((~a)^-1)*((~n)^-1)*((1 + ~p)^-1))
  end
 
@@ -47,11 +47,11 @@
  end
 
 @rule integrate((~a + ~b*((~x)^~n))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ((1//2)*(~n - 3), 0), PosQ(~a*((~b)^-1))) 
- Module(List(Set(~r, Numerator(Rt(~a*((~b)^-1), ~n))), Set(~s, Denominator(Rt(~a*((~b)^-1), ~n))), ~k, ~u), CompoundExpression(Set(~u, integrate((~r - ~s*~x*cos(~Pi*((~n)^-1)*(2~k - 1)))*(((~r)^2 + ((~s)^2)*((~x)^2) - 2~r*~s*~x*cos(~Pi*((~n)^-1)*(2~k - 1)))^-1), ~x)), ~r*(((~a)^-1)*((~n)^-1))*integrate((~r + ~s*~x)^-1, ~x) + Dist(2~r*(((~a)^-1)*((~n)^-1)), Sum(~u, List(~k, 1, (1//2)*(~n - 1))), ~x)))
+ Module(List(Set(~r, Numerator(Rt(~a*((~b)^-1), ~n))), Set(~s, Denominator(Rt(~a*((~b)^-1), ~n))), ~k, ~u), CompoundExpression(Set(~u, integrate((~r - ~s*~x*cos(~Pi*((~n)^-1)*(2 * ~k - 1)))*(((~r)^2 + ((~s)^2)*((~x)^2) - 2 * ~r*~s*~x*cos(~Pi*((~n)^-1)*(2 * ~k - 1)))^-1), ~x)), ~r*(((~a)^-1)*((~n)^-1))*integrate((~r + ~s*~x)^-1, ~x) + Dist(2 * ~r*(((~a)^-1)*((~n)^-1)), Sum(~u, List(~k, 1, (1//2)*(~n - 1))), ~x)))
  end
 
 @rule integrate((~a + ~b*((~x)^~n))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ((1//2)*(~n - 3), 0), NegQ(~a*((~b)^-1))) 
- Module(List(Set(~r, Numerator(Rt(-~a*((~b)^-1), ~n))), Set(~s, Denominator(Rt(-~a*((~b)^-1), ~n))), ~k, ~u), CompoundExpression(Set(~u, integrate((~r + ~s*~x*cos(~Pi*((~n)^-1)*(2~k - 1)))*(((~r)^2 + ((~s)^2)*((~x)^2) + 2~r*~s*~x*cos(~Pi*((~n)^-1)*(2~k - 1)))^-1), ~x)), ~r*(((~a)^-1)*((~n)^-1))*integrate((~r - ~s*~x)^-1, ~x) + Dist(2~r*(((~a)^-1)*((~n)^-1)), Sum(~u, List(~k, 1, (1//2)*(~n - 1))), ~x)))
+ Module(List(Set(~r, Numerator(Rt(-~a*((~b)^-1), ~n))), Set(~s, Denominator(Rt(-~a*((~b)^-1), ~n))), ~k, ~u), CompoundExpression(Set(~u, integrate((~r + ~s*~x*cos(~Pi*((~n)^-1)*(2 * ~k - 1)))*(((~r)^2 + ((~s)^2)*((~x)^2) + 2 * ~r*~s*~x*cos(~Pi*((~n)^-1)*(2 * ~k - 1)))^-1), ~x)), ~r*(((~a)^-1)*((~n)^-1))*integrate((~r - ~s*~x)^-1, ~x) + Dist(2 * ~r*(((~a)^-1)*((~n)^-1)), Sum(~u, List(~k, 1, (1//2)*(~n - 1))), ~x)))
  end
 
 @rule integrate((~a + ~b*((~x)^2))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), PosQ(~a*((~b)^-1)), Or(GtQ(~a, 0), GtQ(~b, 0))) 
@@ -79,11 +79,11 @@
  end
 
 @rule integrate((~a + ~b*((~x)^~n))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ((1//4)*(~n - 2), 0), PosQ(~a*((~b)^-1))) 
- Module(List(Set(~r, Numerator(Rt(~a*((~b)^-1), ~n))), Set(~s, Denominator(Rt(~a*((~b)^-1), ~n))), ~k, ~u, ~v), CompoundExpression(Set(~u, integrate((~r + ~s*~x*cos(~Pi*((~n)^-1)*(2~k - 1)))*(((~r)^2 + ((~s)^2)*((~x)^2) + 2~r*~s*~x*cos(~Pi*((~n)^-1)*(2~k - 1)))^-1), ~x) + integrate((~r - ~s*~x*cos(~Pi*((~n)^-1)*(2~k - 1)))*(((~r)^2 + ((~s)^2)*((~x)^2) - 2~r*~s*~x*cos(~Pi*((~n)^-1)*(2~k - 1)))^-1), ~x)), 2((~r)^2)*(((~a)^-1)*((~n)^-1))*integrate(((~r)^2 + ((~s)^2)*((~x)^2))^-1, ~x) + Dist(2~r*(((~a)^-1)*((~n)^-1)), Sum(~u, List(~k, 1, (1//4)*(~n - 2))), ~x)))
+ Module(List(Set(~r, Numerator(Rt(~a*((~b)^-1), ~n))), Set(~s, Denominator(Rt(~a*((~b)^-1), ~n))), ~k, ~u, ~v), CompoundExpression(Set(~u, integrate((~r + ~s*~x*cos(~Pi*((~n)^-1)*(2 * ~k - 1)))*(((~r)^2 + ((~s)^2)*((~x)^2) + 2 * ~r*~s*~x*cos(~Pi*((~n)^-1)*(2 * ~k - 1)))^-1), ~x) + integrate((~r - ~s*~x*cos(~Pi*((~n)^-1)*(2 * ~k - 1)))*(((~r)^2 + ((~s)^2)*((~x)^2) - 2 * ~r*~s*~x*cos(~Pi*((~n)^-1)*(2 * ~k - 1)))^-1), ~x)), 2((~r)^2)*(((~a)^-1)*((~n)^-1))*integrate(((~r)^2 + ((~s)^2)*((~x)^2))^-1, ~x) + Dist(2 * ~r*(((~a)^-1)*((~n)^-1)), Sum(~u, List(~k, 1, (1//4)*(~n - 2))), ~x)))
  end
 
 @rule integrate((~a + ~b*((~x)^~n))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ((1//4)*(~n - 2), 0), NegQ(~a*((~b)^-1))) 
- Module(List(Set(~r, Numerator(Rt(-~a*((~b)^-1), ~n))), Set(~s, Denominator(Rt(-~a*((~b)^-1), ~n))), ~k, ~u), CompoundExpression(Set(~u, integrate((~r + ~s*~x*cos(2~Pi*~k*((~n)^-1)))*(((~r)^2 + ((~s)^2)*((~x)^2) + 2~r*~s*~x*cos(2~Pi*~k*((~n)^-1)))^-1), ~x) + integrate((~r - ~s*~x*cos(2~Pi*~k*((~n)^-1)))*(((~r)^2 + ((~s)^2)*((~x)^2) - 2~r*~s*~x*cos(2~Pi*~k*((~n)^-1)))^-1), ~x)), 2((~r)^2)*(((~a)^-1)*((~n)^-1))*integrate(((~r)^2 - ((~s)^2)*((~x)^2))^-1, ~x) + Dist(2~r*(((~a)^-1)*((~n)^-1)), Sum(~u, List(~k, 1, (1//4)*(~n - 2))), ~x)))
+ Module(List(Set(~r, Numerator(Rt(-~a*((~b)^-1), ~n))), Set(~s, Denominator(Rt(-~a*((~b)^-1), ~n))), ~k, ~u), CompoundExpression(Set(~u, integrate((~r + ~s*~x*cos(2 * ~Pi*~k*((~n)^-1)))*(((~r)^2 + ((~s)^2)*((~x)^2) + 2 * ~r*~s*~x*cos(2 * ~Pi*~k*((~n)^-1)))^-1), ~x) + integrate((~r - ~s*~x*cos(2 * ~Pi*~k*((~n)^-1)))*(((~r)^2 + ((~s)^2)*((~x)^2) - 2 * ~r*~s*~x*cos(2 * ~Pi*~k*((~n)^-1)))^-1), ~x)), 2((~r)^2)*(((~a)^-1)*((~n)^-1))*integrate(((~r)^2 - ((~s)^2)*((~x)^2))^-1, ~x) + Dist(2 * ~r*(((~a)^-1)*((~n)^-1)), Sum(~u, List(~k, 1, (1//4)*(~n - 2))), ~x)))
  end
 
 @rule integrate((~a + ~b*((~x)^4))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), Or(GtQ(~a*((~b)^-1), 0), And(PosQ(~a*((~b)^-1)), AtomQ(SplitProduct(~SumBaseQ, ~a)), AtomQ(SplitProduct(~SumBaseQ, ~b))))) 
@@ -95,63 +95,63 @@
  end
 
 @rule integrate((~a + ~b*((~x)^~n))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ((1//4)*~n, 1), GtQ(~a*((~b)^-1), 0)) 
- With(List(Set(~r, Numerator(Rt(~a*((~b)^-1), 4))), Set(~s, Denominator(Rt(~a*((~b)^-1), 4)))), ~r*(0.35355339059327373((~a)^-1))*integrate((((~r)^2 + ((~s)^2)*((~x)^((1//2)*~n)) + 1.4142135623730951~r*~s*((~x)^((1//4)*~n)))^-1)*(1.4142135623730951~r + ~s*((~x)^((1//4)*~n))), ~x) + ~r*(0.35355339059327373((~a)^-1))*integrate((((~r)^2 + ((~s)^2)*((~x)^((1//2)*~n)) - 1.4142135623730951~r*~s*((~x)^((1//4)*~n)))^-1)*(1.4142135623730951~r - ~s*((~x)^((1//4)*~n))), ~x))
+ With(List(Set(~r, Numerator(Rt(~a*((~b)^-1), 4))), Set(~s, Denominator(Rt(~a*((~b)^-1), 4)))), ~r*((1//2)*((~a)^-1)*(Sqrt(2)^-1))*integrate((((~r)^2 + ((~s)^2)*((~x)^((1//2)*~n)) + ~r*~s*((~x)^((1//4)*~n))*Sqrt(2))^-1)*(~s*((~x)^((1//4)*~n)) + ~r*Sqrt(2)), ~x) + ~r*((1//2)*((~a)^-1)*(Sqrt(2)^-1))*integrate((((~r)^2 + ((~s)^2)*((~x)^((1//2)*~n)) - ~r*~s*((~x)^((1//4)*~n))*Sqrt(2))^-1)*(~r*Sqrt(2) - ~s*((~x)^((1//4)*~n))), ~x))
  end
 
 @rule integrate((~a + ~b*((~x)^~n))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ((1//4)*~n, 1), Not(GtQ(~a*((~b)^-1), 0))) 
  With(List(Set(~r, Numerator(Rt(-~a*((~b)^-1), 2))), Set(~s, Denominator(Rt(-~a*((~b)^-1), 2)))), ~r*((1//2)*((~a)^-1))*integrate((~r + ~s*((~x)^((1//2)*~n)))^-1, ~x) + ~r*((1//2)*((~a)^-1))*integrate((~r - ~s*((~x)^((1//2)*~n)))^-1, ~x))
  end
 
-@rule integrate(sqrt(~a + ~b*((~x)^2))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), GtQ(~a, 0), PosQ(~b)) 
- (Rt(~b, 2)^-1)*ArcSinh(~x*(sqrt(~a)^-1)*Rt(~b, 2))
+@rule integrate(Sqrt(~a + ~b*((~x)^2))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), GtQ(~a, 0), PosQ(~b)) 
+ (Rt(~b, 2)^-1)*ArcSinh(~x*(Sqrt(~a)^-1)*Rt(~b, 2))
  end
 
-@rule integrate(sqrt(~a + ~b*((~x)^2))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), GtQ(~a, 0), NegQ(~b)) 
- (Rt(-~b, 2)^-1)*ArcSin(~x*(sqrt(~a)^-1)*Rt(-~b, 2))
+@rule integrate(Sqrt(~a + ~b*((~x)^2))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), GtQ(~a, 0), NegQ(~b)) 
+ (Rt(-~b, 2)^-1)*ArcSin(~x*(Sqrt(~a)^-1)*Rt(-~b, 2))
  end
 
-@rule integrate(sqrt(~a + ~b*((~x)^2))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), Not(GtQ(~a, 0))) 
- Subst(integrate((1 - ~b*((~x)^2))^-1, ~x), ~x, ~x*(sqrt(~a + ~b*((~x)^2))^-1))
+@rule integrate(Sqrt(~a + ~b*((~x)^2))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), Not(GtQ(~a, 0))) 
+ Subst(integrate((1 - ~b*((~x)^2))^-1, ~x), ~x, ~x*(Sqrt(~a + ~b*((~x)^2))^-1))
  end
 
-@rule integrate(sqrt(~a + ~b*((~x)^3))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), PosQ(~a)) 
- With(List(Set(~r, Numer(Rt(~b*((~a)^-1), 3))), Set(~s, Denom(Rt(~b*((~a)^-1), 3)))), (3.8637033051562732~s + 3.8637033051562732~r*~x)*(((~r)^-1)*(3^(-(1//4)))*(sqrt(~a + ~b*((~x)^3))^-1)*(sqrt(~s*(~s + ~r*~x)*((2.732050807568877~s + ~r*~x)^-2))^-1))*sqrt(((~s)^2 + ((~r)^2)*((~x)^2) - ~r*~s*~x)*((2.732050807568877~s + ~r*~x)^-2))*EllipticF(ArcSin(((2.732050807568877~s + ~r*~x)^-1)*(~r*~x - 0.7320508075688772~s)), -13.928203230275509))
+@rule integrate(Sqrt(~a + ~b*((~x)^3))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), PosQ(~a)) 
+ With(List(Set(~r, Numer(Rt(~b*((~a)^-1), 3))), Set(~s, Denom(Rt(~b*((~a)^-1), 3)))), 2(~s + ~r*~x)*(((~r)^-1)*(3^(-(1//4)))*(Sqrt(~a + ~b*((~x)^3))^-1)*(Sqrt(~s*(~s + ~r*~x)*((~r*~x + ~s*(1 + Sqrt(3)))^-2))^-1))*Sqrt(2 + Sqrt(3))*Sqrt(((~s)^2 + ((~r)^2)*((~x)^2) - ~r*~s*~x)*((~r*~x + ~s*(1 + Sqrt(3)))^-2))*EllipticF(ArcSin(((~r*~x + ~s*(1 + Sqrt(3)))^-1)*(~r*~x + ~s*(1 - Sqrt(3)))), -7 - 4Sqrt(3)))
  end
 
-@rule integrate(sqrt(~a + ~b*((~x)^3))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), NegQ(~a)) 
- With(List(Set(~r, Numer(Rt(~b*((~a)^-1), 3))), Set(~s, Denom(Rt(~b*((~a)^-1), 3)))), (1.0352761804100832~s + 1.0352761804100832~r*~x)*(((~r)^-1)*(3^(-(1//4)))*(sqrt(~a + ~b*((~x)^3))^-1)*(sqrt(-~s*(~s + ~r*~x)*((~r*~x - 0.7320508075688772~s)^-2))^-1))*sqrt(((~s)^2 + ((~r)^2)*((~x)^2) - ~r*~s*~x)*((~r*~x - 0.7320508075688772~s)^-2))*EllipticF(ArcSin(((~r*~x - 0.7320508075688772~s)^-1)*(2.732050807568877~s + ~r*~x)), -0.07179676972449123))
+@rule integrate(Sqrt(~a + ~b*((~x)^3))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), NegQ(~a)) 
+ With(List(Set(~r, Numer(Rt(~b*((~a)^-1), 3))), Set(~s, Denom(Rt(~b*((~a)^-1), 3)))), 2(~s + ~r*~x)*(((~r)^-1)*(3^(-(1//4)))*(Sqrt(~a + ~b*((~x)^3))^-1)*(Sqrt(-~s*(~s + ~r*~x)*((~r*~x + ~s*(1 - Sqrt(3)))^-2))^-1))*Sqrt(2 - Sqrt(3))*Sqrt(((~s)^2 + ((~r)^2)*((~x)^2) - ~r*~s*~x)*((~r*~x + ~s*(1 - Sqrt(3)))^-2))*EllipticF(ArcSin(((~r*~x + ~s*(1 - Sqrt(3)))^-1)*(~r*~x + ~s*(1 + Sqrt(3)))), 4Sqrt(3) - 7))
  end
 
-@rule integrate(sqrt(~a + ~b*((~x)^4))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), PosQ(~b*((~a)^-1))) 
- With(List(Set(~q, Rt(~b*((~a)^-1), 4))), (1 + ((~q)^2)*((~x)^2))*((1//2)*((~q)^-1)*(sqrt(~a + ~b*((~x)^4))^-1))*sqrt((~a + ~b*((~x)^4))*(((~a)^-1)*((1 + ((~q)^2)*((~x)^2))^-2)))*EllipticF(2ArcTan(~q*~x), 2^-1))
+@rule integrate(Sqrt(~a + ~b*((~x)^4))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), PosQ(~b*((~a)^-1))) 
+ With(List(Set(~q, Rt(~b*((~a)^-1), 4))), (1 + ((~q)^2)*((~x)^2))*((1//2)*((~q)^-1)*(Sqrt(~a + ~b*((~x)^4))^-1))*Sqrt((~a + ~b*((~x)^4))*(((~a)^-1)*((1 + ((~q)^2)*((~x)^2))^-2)))*EllipticF(2ArcTan(~q*~x), 2^-1))
  end
 
-@rule integrate(sqrt(~a + ~b*((~x)^4))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), NegQ(~b*((~a)^-1)), GtQ(~a, 0)) 
+@rule integrate(Sqrt(~a + ~b*((~x)^4))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), NegQ(~b*((~a)^-1)), GtQ(~a, 0)) 
  ((Rt(~a, 4)^-1)*(Rt(-~b, 4)^-1))*EllipticF(ArcSin(~x*(Rt(~a, 4)^-1)*Rt(-~b, 4)), -1)
  end
 
-@rule integrate(sqrt(~a + ~b*((~x)^4))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), LtQ(~a, 0), GtQ(~b, 0)) 
- With(List(Set(~q, Rt(-~a*~b, 2))), Condition((0.7071067811865475(sqrt(~a + ~b*((~x)^4))^-1)*(sqrt(-~a)^-1))*sqrt(~q*((~x)^2) - ~a)*sqrt((~a + ~q*((~x)^2))*((~q)^-1))*EllipticF(ArcSin(~x*(sqrt((~a + ~q*((~x)^2))*((1//2)*((~q)^-1)))^-1)), 2^-1), IntegerQ(~q)))
+@rule integrate(Sqrt(~a + ~b*((~x)^4))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), LtQ(~a, 0), GtQ(~b, 0)) 
+ With(List(Set(~q, Rt(-~a*~b, 2))), Condition(((Sqrt(~a + ~b*((~x)^4))^-1)*(Sqrt(2)^-1)*(Sqrt(-~a)^-1))*Sqrt(~q*((~x)^2) - ~a)*Sqrt((~a + ~q*((~x)^2))*((~q)^-1))*EllipticF(ArcSin(~x*(Sqrt((~a + ~q*((~x)^2))*((1//2)*((~q)^-1)))^-1)), 2^-1), IntegerQ(~q)))
  end
 
-@rule integrate(sqrt(~a + ~b*((~x)^4))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), LtQ(~a, 0), GtQ(~b, 0)) 
- With(List(Set(~q, Rt(-~a*~b, 2))), (0.7071067811865475(sqrt(~a + ~b*((~x)^4))^-1)*(sqrt(~a*((~a + ~q*((~x)^2))^-1))^-1))*sqrt((~a + ~q*((~x)^2))*((~q)^-1))*sqrt((~a - ~q*((~x)^2))*((~a + ~q*((~x)^2))^-1))*EllipticF(ArcSin(~x*(sqrt((~a + ~q*((~x)^2))*((1//2)*((~q)^-1)))^-1)), 2^-1))
+@rule integrate(Sqrt(~a + ~b*((~x)^4))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), LtQ(~a, 0), GtQ(~b, 0)) 
+ With(List(Set(~q, Rt(-~a*~b, 2))), ((Sqrt(~a + ~b*((~x)^4))^-1)*(Sqrt(~a*((~a + ~q*((~x)^2))^-1))^-1)*(Sqrt(2)^-1))*Sqrt((~a + ~q*((~x)^2))*((~q)^-1))*Sqrt((~a - ~q*((~x)^2))*((~a + ~q*((~x)^2))^-1))*EllipticF(ArcSin(~x*(Sqrt((~a + ~q*((~x)^2))*((1//2)*((~q)^-1)))^-1)), 2^-1))
  end
 
-@rule integrate(sqrt(~a + ~b*((~x)^4))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), NegQ(~b*((~a)^-1)), Not(GtQ(~a, 0))) 
- (sqrt(~a + ~b*((~x)^4))^-1)*sqrt(1 + ~b*((~a)^-1)*((~x)^4))*integrate(sqrt(1 + ~b*((~a)^-1)*((~x)^4))^-1, ~x)
+@rule integrate(Sqrt(~a + ~b*((~x)^4))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), NegQ(~b*((~a)^-1)), Not(GtQ(~a, 0))) 
+ (Sqrt(~a + ~b*((~x)^4))^-1)*Sqrt(1 + ~b*((~a)^-1)*((~x)^4))*integrate(Sqrt(1 + ~b*((~a)^-1)*((~x)^4))^-1, ~x)
  end
 
-@rule integrate(sqrt(~a + ~b*((~x)^6))^-1, ~x) =>  if FreeQ(List(~a, ~b), ~x) 
- With(List(Set(~r, Numer(Rt(~b*((~a)^-1), 3))), Set(~s, Denom(Rt(~b*((~a)^-1), 3)))), ~x*(~s + ~r*((~x)^2))*((1//2)*((~s)^-1)*(3^(-(1//4)))*(sqrt(~a + ~b*((~x)^6))^-1)*(sqrt(~r*(~s + ~r*((~x)^2))*((~x)^2)*((~s + 2.732050807568877~r*((~x)^2))^-2))^-1))*sqrt(((~s)^2 + ((~r)^2)*((~x)^4) - ~r*~s*((~x)^2))*((~s + 2.732050807568877~r*((~x)^2))^-2))*EllipticF(ArcCos((~s - 0.7320508075688772~r*((~x)^2))*((~s + 2.732050807568877~r*((~x)^2))^-1)), 3.732050807568877*0.25))
+@rule integrate(Sqrt(~a + ~b*((~x)^6))^-1, ~x) =>  if FreeQ(List(~a, ~b), ~x) 
+ With(List(Set(~r, Numer(Rt(~b*((~a)^-1), 3))), Set(~s, Denom(Rt(~b*((~a)^-1), 3)))), ~x*(~s + ~r*((~x)^2))*((1//2)*((~s)^-1)*(3^(-(1//4)))*(Sqrt(~a + ~b*((~x)^6))^-1)*(Sqrt(~r*(~s + ~r*((~x)^2))*((~x)^2)*((~s + ~r*((~x)^2)*(1 + Sqrt(3)))^-2))^-1))*Sqrt(((~s)^2 + ((~r)^2)*((~x)^4) - ~r*~s*((~x)^2))*((~s + ~r*((~x)^2)*(1 + Sqrt(3)))^-2))*EllipticF(ArcCos((~s + ~r*((~x)^2)*(1 - Sqrt(3)))*((~s + ~r*((~x)^2)*(1 + Sqrt(3)))^-1)), (1//4)*(2 + Sqrt(3))))
  end
 
-@rule integrate(sqrt(~a + ~b*((~x)^8))^-1, ~x) =>  if FreeQ(List(~a, ~b), ~x) 
- (1//2)*integrate((1 + ((~x)^2)*Rt(~b*((~a)^-1), 4))*(sqrt(~a + ~b*((~x)^8))^-1), ~x) + (1//2)*integrate((1 - ((~x)^2)*Rt(~b*((~a)^-1), 4))*(sqrt(~a + ~b*((~x)^8))^-1), ~x)
+@rule integrate(Sqrt(~a + ~b*((~x)^8))^-1, ~x) =>  if FreeQ(List(~a, ~b), ~x) 
+ (1//2)*integrate((1 + ((~x)^2)*Rt(~b*((~a)^-1), 4))*(Sqrt(~a + ~b*((~x)^8))^-1), ~x) + (1//2)*integrate((1 - ((~x)^2)*Rt(~b*((~a)^-1), 4))*(Sqrt(~a + ~b*((~x)^8))^-1), ~x)
  end
 
 @rule integrate((~a + ~b*((~x)^2))^(-(1//4)), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), GtQ(~a, 0), PosQ(~b*((~a)^-1))) 
- 2~x*((~a + ~b*((~x)^2))^(-(1//4))) - ~a*integrate((~a + ~b*((~x)^2))^((-5//1)*(1//4)), ~x)
+ 2 * ~x*((~a + ~b*((~x)^2))^(-(1//4))) - ~a*integrate((~a + ~b*((~x)^2))^((-5//1)*(1//4)), ~x)
  end
 
 @rule integrate((~a + ~b*((~x)^2))^(-(1//4)), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), GtQ(~a, 0), NegQ(~b*((~a)^-1))) 
@@ -163,7 +163,7 @@
  end
 
 @rule integrate((~a + ~b*((~x)^2))^(-(1//4)), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), NegQ(~a)) 
- 2(((~b)^-1)*((~x)^-1))*sqrt(-~b*((~a)^-1)*((~x)^2))*Subst(integrate(((~x)^2)*(sqrt(1 - ((~a)^-1)*((~x)^4))^-1), ~x), ~x, (~a + ~b*((~x)^2))^(4^-1))
+ 2(((~b)^-1)*((~x)^-1))*Sqrt(-~b*((~a)^-1)*((~x)^2))*Subst(integrate(((~x)^2)*(Sqrt(1 - ((~a)^-1)*((~x)^4))^-1), ~x), ~x, (~a + ~b*((~x)^2))^(4^-1))
  end
 
 @rule integrate((~a + ~b*((~x)^2))^((-3//1)*(1//4)), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), GtQ(~a, 0), PosQ(~b*((~a)^-1))) 
@@ -179,15 +179,15 @@
  end
 
 @rule integrate((~a + ~b*((~x)^2))^((-3//1)*(1//4)), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), NegQ(~a)) 
- 2(((~b)^-1)*((~x)^-1))*sqrt(-~b*((~a)^-1)*((~x)^2))*Subst(integrate(sqrt(1 - ((~a)^-1)*((~x)^4))^-1, ~x), ~x, (~a + ~b*((~x)^2))^(4^-1))
+ 2(((~b)^-1)*((~x)^-1))*Sqrt(-~b*((~a)^-1)*((~x)^2))*Subst(integrate(Sqrt(1 - ((~a)^-1)*((~x)^4))^-1, ~x), ~x, (~a + ~b*((~x)^2))^(4^-1))
  end
 
 @rule integrate((~a + ~b*((~x)^2))^(-(1//3)), ~x) =>  if FreeQ(List(~a, ~b), ~x) 
- 3((1//2)*((~b)^-1)*((~x)^-1))*sqrt(~b*((~x)^2))*Subst(integrate(~x*(sqrt((~x)^3 - ~a)^-1), ~x), ~x, (~a + ~b*((~x)^2))^(3^-1))
+ 3((1//2)*((~b)^-1)*((~x)^-1))*Sqrt(~b*((~x)^2))*Subst(integrate(~x*(Sqrt((~x)^3 - ~a)^-1), ~x), ~x, (~a + ~b*((~x)^2))^(3^-1))
  end
 
 @rule integrate((~a + ~b*((~x)^2))^((-2//1)*(1//3)), ~x) =>  if FreeQ(List(~a, ~b), ~x) 
- 3((1//2)*((~b)^-1)*((~x)^-1))*sqrt(~b*((~x)^2))*Subst(integrate(sqrt((~x)^3 - ~a)^-1, ~x), ~x, (~a + ~b*((~x)^2))^(3^-1))
+ 3((1//2)*((~b)^-1)*((~x)^-1))*Sqrt(~b*((~x)^2))*Subst(integrate(Sqrt((~x)^3 - ~a)^-1, ~x), ~x, (~a + ~b*((~x)^2))^(3^-1))
  end
 
 @rule integrate((~a + ~b*((~x)^4))^((-3//1)*(1//4)), ~x) =>  if FreeQ(List(~a, ~b), ~x) 
@@ -195,11 +195,11 @@
  end
 
 @rule integrate((~a + ~b*((~x)^2))^(-(1//6)), ~x) =>  if FreeQ(List(~a, ~b), ~x) 
- 3~x*((1//2)*((~a + ~b*((~x)^2))^(-(1//6)))) - (1//2)*~a*integrate((~a + ~b*((~x)^2))^((-7//1)*(1//6)), ~x)
+ 3 * ~x*((1//2)*((~a + ~b*((~x)^2))^(-(1//6)))) - (1//2)*~a*integrate((~a + ~b*((~x)^2))^((-7//1)*(1//6)), ~x)
  end
 
 @rule integrate((~a + ~b*((~x)^3))^(-(1//3)), ~x) =>  if FreeQ(List(~a, ~b), ~x) 
- (0.5773502691896258(Rt(~b, 3)^-1))*ArcTan(0.5773502691896258(1 + 2~x*((~a + ~b*((~x)^3))^(-(1//3)))*Rt(~b, 3))) - ((1//2)*(Rt(~b, 3)^-1))*Log((~a + ~b*((~x)^3))^(3^-1) - ~x*Rt(~b, 3))
+ ((Sqrt(3)^-1)*(Rt(~b, 3)^-1))*ArcTan((1 + 2 * ~x*((~a + ~b*((~x)^3))^(-(1//3)))*Rt(~b, 3))*(Sqrt(3)^-1)) - ((1//2)*(Rt(~b, 3)^-1))*Log((~a + ~b*((~x)^3))^(3^-1) - ~x*Rt(~b, 3))
  end
 
 @rule integrate((~a + ~b*((~x)^~n))^~p, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ(~n, 0), LtQ(-1, ~p, 0), NeQ(~p, -(1//2)), IntegerQ(~p + (~n)^-1)) 
@@ -235,27 +235,27 @@
  end
 
 @rule integrate(((~a1 + ~b1*((~x)^~n))^~p)*((~a2 + ~b2*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a1, ~b1, ~a2, ~b2, ~n, ~p), ~x), EqQ(~a1*~b2 + ~a2*~b1, 0), Or(IntegerQ(~p), And(GtQ(~a1, 0), GtQ(~a2, 0)))) 
- integrate((~a1*~a2 + ~b1*~b2*((~x)^(2~n)))^~p, ~x)
+ integrate((~a1*~a2 + ~b1*~b2*((~x)^(2 * ~n)))^~p, ~x)
  end
 
-@rule integrate(((~a1 + ~b1*((~x)^~n))^~p)*((~a2 + ~b2*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a1, ~b1, ~a2, ~b2), ~x), EqQ(~a1*~b2 + ~a2*~b1, 0), IGtQ(2~n, 0), GtQ(~p, 0), Or(IntegerQ(2~p), Less(Denominator(~p + (~n)^-1), Denominator(~p)))) 
- ~x*((1 + 2~n*~p)^-1)*((~a1 + ~b1*((~x)^~n))^~p)*((~a2 + ~b2*((~x)^~n))^~p) + 2~a1*~a2*~n*~p*((1 + 2~n*~p)^-1)*integrate(((~a1 + ~b1*((~x)^~n))^(~p - 1))*((~a2 + ~b2*((~x)^~n))^(~p - 1)), ~x)
+@rule integrate(((~a1 + ~b1*((~x)^~n))^~p)*((~a2 + ~b2*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a1, ~b1, ~a2, ~b2), ~x), EqQ(~a1*~b2 + ~a2*~b1, 0), IGtQ(2 * ~n, 0), GtQ(~p, 0), Or(IntegerQ(2 * ~p), Less(Denominator(~p + (~n)^-1), Denominator(~p)))) 
+ ~x*((1 + 2 * ~n*~p)^-1)*((~a1 + ~b1*((~x)^~n))^~p)*((~a2 + ~b2*((~x)^~n))^~p) + 2 * ~a1*~a2*~n*~p*((1 + 2 * ~n*~p)^-1)*integrate(((~a1 + ~b1*((~x)^~n))^(~p - 1))*((~a2 + ~b2*((~x)^~n))^(~p - 1)), ~x)
  end
 
-@rule integrate(((~a1 + ~b1*((~x)^~n))^~p)*((~a2 + ~b2*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a1, ~b1, ~a2, ~b2), ~x), EqQ(~a1*~b2 + ~a2*~b1, 0), IGtQ(2~n, 0), LtQ(~p, -1), Or(IntegerQ(2~p), Less(Denominator(~p + (~n)^-1), Denominator(~p)))) 
- (1 + 2~n*(1 + ~p))*((1//2)*(~a1^-1)*(~a2^-1)*((~n)^-1)*((1 + ~p)^-1))*integrate(((~a1 + ~b1*((~x)^~n))^(1 + ~p))*((~a2 + ~b2*((~x)^~n))^(1 + ~p)), ~x) - ~x*((~a1 + ~b1*((~x)^~n))^(1 + ~p))*((~a2 + ~b2*((~x)^~n))^(1 + ~p))*((1//2)*(~a1^-1)*(~a2^-1)*((~n)^-1)*((1 + ~p)^-1))
+@rule integrate(((~a1 + ~b1*((~x)^~n))^~p)*((~a2 + ~b2*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a1, ~b1, ~a2, ~b2), ~x), EqQ(~a1*~b2 + ~a2*~b1, 0), IGtQ(2 * ~n, 0), LtQ(~p, -1), Or(IntegerQ(2 * ~p), Less(Denominator(~p + (~n)^-1), Denominator(~p)))) 
+ (1 + 2 * ~n*(1 + ~p))*((1//2)*((~a1)^-1)*((~a2)^-1)*((~n)^-1)*((1 + ~p)^-1))*integrate(((~a1 + ~b1*((~x)^~n))^(1 + ~p))*((~a2 + ~b2*((~x)^~n))^(1 + ~p)), ~x) - ~x*((~a1 + ~b1*((~x)^~n))^(1 + ~p))*((~a2 + ~b2*((~x)^~n))^(1 + ~p))*((1//2)*((~a1)^-1)*((~a2)^-1)*((~n)^-1)*((1 + ~p)^-1))
  end
 
-@rule integrate(((~a1 + ~b1*((~x)^~n))^~p)*((~a2 + ~b2*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a1, ~b1, ~a2, ~b2, ~p), ~x), EqQ(~a1*~b2 + ~a2*~b1, 0), ILtQ(2~n, 0)) 
+@rule integrate(((~a1 + ~b1*((~x)^~n))^~p)*((~a2 + ~b2*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a1, ~b1, ~a2, ~b2, ~p), ~x), EqQ(~a1*~b2 + ~a2*~b1, 0), ILtQ(2 * ~n, 0)) 
  -Subst(integrate(((~x)^-2)*((~a1 + ~b1*((~x)^(-~n)))^~p)*((~a2 + ~b2*((~x)^(-~n)))^~p), ~x), ~x, (~x)^-1)
  end
 
-@rule integrate(((~a1 + ~b1*((~x)^~n))^~p)*((~a2 + ~b2*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a1, ~b1, ~a2, ~b2, ~p), ~x), EqQ(~a1*~b2 + ~a2*~b1, 0), FractionQ(2~n)) 
- With(List(Set(~k, Denominator(2~n))), ~k*Subst(integrate(((~x)^(~k - 1))*((~a1 + ~b1*((~x)^(~k*~n)))^~p)*((~a2 + ~b2*((~x)^(~k*~n)))^~p), ~x), ~x, (~x)^((~k)^-1)))
+@rule integrate(((~a1 + ~b1*((~x)^~n))^~p)*((~a2 + ~b2*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a1, ~b1, ~a2, ~b2, ~p), ~x), EqQ(~a1*~b2 + ~a2*~b1, 0), FractionQ(2 * ~n)) 
+ With(List(Set(~k, Denominator(2 * ~n))), ~k*Subst(integrate(((~x)^(~k - 1))*((~a1 + ~b1*((~x)^(~k*~n)))^~p)*((~a2 + ~b2*((~x)^(~k*~n)))^~p), ~x), ~x, (~x)^((~k)^-1)))
  end
 
 @rule integrate(((~a1 + ~b1*((~x)^~n))^~p)*((~a2 + ~b2*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a1, ~b1, ~a2, ~b2, ~n, ~p), ~x), EqQ(~a1*~b2 + ~a2*~b1, 0), Not(IntegerQ(~p))) 
- ((~a1 + ~b1*((~x)^~n))^FracPart(~p))*((~a2 + ~b2*((~x)^~n))^FracPart(~p))*((~a1*~a2 + ~b1*~b2*((~x)^(2~n)))^(-FracPart(~p)))*integrate((~a1*~a2 + ~b1*~b2*((~x)^(2~n)))^~p, ~x)
+ ((~a1 + ~b1*((~x)^~n))^FracPart(~p))*((~a2 + ~b2*((~x)^~n))^FracPart(~p))*((~a1*~a2 + ~b1*~b2*((~x)^(2 * ~n)))^(-FracPart(~p)))*integrate((~a1*~a2 + ~b1*~b2*((~x)^(2 * ~n)))^~p, ~x)
  end
 
 @rule integrate((~a + ~b*((~c*((~x)^~q))^~n))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n, ~p, ~q), ~x), IntegerQ(~n*~q), NeQ(~x, (~c*((~x)^~q))^((~q)^-1))) 

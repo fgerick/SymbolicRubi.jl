@@ -15,11 +15,11 @@
  end
 
 @rule integrate((~A + ~C*(tan(~e + ~f*~x)^2) + ~B*tan(~e + ~f*~x))*((~a + ~b*tan(~e + ~f*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~A, ~B, ~C), ~x), NeQ(~A*((~b)^2) + ~C*((~a)^2) - ~B*~a*~b, 0), LeQ(~m, -1), EqQ((~a)^2 + (~b)^2, 0)) 
- ((1//2)*((~a)^-2)*((~m)^-1))*integrate(((~a + ~b*tan(~e + ~f*~x))^(1 + ~m))*Simp(~B*~b + ~A*~a*(1 + 2~m) - ~C*~a - ((1 + ~m)*(~A*~b - ~B*~a) + ~C*~b*(~m - 1))*tan(~e + ~f*~x), ~x), ~x) + (~C*~a - ~A*~a - ~B*~b)*((~a + ~b*tan(~e + ~f*~x))^~m)*((1//2)*((~a)^-1)*((~f)^-1)*((~m)^-1))*tan(~e + ~f*~x)
+ ((1//2)*((~a)^-2)*((~m)^-1))*integrate(((~a + ~b*tan(~e + ~f*~x))^(1 + ~m))*Simp(~B*~b + ~A*~a*(1 + 2 * ~m) - ~C*~a - ((1 + ~m)*(~A*~b - ~B*~a) + ~C*~b*(~m - 1))*tan(~e + ~f*~x), ~x), ~x) + (~C*~a - ~A*~a - ~B*~b)*((~a + ~b*tan(~e + ~f*~x))^~m)*((1//2)*((~a)^-1)*((~f)^-1)*((~m)^-1))*tan(~e + ~f*~x)
  end
 
 @rule integrate((~A + ~C*(tan(~e + ~f*~x)^2))*((~a + ~b*tan(~e + ~f*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~A, ~C), ~x), NeQ(~A*((~b)^2) + ~C*((~a)^2), 0), LeQ(~m, -1), EqQ((~a)^2 + (~b)^2, 0)) 
- ((1//2)*((~a)^-2)*((~m)^-1))*integrate(((~a + ~b*tan(~e + ~f*~x))^(1 + ~m))*Simp(~A*~a*(1 + 2~m) - ~C*~a - (~A*~b*(1 + ~m) + ~C*~b*(~m - 1))*tan(~e + ~f*~x), ~x), ~x) + ((~a + ~b*tan(~e + ~f*~x))^~m)*(~C*~a - ~A*~a)*((1//2)*((~a)^-1)*((~f)^-1)*((~m)^-1))*tan(~e + ~f*~x)
+ ((1//2)*((~a)^-2)*((~m)^-1))*integrate(((~a + ~b*tan(~e + ~f*~x))^(1 + ~m))*Simp(~A*~a*(1 + 2 * ~m) - ~C*~a - (~A*~b*(1 + ~m) + ~C*~b*(~m - 1))*tan(~e + ~f*~x), ~x), ~x) + ((~a + ~b*tan(~e + ~f*~x))^~m)*(~C*~a - ~A*~a)*((1//2)*((~a)^-1)*((~f)^-1)*((~m)^-1))*tan(~e + ~f*~x)
  end
 
 @rule integrate((~A + ~C*(tan(~e + ~f*~x)^2) + ~B*tan(~e + ~f*~x))*((~a + ~b*tan(~e + ~f*~x))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~A, ~B, ~C), ~x), NeQ((~a)^2 + (~b)^2, 0), EqQ(~A*~b - ~B*~a - ~C*~b, 0)) 

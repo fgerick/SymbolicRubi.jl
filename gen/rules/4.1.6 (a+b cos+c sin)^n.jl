@@ -1,37 +1,37 @@
-@rule integrate(sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), EqQ((~a)^2 - ((~b)^2) - ((~c)^2), 0)) 
- -2(~c*cos(~d + ~e*~x) - ~b*sin(~d + ~e*~x))*(((~e)^-1)*(sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1))
+@rule integrate(Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), EqQ((~a)^2 - ((~b)^2) - ((~c)^2), 0)) 
+ -2(~c*cos(~d + ~e*~x) - ~b*sin(~d + ~e*~x))*(((~e)^-1)*(Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1))
  end
 
 @rule integrate((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^~n, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), EqQ((~a)^2 - ((~b)^2) - ((~c)^2), 0), GtQ(~n, 0)) 
- ((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^(~n - 1))*(~b*sin(~d + ~e*~x) - ~c*cos(~d + ~e*~x))*(((~e)^-1)*((~n)^-1)) + ~a*((~n)^-1)*(2~n - 1)*integrate((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^(~n - 1), ~x)
+ ((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^(~n - 1))*(~b*sin(~d + ~e*~x) - ~c*cos(~d + ~e*~x))*(((~e)^-1)*((~n)^-1)) + ~a*((~n)^-1)*(2 * ~n - 1)*integrate((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^(~n - 1), ~x)
  end
 
 @rule integrate((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), EqQ((~a)^2 - ((~b)^2) - ((~c)^2), 0)) 
  (~a*sin(~d + ~e*~x) - ~c)*(((~c)^-1)*((~e)^-1)*((~c*cos(~d + ~e*~x) - ~b*sin(~d + ~e*~x))^-1))
  end
 
-@rule integrate(sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), EqQ((~a)^2 - ((~b)^2) - ((~c)^2), 0)) 
- integrate(sqrt(~a + sqrt((~b)^2 + (~c)^2)*cos(~d + ~e*~x - ArcTan(~b, ~c)))^-1, ~x)
+@rule integrate(Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), EqQ((~a)^2 - ((~b)^2) - ((~c)^2), 0)) 
+ integrate(Sqrt(~a + Sqrt((~b)^2 + (~c)^2)*cos(~d + ~e*~x - ArcTan(~b, ~c)))^-1, ~x)
  end
 
 @rule integrate((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^~n, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), EqQ((~a)^2 - ((~b)^2) - ((~c)^2), 0), LtQ(~n, -1)) 
- (1 + ~n)*(((~a)^-1)*((1 + 2~n)^-1))*integrate((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^(1 + ~n), ~x) + ((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^~n)*(~c*cos(~d + ~e*~x) - ~b*sin(~d + ~e*~x))*(((~a)^-1)*((~e)^-1)*((1 + 2~n)^-1))
+ (1 + ~n)*(((~a)^-1)*((1 + 2 * ~n)^-1))*integrate((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^(1 + ~n), ~x) + ((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^~n)*(~c*cos(~d + ~e*~x) - ~b*sin(~d + ~e*~x))*(((~a)^-1)*((~e)^-1)*((1 + 2 * ~n)^-1))
  end
 
-@rule integrate(sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), EqQ((~b)^2 + (~c)^2, 0)) 
- ~b*(((~c)^-1)*((~e)^-1))*Subst(integrate(((~x)^-1)*sqrt(~a + ~x), ~x), ~x, ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))
+@rule integrate(Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), EqQ((~b)^2 + (~c)^2, 0)) 
+ ~b*(((~c)^-1)*((~e)^-1))*Subst(integrate(((~x)^-1)*Sqrt(~a + ~x), ~x), ~x, ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))
  end
 
-@rule integrate(sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~b)^2 + (~c)^2, 0), GtQ(~a + sqrt((~b)^2 + (~c)^2), 0)) 
- integrate(sqrt(~a + sqrt((~b)^2 + (~c)^2)*cos(~d + ~e*~x - ArcTan(~b, ~c))), ~x)
+@rule integrate(Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~b)^2 + (~c)^2, 0), GtQ(~a + Sqrt((~b)^2 + (~c)^2), 0)) 
+ integrate(Sqrt(~a + Sqrt((~b)^2 + (~c)^2)*cos(~d + ~e*~x - ArcTan(~b, ~c))), ~x)
  end
 
-@rule integrate(sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~a)^2 - ((~b)^2) - ((~c)^2), 0), NeQ((~b)^2 + (~c)^2, 0), Not(GtQ(~a + sqrt((~b)^2 + (~c)^2), 0))) 
- (sqrt((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))*((~a + sqrt((~b)^2 + (~c)^2))^-1))^-1)*sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))*integrate(sqrt(~a*((~a + sqrt((~b)^2 + (~c)^2))^-1) + ((~a + sqrt((~b)^2 + (~c)^2))^-1)*sqrt((~b)^2 + (~c)^2)*cos(~d + ~e*~x - ArcTan(~b, ~c))), ~x)
+@rule integrate(Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~a)^2 - ((~b)^2) - ((~c)^2), 0), NeQ((~b)^2 + (~c)^2, 0), Not(GtQ(~a + Sqrt((~b)^2 + (~c)^2), 0))) 
+ (Sqrt((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))*((~a + Sqrt((~b)^2 + (~c)^2))^-1))^-1)*Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))*integrate(Sqrt(~a*((~a + Sqrt((~b)^2 + (~c)^2))^-1) + ((~a + Sqrt((~b)^2 + (~c)^2))^-1)*Sqrt((~b)^2 + (~c)^2)*cos(~d + ~e*~x - ArcTan(~b, ~c))), ~x)
  end
 
 @rule integrate((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^~n, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~a)^2 - ((~b)^2) - ((~c)^2), 0), GtQ(~n, 1)) 
- ((~n)^-1)*integrate(((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^(~n - 2))*Simp(~n*((~a)^2) + (~n - 1)*((~b)^2 + (~c)^2) + ~a*~b*(2~n - 1)*cos(~d + ~e*~x) + ~a*~c*(2~n - 1)*sin(~d + ~e*~x), ~x), ~x) + ((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^(~n - 1))*(~b*sin(~d + ~e*~x) - ~c*cos(~d + ~e*~x))*(((~e)^-1)*((~n)^-1))
+ ((~n)^-1)*integrate(((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^(~n - 2))*Simp(~n*((~a)^2) + (~n - 1)*((~b)^2 + (~c)^2) + ~a*~b*(2 * ~n - 1)*cos(~d + ~e*~x) + ~a*~c*(2 * ~n - 1)*sin(~d + ~e*~x), ~x), ~x) + ((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^(~n - 1))*(~b*sin(~d + ~e*~x) - ~c*cos(~d + ~e*~x))*(((~e)^-1)*((~n)^-1))
  end
 
 @rule integrate((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), EqQ(~a + ~b, 0)) 
@@ -47,23 +47,23 @@
  end
 
 @rule integrate((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~a)^2 - ((~b)^2) - ((~c)^2), 0)) 
- Module(List(Set(~f, FreeFactors(tan((1//2)*(~d + ~e*~x)), ~x))), 2~f*((~e)^-1)*Subst(integrate((~a + ~b + (~a - ~b)*((~f)^2)*((~x)^2) + 2~c*~f*~x)^-1, ~x), ~x, ((~f)^-1)*tan((1//2)*(~d + ~e*~x))))
+ Module(List(Set(~f, FreeFactors(tan((1//2)*(~d + ~e*~x)), ~x))), 2 * ~f*((~e)^-1)*Subst(integrate((~a + ~b + (~a - ~b)*((~f)^2)*((~x)^2) + 2 * ~c*~f*~x)^-1, ~x), ~x, ((~f)^-1)*tan((1//2)*(~d + ~e*~x))))
  end
 
-@rule integrate(sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), EqQ((~b)^2 + (~c)^2, 0)) 
- ~b*(((~c)^-1)*((~e)^-1))*Subst(integrate((~x*sqrt(~a + ~x))^-1, ~x), ~x, ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))
+@rule integrate(Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), EqQ((~b)^2 + (~c)^2, 0)) 
+ ~b*(((~c)^-1)*((~e)^-1))*Subst(integrate((~x*Sqrt(~a + ~x))^-1, ~x), ~x, ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))
  end
 
-@rule integrate(sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~b)^2 + (~c)^2, 0), GtQ(~a + sqrt((~b)^2 + (~c)^2), 0)) 
- integrate(sqrt(~a + sqrt((~b)^2 + (~c)^2)*cos(~d + ~e*~x - ArcTan(~b, ~c)))^-1, ~x)
+@rule integrate(Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~b)^2 + (~c)^2, 0), GtQ(~a + Sqrt((~b)^2 + (~c)^2), 0)) 
+ integrate(Sqrt(~a + Sqrt((~b)^2 + (~c)^2)*cos(~d + ~e*~x - ArcTan(~b, ~c)))^-1, ~x)
  end
 
-@rule integrate(sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~a)^2 - ((~b)^2) - ((~c)^2), 0), NeQ((~b)^2 + (~c)^2, 0), Not(GtQ(~a + sqrt((~b)^2 + (~c)^2), 0))) 
- (sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1)*sqrt((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))*((~a + sqrt((~b)^2 + (~c)^2))^-1))*integrate(sqrt(~a*((~a + sqrt((~b)^2 + (~c)^2))^-1) + ((~a + sqrt((~b)^2 + (~c)^2))^-1)*sqrt((~b)^2 + (~c)^2)*cos(~d + ~e*~x - ArcTan(~b, ~c)))^-1, ~x)
+@rule integrate(Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~a)^2 - ((~b)^2) - ((~c)^2), 0), NeQ((~b)^2 + (~c)^2, 0), Not(GtQ(~a + Sqrt((~b)^2 + (~c)^2), 0))) 
+ (Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1)*Sqrt((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))*((~a + Sqrt((~b)^2 + (~c)^2))^-1))*integrate(Sqrt(~a*((~a + Sqrt((~b)^2 + (~c)^2))^-1) + ((~a + Sqrt((~b)^2 + (~c)^2))^-1)*Sqrt((~b)^2 + (~c)^2)*cos(~d + ~e*~x - ArcTan(~b, ~c)))^-1, ~x)
  end
 
 @rule integrate((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^((-3//1)*(1//2)), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~a)^2 - ((~b)^2) - ((~c)^2), 0)) 
- (((~a)^2 - ((~b)^2) - ((~c)^2))^-1)*integrate(sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x)), ~x) + 2(~c*cos(~d + ~e*~x) - ~b*sin(~d + ~e*~x))*(((~e)^-1)*(((~a)^2 - ((~b)^2) - ((~c)^2))^-1)*(sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1))
+ (((~a)^2 - ((~b)^2) - ((~c)^2))^-1)*integrate(Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x)), ~x) + 2(~c*cos(~d + ~e*~x) - ~b*sin(~d + ~e*~x))*(((~e)^-1)*(((~a)^2 - ((~b)^2) - ((~c)^2))^-1)*(Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1))
  end
 
 @rule integrate((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^~n, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~a)^2 - ((~b)^2) - ((~c)^2), 0), LtQ(~n, -1), NeQ(~n, (-3//1)*(1//2))) 
@@ -71,15 +71,15 @@
  end
 
 @rule integrate((~A + ~B*cos(~d + ~e*~x) + ~C*sin(~d + ~e*~x))*((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~A, ~B, ~C), ~x), EqQ((~b)^2 + (~c)^2, 0)) 
- ~x*(2~A*~a - ~B*~b - ~C*~c)*((1//2)*((~a)^-2)) + (((~a)^2)*(~B*~b - ~C*~c) + ((~b)^2)*(~B*~b + ~C*~c) - 2~A*~a*((~b)^2))*((1//2)*((~a)^-2)*((~b)^-1)*((~c)^-1)*((~e)^-1))*Log(RemoveContent(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x), ~x)) - (~B*~b + ~C*~c)*(~b*cos(~d + ~e*~x) - ~c*sin(~d + ~e*~x))*((1//2)*((~a)^-1)*((~b)^-1)*((~c)^-1)*((~e)^-1))
+ ~x*(2 * ~A*~a - ~B*~b - ~C*~c)*((1//2)*((~a)^-2)) + (((~a)^2)*(~B*~b - ~C*~c) + ((~b)^2)*(~B*~b + ~C*~c) - 2 * ~A*~a*((~b)^2))*((1//2)*((~a)^-2)*((~b)^-1)*((~c)^-1)*((~e)^-1))*Log(RemoveContent(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x), ~x)) - (~B*~b + ~C*~c)*(~b*cos(~d + ~e*~x) - ~c*sin(~d + ~e*~x))*((1//2)*((~a)^-1)*((~b)^-1)*((~c)^-1)*((~e)^-1))
  end
 
 @rule integrate((~A + ~C*sin(~d + ~e*~x))*((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~A, ~C), ~x), EqQ((~b)^2 + (~c)^2, 0)) 
- ~x*(2~A*~a - ~C*~c)*((1//2)*((~a)^-2)) + (~C*((~b)^2) + 2~A*~a*~c - ~C*((~a)^2))*((1//2)*((~a)^-2)*((~b)^-1)*((~e)^-1))*Log(RemoveContent(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x), ~x)) + ~C*~c*((1//2)*((~a)^-1)*((~b)^-1)*((~e)^-1))*sin(~d + ~e*~x) - ~C*((1//2)*((~a)^-1)*((~e)^-1))*cos(~d + ~e*~x)
+ ~x*(2 * ~A*~a - ~C*~c)*((1//2)*((~a)^-2)) + (~C*((~b)^2) + 2 * ~A*~a*~c - ~C*((~a)^2))*((1//2)*((~a)^-2)*((~b)^-1)*((~e)^-1))*Log(RemoveContent(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x), ~x)) + ~C*~c*((1//2)*((~a)^-1)*((~b)^-1)*((~e)^-1))*sin(~d + ~e*~x) - ~C*((1//2)*((~a)^-1)*((~e)^-1))*cos(~d + ~e*~x)
  end
 
 @rule integrate((~A + ~B*cos(~d + ~e*~x))*((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~A, ~B), ~x), EqQ((~b)^2 + (~c)^2, 0)) 
- ~B*((1//2)*((~a)^-1)*((~e)^-1))*sin(~d + ~e*~x) + ~x*(2~A*~a - ~B*~b)*((1//2)*((~a)^-2)) + (~B*((~a)^2) + ~B*((~b)^2) - 2~A*~a*~b)*((1//2)*((~a)^-2)*((~c)^-1)*((~e)^-1))*Log(RemoveContent(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x), ~x)) - ~B*~b*((1//2)*((~a)^-1)*((~c)^-1)*((~e)^-1))*cos(~d + ~e*~x)
+ ~B*((1//2)*((~a)^-1)*((~e)^-1))*sin(~d + ~e*~x) + ~x*(2 * ~A*~a - ~B*~b)*((1//2)*((~a)^-2)) + (~B*((~a)^2) + ~B*((~b)^2) - 2 * ~A*~a*~b)*((1//2)*((~a)^-2)*((~c)^-1)*((~e)^-1))*Log(RemoveContent(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x), ~x)) - ~B*~b*((1//2)*((~a)^-1)*((~c)^-1)*((~e)^-1))*cos(~d + ~e*~x)
  end
 
 @rule integrate((~A + ~B*cos(~d + ~e*~x) + ~C*sin(~d + ~e*~x))*((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~A, ~B, ~C), ~x), NeQ((~b)^2 + (~c)^2, 0), EqQ(~A*((~b)^2 + (~c)^2) - ~a*(~B*~b + ~C*~c), 0)) 
@@ -146,8 +146,8 @@
  (((~a)^-1)*((1 + ~n)^-1))*integrate(((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^(~n - 1))*Simp((~B*~n*((~a)^2) + ~A*~a*~b*(1 + ~n) - ~B*~n*((~c)^2))*cos(~d + ~e*~x) + (~A*~a*~c*(1 + ~n) + ~B*~b*~c*~n)*sin(~d + ~e*~x) + ~A*((~a)^2)*(1 + ~n) + ~B*~a*~b*~n, ~x), ~x) + ((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^~n)*(~B*~c + ~B*~a*sin(~d + ~e*~x))*(((~a)^-1)*((~e)^-1)*((1 + ~n)^-1))
  end
 
-@rule integrate((~A + ~B*cos(~d + ~e*~x) + ~C*sin(~d + ~e*~x))*(sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~A, ~B, ~C), ~x), EqQ(~B*~c - ~C*~b, 0), NeQ(~A*~b - ~B*~a, 0)) 
- ~B*((~b)^-1)*integrate(sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x)), ~x) + ((~b)^-1)*(~A*~b - ~B*~a)*integrate(sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1, ~x)
+@rule integrate((~A + ~B*cos(~d + ~e*~x) + ~C*sin(~d + ~e*~x))*(Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~A, ~B, ~C), ~x), EqQ(~B*~c - ~C*~b, 0), NeQ(~A*~b - ~B*~a, 0)) 
+ ((~b)^-1)*(~A*~b - ~B*~a)*integrate(Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-1, ~x) + ~B*((~b)^-1)*integrate(Sqrt(~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x)), ~x)
  end
 
 @rule integrate((~A + ~B*cos(~d + ~e*~x) + ~C*sin(~d + ~e*~x))*((~a + ~b*cos(~d + ~e*~x) + ~c*sin(~d + ~e*~x))^-2), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~A, ~B, ~C), ~x), NeQ((~a)^2 - ((~b)^2) - ((~c)^2), 0), EqQ(~A*~a - ~B*~b - ~C*~c, 0)) 

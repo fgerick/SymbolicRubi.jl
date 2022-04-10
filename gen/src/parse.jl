@@ -137,8 +137,9 @@ function write_rules_jl_file(rulestrs, fname)
             rule*="\n end"
         end
         rule = replace(rule,"α"=>"~") #we have created all free symbols with an α to be replaced by ~ for the rule
-        rule = replace(rule,  r"~(.)\^" => s"(~\1)^") #fix the ~x^ parsing problem
-        rule = replace(rule,  r"~(.)\(" => s"(~\1)(") #fix the ~f(~x) parsing problem
+		rule = replace(rule, r"([0-9])~([a-zA-Z]{1,3})" => s"\1 * ~\2") #fix 2~x parsing problem
+        rule = replace(rule,  r"~([a-zA-Z0-9]{1,9})\^" => s"(~\1)^") #fix the ~x^ parsing problem
+        rule = replace(rule,  r"~([a-zA-Z0-9]{1,9})\(" => s"(~\1)(") #fix the ~f(~x) parsing problem
         if contains(rule, "ϵ")
             fails +=1
         end

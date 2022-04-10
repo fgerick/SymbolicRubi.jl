@@ -15,19 +15,19 @@
  end
 
 @rule integrate((~a + ~b*tan(~c + ~d*~x))^2, ~x) =>  if FreeQ(List(~a, ~b, ~c, ~d), ~x) 
- ~x*((~a)^2 - ((~b)^2)) + ((~b)^2)*((~d)^-1)*tan(~c + ~d*~x) + 2~a*~b*integrate(tan(~c + ~d*~x), ~x)
+ ~x*((~a)^2 - ((~b)^2)) + ((~b)^2)*((~d)^-1)*tan(~c + ~d*~x) + 2 * ~a*~b*integrate(tan(~c + ~d*~x), ~x)
  end
 
 @rule integrate((~a + ~b*tan(~c + ~d*~x))^~n, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ((~a)^2 + (~b)^2, 0), GtQ(~n, 1)) 
- ~b*((~a + ~b*tan(~c + ~d*~x))^(~n - 1))*(((~d)^-1)*((~n - 1)^-1)) + 2~a*integrate((~a + ~b*tan(~c + ~d*~x))^(~n - 1), ~x)
+ ~b*((~a + ~b*tan(~c + ~d*~x))^(~n - 1))*(((~d)^-1)*((~n - 1)^-1)) + 2 * ~a*integrate((~a + ~b*tan(~c + ~d*~x))^(~n - 1), ~x)
  end
 
 @rule integrate((~a + ~b*tan(~c + ~d*~x))^~n, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ((~a)^2 + (~b)^2, 0), LtQ(~n, 0)) 
  ((1//2)*((~a)^-1))*integrate((~a + ~b*tan(~c + ~d*~x))^(1 + ~n), ~x) + ~a*((~a + ~b*tan(~c + ~d*~x))^~n)*((1//2)*((~b)^-1)*((~d)^-1)*((~n)^-1))
  end
 
-@rule integrate(sqrt(~a + ~b*tan(~c + ~d*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ((~a)^2 + (~b)^2, 0)) 
- -2~b*((~d)^-1)*Subst(integrate((2~a - ((~x)^2))^-1, ~x), ~x, sqrt(~a + ~b*tan(~c + ~d*~x)))
+@rule integrate(Sqrt(~a + ~b*tan(~c + ~d*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ((~a)^2 + (~b)^2, 0)) 
+ -2 * ~b*((~d)^-1)*Subst(integrate((2 * ~a - ((~x)^2))^-1, ~x), ~x, Sqrt(~a + ~b*tan(~c + ~d*~x)))
  end
 
 @rule integrate((~a + ~b*tan(~c + ~d*~x))^~n, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~n), ~x), EqQ((~a)^2 + (~b)^2, 0)) 
@@ -35,7 +35,7 @@
  end
 
 @rule integrate((~a + ~b*tan(~c + ~d*~x))^~n, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ((~a)^2 + (~b)^2, 0), GtQ(~n, 1)) 
- ~b*((~a + ~b*tan(~c + ~d*~x))^(~n - 1))*(((~d)^-1)*((~n - 1)^-1)) + integrate(((~a)^2 + 2~a*~b*tan(~c + ~d*~x) - ((~b)^2))*((~a + ~b*tan(~c + ~d*~x))^(~n - 2)), ~x)
+ ~b*((~a + ~b*tan(~c + ~d*~x))^(~n - 1))*(((~d)^-1)*((~n - 1)^-1)) + integrate(((~a)^2 + 2 * ~a*~b*tan(~c + ~d*~x) - ((~b)^2))*((~a + ~b*tan(~c + ~d*~x))^(~n - 2)), ~x)
  end
 
 @rule integrate((~a + ~b*tan(~c + ~d*~x))^~n, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ((~a)^2 + (~b)^2, 0), LtQ(~n, -1)) 

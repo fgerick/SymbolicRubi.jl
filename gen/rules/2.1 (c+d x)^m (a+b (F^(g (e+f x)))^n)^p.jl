@@ -1,8 +1,8 @@
-@rule integrate(((~c + ~d*~x)^~m)*((~b*((~F)^(~g*(~e + ~f*~x))))^~n), ~x) =>  if And(FreeQ(List(~F, ~b, ~c, ~d, ~e, ~f, ~g, ~n), ~x), GtQ(~m, 0), IntegerQ(2~m), Not(TrueQ(var"~\$UseGamma"))) 
+@rule integrate(((~c + ~d*~x)^~m)*((~b*((~F)^(~g*(~e + ~f*~x))))^~n), ~x) =>  if And(FreeQ(List(~F, ~b, ~c, ~d, ~e, ~f, ~g, ~n), ~x), GtQ(~m, 0), IntegerQ(2 * ~m), Not(TrueQ(var"~\$UseGamma"))) 
  ((~c + ~d*~x)^~m)*((~b*((~F)^(~g*(~e + ~f*~x))))^~n)*(((~f)^-1)*((~g)^-1)*((~n)^-1)*(Log(~F)^-1)) - ~d*~m*(((~f)^-1)*((~g)^-1)*((~n)^-1)*(Log(~F)^-1))*integrate(((~c + ~d*~x)^(~m - 1))*((~b*((~F)^(~g*(~e + ~f*~x))))^~n), ~x)
  end
 
-@rule integrate(((~c + ~d*~x)^~m)*((~b*((~F)^(~g*(~e + ~f*~x))))^~n), ~x) =>  if And(FreeQ(List(~F, ~b, ~c, ~d, ~e, ~f, ~g, ~n), ~x), LtQ(~m, -1), IntegerQ(2~m), Not(TrueQ(var"~\$UseGamma"))) 
+@rule integrate(((~c + ~d*~x)^~m)*((~b*((~F)^(~g*(~e + ~f*~x))))^~n), ~x) =>  if And(FreeQ(List(~F, ~b, ~c, ~d, ~e, ~f, ~g, ~n), ~x), LtQ(~m, -1), IntegerQ(2 * ~m), Not(TrueQ(var"~\$UseGamma"))) 
  ((~c + ~d*~x)^(1 + ~m))*((~b*((~F)^(~g*(~e + ~f*~x))))^~n)*(((~d)^-1)*((1 + ~m)^-1)) - ~f*~g*~n*(((~d)^-1)*((1 + ~m)^-1))*Log(~F)*integrate(((~c + ~d*~x)^(1 + ~m))*((~b*((~F)^(~g*(~e + ~f*~x))))^~n), ~x)
  end
 
@@ -14,8 +14,8 @@
  ((~F)^(~g*(~e - ~c*~f*((~d)^-1))))*((-~d)^~m)*(((~f)^(-1 - ~m))*((~g)^(-1 - ~m))*(Log(~F)^(-1 - ~m)))*Gamma(1 + ~m, -~f*~g*(~c + ~d*~x)*((~d)^-1)*Log(~F))
  end
 
-@rule integrate(((~F)^(~g*(~e + ~f*~x)))*(sqrt(~c + ~d*~x)^-1), ~x) =>  if And(FreeQ(List(~F, ~c, ~d, ~e, ~f, ~g), ~x), Not(TrueQ(var"~\$UseGamma"))) 
- 2((~d)^-1)*Subst(integrate((~F)^(~g*(~e - ~c*~f*((~d)^-1)) + ~f*~g*((~d)^-1)*((~x)^2)), ~x), ~x, sqrt(~c + ~d*~x))
+@rule integrate(((~F)^(~g*(~e + ~f*~x)))*(Sqrt(~c + ~d*~x)^-1), ~x) =>  if And(FreeQ(List(~F, ~c, ~d, ~e, ~f, ~g), ~x), Not(TrueQ(var"~\$UseGamma"))) 
+ 2((~d)^-1)*Subst(integrate((~F)^(~g*(~e - ~c*~f*((~d)^-1)) + ~f*~g*((~d)^-1)*((~x)^2)), ~x), ~x, Sqrt(~c + ~d*~x))
  end
 
 @rule integrate(((~F)^(~g*(~e + ~f*~x)))*((~c + ~d*~x)^~m), ~x) =>  if And(FreeQ(List(~F, ~c, ~d, ~e, ~f, ~g, ~m), ~x), Not(IntegerQ(~m))) 
@@ -47,7 +47,7 @@
  end
 
 @rule integrate(((~u)^~m)*((~a + ~b*((~F)^(~g*~n*~v)))^~p), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~g, ~m, ~n, ~p), ~x), LinearQ(~v, ~x), PowerOfLinearQ(~u, ~x), Not(And(LinearMatchQ(~v, ~x), PowerOfLinearMatchQ(~u, ~x))), Not(IntegerQ(~m))) 
- Module(List(Set(~uu, NormalizePowerOfLinear(~u, ~x)), ~z), CompoundExpression(Set(~z, If(And(PowerQ(~uu), FreeQ(Part(~uu, 2), ~x)), Part(~uu, 1)^(~m*Part(~uu, 2)), ~uu^~m)), (~uu^~m)*((~z)^-1)*integrate(~z*((~a + ~b*((~F)^(~g*~n*ExpandToSum(~v, ~x))))^~p), ~x)))
+ Module(List(Set(~uu, NormalizePowerOfLinear(~u, ~x)), ~z), CompoundExpression(Set(~z, If(And(PowerQ(~uu), FreeQ(Part(~uu, 2), ~x)), Part(~uu, 1)^(~m*Part(~uu, 2)), (~uu)^~m)), ((~uu)^~m)*((~z)^-1)*integrate(~z*((~a + ~b*((~F)^(~g*~n*ExpandToSum(~v, ~x))))^~p), ~x)))
  end
 
 @rule integrate(((~a + ~b*((~F)^(~g*~n*(~e + ~f*~x))))^~p)*((~c + ~d*~x)^~m), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~m, ~n, ~p), ~x) 

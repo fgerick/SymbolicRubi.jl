@@ -23,11 +23,11 @@
  end
 
 @rule integrate((~A + ~C*(csc(~e + ~f*~x)^2) + ~B*csc(~e + ~f*~x))*((~a + ~b*csc(~e + ~f*~x))^~m)*csc(~e + ~f*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~A, ~B, ~C), ~x), LtQ(~m, -1), EqQ((~a)^2 - ((~b)^2), 0)) 
- (~B*~b - ~A*~a - ~C*~a)*((~a + ~b*Csc(~e + ~f*~x))^~m)*(((~a)^-1)*((~f)^-1)*((1 + 2~m)^-1))*cot(~e + ~f*~x)*Csc(~e + ~f*~x) - (((~a)^-1)*((~b)^-1)*((1 + 2~m)^-1))*integrate(((~a + ~b*Csc(~e + ~f*~x))^(1 + ~m))*Csc(~e + ~f*~x)*Simp(~B*~a - ~C*~b - (~B*~b*(2 + ~m) - ~a*(~A*(2 + ~m) - ~C*(~m - 1)))*Csc(~e + ~f*~x) - 2~A*~b*(1 + ~m), ~x), ~x)
+ (~B*~b - ~A*~a - ~C*~a)*((~a + ~b*Csc(~e + ~f*~x))^~m)*(((~a)^-1)*((~f)^-1)*((1 + 2 * ~m)^-1))*cot(~e + ~f*~x)*Csc(~e + ~f*~x) - (((~a)^-1)*((~b)^-1)*((1 + 2 * ~m)^-1))*integrate(((~a + ~b*Csc(~e + ~f*~x))^(1 + ~m))*Csc(~e + ~f*~x)*Simp(~B*~a - ~C*~b - (~B*~b*(2 + ~m) - ~a*(~A*(2 + ~m) - ~C*(~m - 1)))*Csc(~e + ~f*~x) - 2 * ~A*~b*(1 + ~m), ~x), ~x)
  end
 
 @rule integrate((~A + ~C*(csc(~e + ~f*~x)^2))*((~a + ~b*csc(~e + ~f*~x))^~m)*csc(~e + ~f*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~A, ~C), ~x), LtQ(~m, -1), EqQ((~a)^2 - ((~b)^2), 0)) 
- ((~a + ~b*Csc(~e + ~f*~x))^~m)*(-~A - ~C)*(((~f)^-1)*((1 + 2~m)^-1))*cot(~e + ~f*~x)*Csc(~e + ~f*~x) - (((~a)^-1)*((~b)^-1)*((1 + 2~m)^-1))*integrate(((~a + ~b*Csc(~e + ~f*~x))^(1 + ~m))*Csc(~e + ~f*~x)*Simp(~a*(~A*(2 + ~m) - ~C*(~m - 1))*Csc(~e + ~f*~x) - ~C*~b - 2~A*~b*(1 + ~m), ~x), ~x)
+ ((~a + ~b*Csc(~e + ~f*~x))^~m)*(-~A - ~C)*(((~f)^-1)*((1 + 2 * ~m)^-1))*cot(~e + ~f*~x)*Csc(~e + ~f*~x) - (((~a)^-1)*((~b)^-1)*((1 + 2 * ~m)^-1))*integrate(((~a + ~b*Csc(~e + ~f*~x))^(1 + ~m))*Csc(~e + ~f*~x)*Simp(~a*(~A*(2 + ~m) - ~C*(~m - 1))*Csc(~e + ~f*~x) - ~C*~b - 2 * ~A*~b*(1 + ~m), ~x), ~x)
  end
 
 @rule integrate((~A + ~C*(csc(~e + ~f*~x)^2) + ~B*csc(~e + ~f*~x))*((~a + ~b*csc(~e + ~f*~x))^~m)*csc(~e + ~f*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~A, ~B, ~C), ~x), LtQ(~m, -1), NeQ((~a)^2 - ((~b)^2), 0)) 
@@ -47,11 +47,11 @@
  end
 
 @rule integrate((~A + ~C*(csc(~e + ~f*~x)^2) + ~B*csc(~e + ~f*~x))*((~a + ~b*csc(~e + ~f*~x))^~m)*((~d*csc(~e + ~f*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~f, ~A, ~B, ~C, ~n), ~x), EqQ((~a)^2 - ((~b)^2), 0), LtQ(~m, -(1//2))) 
- (~B*~b - ~A*~a - ~C*~a)*((~a + ~b*Csc(~e + ~f*~x))^~m)*((~d*Csc(~e + ~f*~x))^~n)*(((~a)^-1)*((~f)^-1)*((1 + 2~m)^-1))*cot(~e + ~f*~x) - (((~a)^-1)*((~b)^-1)*((1 + 2~m)^-1))*integrate(((~a + ~b*Csc(~e + ~f*~x))^(1 + ~m))*((~d*Csc(~e + ~f*~x))^~n)*Simp(~B*~a*~n - (~B*~b*(1 + ~m + ~n) - ~a*(~A*(1 + ~m + ~n) - ~C*(~m - ~n)))*Csc(~e + ~f*~x) - ~A*~b*(1 + ~n + 2~m) - ~C*~b*~n, ~x), ~x)
+ (~B*~b - ~A*~a - ~C*~a)*((~a + ~b*Csc(~e + ~f*~x))^~m)*((~d*Csc(~e + ~f*~x))^~n)*(((~a)^-1)*((~f)^-1)*((1 + 2 * ~m)^-1))*cot(~e + ~f*~x) - (((~a)^-1)*((~b)^-1)*((1 + 2 * ~m)^-1))*integrate(((~a + ~b*Csc(~e + ~f*~x))^(1 + ~m))*((~d*Csc(~e + ~f*~x))^~n)*Simp(~B*~a*~n - (~B*~b*(1 + ~m + ~n) - ~a*(~A*(1 + ~m + ~n) - ~C*(~m - ~n)))*Csc(~e + ~f*~x) - ~A*~b*(1 + ~n + 2 * ~m) - ~C*~b*~n, ~x), ~x)
  end
 
 @rule integrate((~A + ~C*(csc(~e + ~f*~x)^2))*((~a + ~b*csc(~e + ~f*~x))^~m)*((~d*csc(~e + ~f*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~f, ~A, ~C, ~n), ~x), EqQ((~a)^2 - ((~b)^2), 0), LtQ(~m, -(1//2))) 
- (((~a)^-1)*((~b)^-1)*((1 + 2~m)^-1))*integrate(((~a + ~b*Csc(~e + ~f*~x))^(1 + ~m))*((~d*Csc(~e + ~f*~x))^~n)*Simp(~A*~b*(1 + ~n + 2~m) + ~C*~b*~n - ~a*(~A*(1 + ~m + ~n) - ~C*(~m - ~n))*Csc(~e + ~f*~x), ~x), ~x) - ~a*(~A + ~C)*((~a + ~b*Csc(~e + ~f*~x))^~m)*((~d*Csc(~e + ~f*~x))^~n)*(((~a)^-1)*((~f)^-1)*((1 + 2~m)^-1))*cot(~e + ~f*~x)
+ (((~a)^-1)*((~b)^-1)*((1 + 2 * ~m)^-1))*integrate(((~a + ~b*Csc(~e + ~f*~x))^(1 + ~m))*((~d*Csc(~e + ~f*~x))^~n)*Simp(~A*~b*(1 + ~n + 2 * ~m) + ~C*~b*~n - ~a*(~A*(1 + ~m + ~n) - ~C*(~m - ~n))*Csc(~e + ~f*~x), ~x), ~x) - ~a*(~A + ~C)*((~a + ~b*Csc(~e + ~f*~x))^~m)*((~d*Csc(~e + ~f*~x))^~n)*(((~a)^-1)*((~f)^-1)*((1 + 2 * ~m)^-1))*cot(~e + ~f*~x)
  end
 
 @rule integrate((~A + ~C*(csc(~e + ~f*~x)^2) + ~B*csc(~e + ~f*~x))*((~a + ~b*csc(~e + ~f*~x))^~m)*((~d*csc(~e + ~f*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~f, ~A, ~B, ~C, ~m), ~x), EqQ((~a)^2 - ((~b)^2), 0), Not(LtQ(~m, -(1//2))), Or(LtQ(~n, -(1//2)), EqQ(1 + ~m + ~n, 0))) 
@@ -79,11 +79,11 @@
  end
 
 @rule integrate((~A + ~C*(csc(~e + ~f*~x)^2) + ~B*csc(~e + ~f*~x))*((~a + ~b*csc(~e + ~f*~x))^~m)*(csc(~e + ~f*~x)^2), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~A, ~B, ~C, ~m), ~x), NeQ((~a)^2 - ((~b)^2), 0), Not(LtQ(~m, -1))) 
- (((~b)^-1)*((3 + ~m)^-1))*integrate(((~a + ~b*Csc(~e + ~f*~x))^~m)*Csc(~e + ~f*~x)*Simp(~C*~a + ~b*(~C*(2 + ~m) + ~A*(3 + ~m))*Csc(~e + ~f*~x) - (2~C*~a - ~B*~b*(3 + ~m))*(Csc(~e + ~f*~x)^2), ~x), ~x) - ~C*((~a + ~b*Csc(~e + ~f*~x))^(1 + ~m))*(((~b)^-1)*((~f)^-1)*((3 + ~m)^-1))*cot(~e + ~f*~x)*Csc(~e + ~f*~x)
+ (((~b)^-1)*((3 + ~m)^-1))*integrate(((~a + ~b*Csc(~e + ~f*~x))^~m)*Csc(~e + ~f*~x)*Simp(~C*~a + ~b*(~C*(2 + ~m) + ~A*(3 + ~m))*Csc(~e + ~f*~x) - (2 * ~C*~a - ~B*~b*(3 + ~m))*(Csc(~e + ~f*~x)^2), ~x), ~x) - ~C*((~a + ~b*Csc(~e + ~f*~x))^(1 + ~m))*(((~b)^-1)*((~f)^-1)*((3 + ~m)^-1))*cot(~e + ~f*~x)*Csc(~e + ~f*~x)
  end
 
 @rule integrate((~A + ~C*(csc(~e + ~f*~x)^2))*((~a + ~b*csc(~e + ~f*~x))^~m)*(csc(~e + ~f*~x)^2), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~A, ~C, ~m), ~x), NeQ((~a)^2 - ((~b)^2), 0), Not(LtQ(~m, -1))) 
- (((~b)^-1)*((3 + ~m)^-1))*integrate(((~a + ~b*Csc(~e + ~f*~x))^~m)*Csc(~e + ~f*~x)*Simp(~C*~a + ~b*(~C*(2 + ~m) + ~A*(3 + ~m))*Csc(~e + ~f*~x) - 2~C*~a*(Csc(~e + ~f*~x)^2), ~x), ~x) - ~C*((~a + ~b*Csc(~e + ~f*~x))^(1 + ~m))*(((~b)^-1)*((~f)^-1)*((3 + ~m)^-1))*cot(~e + ~f*~x)*Csc(~e + ~f*~x)
+ (((~b)^-1)*((3 + ~m)^-1))*integrate(((~a + ~b*Csc(~e + ~f*~x))^~m)*Csc(~e + ~f*~x)*Simp(~C*~a + ~b*(~C*(2 + ~m) + ~A*(3 + ~m))*Csc(~e + ~f*~x) - 2 * ~C*~a*(Csc(~e + ~f*~x)^2), ~x), ~x) - ~C*((~a + ~b*Csc(~e + ~f*~x))^(1 + ~m))*(((~b)^-1)*((~f)^-1)*((3 + ~m)^-1))*cot(~e + ~f*~x)*Csc(~e + ~f*~x)
  end
 
 @rule integrate((~A + ~C*(csc(~e + ~f*~x)^2) + ~B*csc(~e + ~f*~x))*((~a + ~b*csc(~e + ~f*~x))^~m)*((~d*csc(~e + ~f*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~f, ~A, ~B, ~C), ~x), NeQ((~a)^2 - ((~b)^2), 0), GtQ(~m, 0), LeQ(~n, -1)) 
@@ -134,20 +134,20 @@
  (((~a)^-1)*((~d)^-1)*((~n)^-1))*integrate(((~a + ~b*Csc(~e + ~f*~x))^~m)*((~d*Csc(~e + ~f*~x))^(1 + ~n))*Simp(~a*(~A + ~A*~n + ~C*~n)*Csc(~e + ~f*~x) + ~A*~b*(2 + ~m + ~n)*(Csc(~e + ~f*~x)^2) - ~A*~b*(1 + ~m + ~n), ~x), ~x) + ~A*((~a + ~b*Csc(~e + ~f*~x))^(1 + ~m))*((~d*Csc(~e + ~f*~x))^~n)*(((~a)^-1)*((~f)^-1)*((~n)^-1))*cot(~e + ~f*~x)
  end
 
-@rule integrate((~A + ~C*(csc(~e + ~f*~x)^2) + ~B*csc(~e + ~f*~x))*(((~a + ~b*csc(~e + ~f*~x))^-1)*(sqrt(~d*csc(~e + ~f*~x))^-1)), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~f, ~A, ~B, ~C), ~x), NeQ((~a)^2 - ((~b)^2), 0)) 
- ((~a)^-2)*integrate((~A*~a - (~A*~b - ~B*~a)*Csc(~e + ~f*~x))*(sqrt(~d*Csc(~e + ~f*~x))^-1), ~x) + (~A*((~b)^2) + ~C*((~a)^2) - ~B*~a*~b)*(((~a)^-2)*((~d)^-2))*integrate(((~a + ~b*Csc(~e + ~f*~x))^-1)*((~d*Csc(~e + ~f*~x))^((3//1)*(1//2))), ~x)
+@rule integrate((~A + ~C*(csc(~e + ~f*~x)^2) + ~B*csc(~e + ~f*~x))*(((~a + ~b*csc(~e + ~f*~x))^-1)*(Sqrt(~d*csc(~e + ~f*~x))^-1)), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~f, ~A, ~B, ~C), ~x), NeQ((~a)^2 - ((~b)^2), 0)) 
+ ((~a)^-2)*integrate((~A*~a - (~A*~b - ~B*~a)*Csc(~e + ~f*~x))*(Sqrt(~d*Csc(~e + ~f*~x))^-1), ~x) + (~A*((~b)^2) + ~C*((~a)^2) - ~B*~a*~b)*(((~a)^-2)*((~d)^-2))*integrate(((~a + ~b*Csc(~e + ~f*~x))^-1)*((~d*Csc(~e + ~f*~x))^((3//1)*(1//2))), ~x)
  end
 
-@rule integrate((~A + ~C*(csc(~e + ~f*~x)^2))*(((~a + ~b*csc(~e + ~f*~x))^-1)*(sqrt(~d*csc(~e + ~f*~x))^-1)), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~f, ~A, ~C), ~x), NeQ((~a)^2 - ((~b)^2), 0)) 
- ((~a)^-2)*integrate((~A*~a - ~A*~b*Csc(~e + ~f*~x))*(sqrt(~d*Csc(~e + ~f*~x))^-1), ~x) + (~A*((~b)^2) + ~C*((~a)^2))*(((~a)^-2)*((~d)^-2))*integrate(((~a + ~b*Csc(~e + ~f*~x))^-1)*((~d*Csc(~e + ~f*~x))^((3//1)*(1//2))), ~x)
+@rule integrate((~A + ~C*(csc(~e + ~f*~x)^2))*(((~a + ~b*csc(~e + ~f*~x))^-1)*(Sqrt(~d*csc(~e + ~f*~x))^-1)), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~f, ~A, ~C), ~x), NeQ((~a)^2 - ((~b)^2), 0)) 
+ ((~a)^-2)*integrate((~A*~a - ~A*~b*Csc(~e + ~f*~x))*(Sqrt(~d*Csc(~e + ~f*~x))^-1), ~x) + (~A*((~b)^2) + ~C*((~a)^2))*(((~a)^-2)*((~d)^-2))*integrate(((~a + ~b*Csc(~e + ~f*~x))^-1)*((~d*Csc(~e + ~f*~x))^((3//1)*(1//2))), ~x)
  end
 
-@rule integrate((~A + ~C*(csc(~e + ~f*~x)^2) + ~B*csc(~e + ~f*~x))*((sqrt(~a + ~b*csc(~e + ~f*~x))^-1)*(sqrt(~d*csc(~e + ~f*~x))^-1)), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~f, ~A, ~B, ~C), ~x), NeQ((~a)^2 - ((~b)^2), 0)) 
- ~C*((~d)^-2)*integrate(((~d*Csc(~e + ~f*~x))^((3//1)*(1//2)))*(sqrt(~a + ~b*Csc(~e + ~f*~x))^-1), ~x) + integrate((~A + ~B*Csc(~e + ~f*~x))*((sqrt(~a + ~b*Csc(~e + ~f*~x))^-1)*(sqrt(~d*Csc(~e + ~f*~x))^-1)), ~x)
+@rule integrate((~A + ~C*(csc(~e + ~f*~x)^2) + ~B*csc(~e + ~f*~x))*((Sqrt(~a + ~b*csc(~e + ~f*~x))^-1)*(Sqrt(~d*csc(~e + ~f*~x))^-1)), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~f, ~A, ~B, ~C), ~x), NeQ((~a)^2 - ((~b)^2), 0)) 
+ ~C*((~d)^-2)*integrate(((~d*Csc(~e + ~f*~x))^((3//1)*(1//2)))*(Sqrt(~a + ~b*Csc(~e + ~f*~x))^-1), ~x) + integrate((~A + ~B*Csc(~e + ~f*~x))*((Sqrt(~a + ~b*Csc(~e + ~f*~x))^-1)*(Sqrt(~d*Csc(~e + ~f*~x))^-1)), ~x)
  end
 
-@rule integrate((~A + ~C*(csc(~e + ~f*~x)^2))*((sqrt(~a + ~b*csc(~e + ~f*~x))^-1)*(sqrt(~d*csc(~e + ~f*~x))^-1)), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~f, ~A, ~C), ~x), NeQ((~a)^2 - ((~b)^2), 0)) 
- ~A*integrate((sqrt(~a + ~b*Csc(~e + ~f*~x))*sqrt(~d*Csc(~e + ~f*~x)))^-1, ~x) + ~C*((~d)^-2)*integrate(((~d*Csc(~e + ~f*~x))^((3//1)*(1//2)))*(sqrt(~a + ~b*Csc(~e + ~f*~x))^-1), ~x)
+@rule integrate((~A + ~C*(csc(~e + ~f*~x)^2))*((Sqrt(~a + ~b*csc(~e + ~f*~x))^-1)*(Sqrt(~d*csc(~e + ~f*~x))^-1)), ~x) =>  if And(FreeQ(List(~a, ~b, ~d, ~e, ~f, ~A, ~C), ~x), NeQ((~a)^2 - ((~b)^2), 0)) 
+ ~A*integrate((Sqrt(~a + ~b*Csc(~e + ~f*~x))*Sqrt(~d*Csc(~e + ~f*~x)))^-1, ~x) + ~C*((~d)^-2)*integrate(((~d*Csc(~e + ~f*~x))^((3//1)*(1//2)))*(Sqrt(~a + ~b*Csc(~e + ~f*~x))^-1), ~x)
  end
 
 @rule integrate((~A + ~C*(csc(~e + ~f*~x)^2) + ~B*csc(~e + ~f*~x))*((~a + ~b*csc(~e + ~f*~x))^~m)*((~d*csc(~e + ~f*~x))^~n), ~x) =>  if FreeQ(List(~a, ~b, ~d, ~e, ~f, ~A, ~B, ~C, ~m, ~n), ~x) 

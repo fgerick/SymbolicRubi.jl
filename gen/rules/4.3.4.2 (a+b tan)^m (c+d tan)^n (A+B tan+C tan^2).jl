@@ -27,11 +27,11 @@
  end
 
 @rule integrate((~A + ~C*(tan(~e + ~f*~x)^2) + ~B*tan(~e + ~f*~x))*((~a + ~b*tan(~e + ~f*~x))^~m)*((~c + ~d*tan(~e + ~f*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~A, ~B, ~C, ~n), ~x), NeQ(~b*~c - ~a*~d, 0), EqQ((~a)^2 + (~b)^2, 0), Or(LtQ(~m, 0), EqQ(1 + ~m + ~n, 0))) 
- ((1//2)*((~a)^-1)*((~m)^-1)*((~b*~c - ~a*~d)^-1))*integrate(((~a + ~b*tan(~e + ~f*~x))^(1 + ~m))*((~c + ~d*tan(~e + ~f*~x))^~n)*Simp(~a*(~B*~c*~m + ~C*~d*(1 + ~n) - ~A*~d*(1 + ~n + 2~m)) + ~b*(~c*~m*(~A + ~C) - ~B*~d*(1 + ~n)) + (~a*(2~C*~c*~m - ~B*~d*(1 + ~m + ~n)) + ~A*~b*~d*(1 + ~m + ~n) + ~C*~b*~d*(~m - 1 - ~n))*tan(~e + ~f*~x), ~x), ~x) + (~A*~a + ~B*~b - ~C*~a)*((~a + ~b*tan(~e + ~f*~x))^~m)*((~c + ~d*tan(~e + ~f*~x))^(1 + ~n))*((1//2)*((~f)^-1)*((~m)^-1)*((~b*~c - ~a*~d)^-1))
+ ((1//2)*((~a)^-1)*((~m)^-1)*((~b*~c - ~a*~d)^-1))*integrate(((~a + ~b*tan(~e + ~f*~x))^(1 + ~m))*((~c + ~d*tan(~e + ~f*~x))^~n)*Simp(~a*(~B*~c*~m + ~C*~d*(1 + ~n) - ~A*~d*(1 + ~n + 2 * ~m)) + ~b*(~c*~m*(~A + ~C) - ~B*~d*(1 + ~n)) + (~a*(2 * ~C*~c*~m - ~B*~d*(1 + ~m + ~n)) + ~A*~b*~d*(1 + ~m + ~n) + ~C*~b*~d*(~m - 1 - ~n))*tan(~e + ~f*~x), ~x), ~x) + (~A*~a + ~B*~b - ~C*~a)*((~a + ~b*tan(~e + ~f*~x))^~m)*((~c + ~d*tan(~e + ~f*~x))^(1 + ~n))*((1//2)*((~f)^-1)*((~m)^-1)*((~b*~c - ~a*~d)^-1))
  end
 
 @rule integrate((~A + ~C*(tan(~e + ~f*~x)^2))*((~a + ~b*tan(~e + ~f*~x))^~m)*((~c + ~d*tan(~e + ~f*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~A, ~C, ~n), ~x), NeQ(~b*~c - ~a*~d, 0), EqQ((~a)^2 + (~b)^2, 0), Or(LtQ(~m, 0), EqQ(1 + ~m + ~n, 0))) 
- ((1//2)*((~a)^-1)*((~m)^-1)*((~b*~c - ~a*~d)^-1))*integrate(((~a + ~b*tan(~e + ~f*~x))^(1 + ~m))*((~c + ~d*tan(~e + ~f*~x))^~n)*Simp(~a*(~C*~d*(1 + ~n) - ~A*~d*(1 + ~n + 2~m)) + (~A*~b*~d*(1 + ~m + ~n) + ~C*~b*~d*(~m - 1 - ~n) + 2~C*~a*~c*~m)*tan(~e + ~f*~x) + ~b*~c*~m*(~A + ~C), ~x), ~x) + ~a*(~A - ~C)*((~a + ~b*tan(~e + ~f*~x))^~m)*((~c + ~d*tan(~e + ~f*~x))^(1 + ~n))*((1//2)*((~f)^-1)*((~m)^-1)*((~b*~c - ~a*~d)^-1))
+ ((1//2)*((~a)^-1)*((~m)^-1)*((~b*~c - ~a*~d)^-1))*integrate(((~a + ~b*tan(~e + ~f*~x))^(1 + ~m))*((~c + ~d*tan(~e + ~f*~x))^~n)*Simp(~a*(~C*~d*(1 + ~n) - ~A*~d*(1 + ~n + 2 * ~m)) + (~A*~b*~d*(1 + ~m + ~n) + ~C*~b*~d*(~m - 1 - ~n) + 2 * ~C*~a*~c*~m)*tan(~e + ~f*~x) + ~b*~c*~m*(~A + ~C), ~x), ~x) + ~a*(~A - ~C)*((~a + ~b*tan(~e + ~f*~x))^~m)*((~c + ~d*tan(~e + ~f*~x))^(1 + ~n))*((1//2)*((~f)^-1)*((~m)^-1)*((~b*~c - ~a*~d)^-1))
  end
 
 @rule integrate((~A + ~C*(tan(~e + ~f*~x)^2) + ~B*tan(~e + ~f*~x))*((~a + ~b*tan(~e + ~f*~x))^~m)*((~c + ~d*tan(~e + ~f*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~A, ~B, ~C, ~m), ~x), NeQ(~b*~c - ~a*~d, 0), EqQ((~a)^2 + (~b)^2, 0), Not(LtQ(~m, 0)), LtQ(~n, -1), NeQ((~c)^2 + (~d)^2, 0)) 
@@ -91,10 +91,10 @@
  end
 
 @rule integrate((~A + ~C*(tan(~e + ~f*~x)^2) + ~B*tan(~e + ~f*~x))*((~a + ~b*tan(~e + ~f*~x))^~m)*((~c + ~d*tan(~e + ~f*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~A, ~B, ~C, ~m, ~n), ~x), NeQ(~b*~c - ~a*~d, 0), NeQ((~a)^2 + (~b)^2, 0), NeQ((~c)^2 + (~d)^2, 0)) 
- With(List(Set(~ff, FreeFactors(tan(~e + ~f*~x), ~x))), ~ff*((~f)^-1)*Subst(integrate((~A + ~B*~ff*~x + ~C*(~ff^2)*((~x)^2))*((1 + (~ff^2)*((~x)^2))^-1)*((~a + ~b*~ff*~x)^~m)*((~c + ~d*~ff*~x)^~n), ~x), ~x, (~ff^-1)*tan(~e + ~f*~x)))
+ With(List(Set(~ff, FreeFactors(tan(~e + ~f*~x), ~x))), ~ff*((~f)^-1)*Subst(integrate((~A + ~B*~ff*~x + ~C*((~ff)^2)*((~x)^2))*((1 + ((~ff)^2)*((~x)^2))^-1)*((~a + ~b*~ff*~x)^~m)*((~c + ~d*~ff*~x)^~n), ~x), ~x, ((~ff)^-1)*tan(~e + ~f*~x)))
  end
 
 @rule integrate((~A + ~C*(tan(~e + ~f*~x)^2))*((~a + ~b*tan(~e + ~f*~x))^~m)*((~c + ~d*tan(~e + ~f*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~A, ~C, ~m, ~n), ~x), NeQ(~b*~c - ~a*~d, 0), NeQ((~a)^2 + (~b)^2, 0), NeQ((~c)^2 + (~d)^2, 0)) 
- With(List(Set(~ff, FreeFactors(tan(~e + ~f*~x), ~x))), ~ff*((~f)^-1)*Subst(integrate((~A + ~C*(~ff^2)*((~x)^2))*((1 + (~ff^2)*((~x)^2))^-1)*((~a + ~b*~ff*~x)^~m)*((~c + ~d*~ff*~x)^~n), ~x), ~x, (~ff^-1)*tan(~e + ~f*~x)))
+ With(List(Set(~ff, FreeFactors(tan(~e + ~f*~x), ~x))), ~ff*((~f)^-1)*Subst(integrate((~A + ~C*((~ff)^2)*((~x)^2))*((1 + ((~ff)^2)*((~x)^2))^-1)*((~a + ~b*~ff*~x)^~m)*((~c + ~d*~ff*~x)^~n), ~x), ~x, ((~ff)^-1)*tan(~e + ~f*~x)))
  end
 

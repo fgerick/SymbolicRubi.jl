@@ -31,27 +31,27 @@
  end
 
 @rule integrate(((~a + ~b*csc(~c + ~d*~x))^~n)*(cot(~c + ~d*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ((~a)^2 - ((~b)^2), 0), IntegerQ((1//2)*~m), IntegerQ(~n - (1//2))) 
- -2((~a)^(~n + (1//2)*~m + 2^-1))*((~d)^-1)*Subst(integrate(((~x)^~m)*((1 + ~a*((~x)^2))^-1)*((2 + ~a*((~x)^2))^(~n + (1//2)*~m - (1//2))), ~x), ~x, (sqrt(~a + ~b*Csc(~c + ~d*~x))^-1)*cot(~c + ~d*~x))
+ -2((~a)^(~n + (1//2)*~m + 2^-1))*((~d)^-1)*Subst(integrate(((~x)^~m)*((1 + ~a*((~x)^2))^-1)*((2 + ~a*((~x)^2))^(~n + (1//2)*~m - (1//2))), ~x), ~x, (Sqrt(~a + ~b*Csc(~c + ~d*~x))^-1)*cot(~c + ~d*~x))
  end
 
 @rule integrate(((~a + ~b*csc(~c + ~d*~x))^~n)*((~e*cot(~c + ~d*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~m), ~x), EqQ((~a)^2 - ((~b)^2), 0), ILtQ(~n, 0)) 
- ((~a)^(2~n))*((~e)^(-2~n))*integrate(((~b*Csc(~c + ~d*~x) - ~a)^(-~n))*((~e*cot(~c + ~d*~x))^(~m + 2~n)), ~x)
+ ((~a)^(2 * ~n))*((~e)^(-2 * ~n))*integrate(((~b*Csc(~c + ~d*~x) - ~a)^(-~n))*((~e*cot(~c + ~d*~x))^(~m + 2 * ~n)), ~x)
  end
 
 @rule integrate(((~a + ~b*csc(~c + ~d*~x))^~n)*((~e*cot(~c + ~d*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~m, ~n), ~x), EqQ((~a)^2 - ((~b)^2), 0), Not(IntegerQ(~n))) 
  -((~a + ~b*Csc(~c + ~d*~x))^~n)*(2^(1 + ~m + ~n))*((~a*((~a + ~b*Csc(~c + ~d*~x))^-1))^(1 + ~m + ~n))*((~e*cot(~c + ~d*~x))^(1 + ~m))*(((~d)^-1)*((~e)^-1)*((1 + ~m)^-1))*AppellF1((1//2)*(1 + ~m), ~m + ~n, 1, (1//2)*(3 + ~m), ((~a + ~b*Csc(~c + ~d*~x))^-1)*(~b*Csc(~c + ~d*~x) - ~a), (~a - ~b*Csc(~c + ~d*~x))*((~a + ~b*Csc(~c + ~d*~x))^-1))
  end
 
-@rule integrate(((~a + ~b*csc(~c + ~d*~x))^-1)*sqrt(~e*cot(~c + ~d*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~a)^2 - ((~b)^2), 0)) 
- ((~a)^-1)*integrate(sqrt(~e*cot(~c + ~d*~x)), ~x) - ~b*((~a)^-1)*integrate(((~b + ~a*sin(~c + ~d*~x))^-1)*sqrt(~e*cot(~c + ~d*~x)), ~x)
+@rule integrate(((~a + ~b*csc(~c + ~d*~x))^-1)*Sqrt(~e*cot(~c + ~d*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~a)^2 - ((~b)^2), 0)) 
+ ((~a)^-1)*integrate(Sqrt(~e*cot(~c + ~d*~x)), ~x) - ~b*((~a)^-1)*integrate(((~b + ~a*sin(~c + ~d*~x))^-1)*Sqrt(~e*cot(~c + ~d*~x)), ~x)
  end
 
 @rule integrate(((~a + ~b*csc(~c + ~d*~x))^-1)*((~e*cot(~c + ~d*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~a)^2 - ((~b)^2), 0), IGtQ(~m - (1//2), 0)) 
  ((~b)^-2)*((~e)^2)*((~a)^2 - ((~b)^2))*integrate(((~a + ~b*Csc(~c + ~d*~x))^-1)*((~e*cot(~c + ~d*~x))^(~m - 2)), ~x) - ((~b)^-2)*((~e)^2)*integrate((~a - ~b*Csc(~c + ~d*~x))*((~e*cot(~c + ~d*~x))^(~m - 2)), ~x)
  end
 
-@rule integrate(((~a + ~b*csc(~c + ~d*~x))*sqrt(~e*cot(~c + ~d*~x)))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~a)^2 - ((~b)^2), 0)) 
- ((~a)^-1)*integrate(sqrt(~e*cot(~c + ~d*~x))^-1, ~x) - ~b*((~a)^-1)*integrate(((~b + ~a*sin(~c + ~d*~x))*sqrt(~e*cot(~c + ~d*~x)))^-1, ~x)
+@rule integrate(((~a + ~b*csc(~c + ~d*~x))*Sqrt(~e*cot(~c + ~d*~x)))^-1, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~a)^2 - ((~b)^2), 0)) 
+ ((~a)^-1)*integrate(Sqrt(~e*cot(~c + ~d*~x))^-1, ~x) - ~b*((~a)^-1)*integrate(((~b + ~a*sin(~c + ~d*~x))*Sqrt(~e*cot(~c + ~d*~x)))^-1, ~x)
  end
 
 @rule integrate(((~a + ~b*csc(~c + ~d*~x))^-1)*((~e*cot(~c + ~d*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), NeQ((~a)^2 - ((~b)^2), 0), ILtQ(~m + 2^-1, 0)) 

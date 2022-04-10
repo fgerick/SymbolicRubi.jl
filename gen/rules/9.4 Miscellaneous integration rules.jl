@@ -1,17 +1,17 @@
-@rule integrate(((~a + ~b*(~F)(~c*(sqrt(~f + ~g*~x)^-1)*sqrt(~d + ~e*~x)))^~n)*((~A + ~B*~x + ~C*((~x)^2))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~B, ~C, ~F), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~B*~e*~g - ~C*(~e*~f + ~d*~g), 0), IGtQ(~n, 0)) 
- 2~e*~g*(((~C)^-1)*((~e*~f - ~d*~g)^-1))*Subst(integrate(((~x)^-1)*((~a + ~b*F(~c*~x))^~n), ~x), ~x, (sqrt(~f + ~g*~x)^-1)*sqrt(~d + ~e*~x))
+@rule integrate(((~a + ~b*(~F)(~c*(Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x)))^~n)*((~A + ~B*~x + ~C*((~x)^2))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~B, ~C, ~F), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~B*~e*~g - ~C*(~e*~f + ~d*~g), 0), IGtQ(~n, 0)) 
+ 2 * ~e*~g*(((~C)^-1)*((~e*~f - ~d*~g)^-1))*Subst(integrate(((~x)^-1)*((~a + ~b*F(~c*~x))^~n), ~x), ~x, (Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x))
  end
 
-@rule integrate(((~A + ~C*((~x)^2))^-1)*((~a + ~b*(~F)(~c*(sqrt(~f + ~g*~x)^-1)*sqrt(~d + ~e*~x)))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~C, ~F), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~e*~f + ~d*~g, 0), IGtQ(~n, 0)) 
- 2~e*~g*(((~C)^-1)*((~e*~f - ~d*~g)^-1))*Subst(integrate(((~x)^-1)*((~a + ~b*F(~c*~x))^~n), ~x), ~x, (sqrt(~f + ~g*~x)^-1)*sqrt(~d + ~e*~x))
+@rule integrate(((~A + ~C*((~x)^2))^-1)*((~a + ~b*(~F)(~c*(Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x)))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~C, ~F), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~e*~f + ~d*~g, 0), IGtQ(~n, 0)) 
+ 2 * ~e*~g*(((~C)^-1)*((~e*~f - ~d*~g)^-1))*Subst(integrate(((~x)^-1)*((~a + ~b*F(~c*~x))^~n), ~x), ~x, (Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x))
  end
 
-@rule integrate(((~a + ~b*(~F)(~c*(sqrt(~f + ~g*~x)^-1)*sqrt(~d + ~e*~x)))^~n)*((~A + ~B*~x + ~C*((~x)^2))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~B, ~C, ~F, ~n), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~B*~e*~g - ~C*(~e*~f + ~d*~g), 0), Not(IGtQ(~n, 0))) 
- Unintegrable(((~a + ~b*F(~c*(sqrt(~f + ~g*~x)^-1)*sqrt(~d + ~e*~x)))^~n)*((~A + ~B*~x + ~C*((~x)^2))^-1), ~x)
+@rule integrate(((~a + ~b*(~F)(~c*(Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x)))^~n)*((~A + ~B*~x + ~C*((~x)^2))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~B, ~C, ~F, ~n), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~B*~e*~g - ~C*(~e*~f + ~d*~g), 0), Not(IGtQ(~n, 0))) 
+ Unintegrable(((~a + ~b*F(~c*(Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x)))^~n)*((~A + ~B*~x + ~C*((~x)^2))^-1), ~x)
  end
 
-@rule integrate(((~A + ~C*((~x)^2))^-1)*((~a + ~b*(~F)(~c*(sqrt(~f + ~g*~x)^-1)*sqrt(~d + ~e*~x)))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~C, ~F, ~n), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~e*~f + ~d*~g, 0), Not(IGtQ(~n, 0))) 
- Unintegrable(((~A + ~C*((~x)^2))^-1)*((~a + ~b*F(~c*(sqrt(~f + ~g*~x)^-1)*sqrt(~d + ~e*~x)))^~n), ~x)
+@rule integrate(((~A + ~C*((~x)^2))^-1)*((~a + ~b*(~F)(~c*(Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x)))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~C, ~F, ~n), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~e*~f + ~d*~g, 0), Not(IGtQ(~n, 0))) 
+ Unintegrable(((~A + ~C*((~x)^2))^-1)*((~a + ~b*F(~c*(Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x)))^~n), ~x)
  end
 
 @rule integrate(~u*((~y)^-1), ~x) => With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Log(RemoveContent(~y, ~x)), Not(FalseQ(~q))))
@@ -28,12 +28,12 @@
 
 @rule integrate(~u, ~x) => With(List(Set(~v, SimplifyIntegrand(~u, ~x))), Condition(integrate(~v, ~x), SimplerIntegrandQ(~v, ~u, ~x)))
 
-@rule integrate(~u*((~e*sqrt(~a + ~b*((~x)^~n)) + ~f*sqrt(~c + ~d*((~x)^~n)))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~n), ~x), ILtQ(~m, 0), EqQ(~b*((~e)^2) - ~d*((~f)^2), 0)) 
- ((~a*((~e)^2) - ~c*((~f)^2))^~m)*integrate(ExpandIntegrand(~u*((~e*sqrt(~a + ~b*((~x)^~n)) - ~f*sqrt(~c + ~d*((~x)^~n)))^(-~m)), ~x), ~x)
+@rule integrate(~u*((~e*Sqrt(~a + ~b*((~x)^~n)) + ~f*Sqrt(~c + ~d*((~x)^~n)))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~n), ~x), ILtQ(~m, 0), EqQ(~b*((~e)^2) - ~d*((~f)^2), 0)) 
+ ((~a*((~e)^2) - ~c*((~f)^2))^~m)*integrate(ExpandIntegrand(~u*((~e*Sqrt(~a + ~b*((~x)^~n)) - ~f*Sqrt(~c + ~d*((~x)^~n)))^(-~m)), ~x), ~x)
  end
 
-@rule integrate(~u*((~e*sqrt(~a + ~b*((~x)^~n)) + ~f*sqrt(~c + ~d*((~x)^~n)))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~n), ~x), ILtQ(~m, 0), EqQ(~a*((~e)^2) - ~c*((~f)^2), 0)) 
- ((~b*((~e)^2) - ~d*((~f)^2))^~m)*integrate(ExpandIntegrand(~u*((~x)^(~m*~n))*((~e*sqrt(~a + ~b*((~x)^~n)) - ~f*sqrt(~c + ~d*((~x)^~n)))^(-~m)), ~x), ~x)
+@rule integrate(~u*((~e*Sqrt(~a + ~b*((~x)^~n)) + ~f*Sqrt(~c + ~d*((~x)^~n)))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~n), ~x), ILtQ(~m, 0), EqQ(~a*((~e)^2) - ~c*((~f)^2), 0)) 
+ ((~b*((~e)^2) - ~d*((~f)^2))^~m)*integrate(ExpandIntegrand(~u*((~x)^(~m*~n))*((~e*Sqrt(~a + ~b*((~x)^~n)) - ~f*Sqrt(~c + ~d*((~x)^~n)))^(-~m)), ~x), ~x)
  end
 
 @rule integrate(~w*((~u)^~m)*((~v + ~a*((~u)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~m, ~n), ~x), IntegerQ(~p), Not(GtQ(~n, 0)), Not(FreeQ(~v, ~x))) 
@@ -64,28 +64,28 @@
  Module(List(~q, ~r), Condition(~q*~r*Subst(integrate(((~x)^~m)*((~a + ~b*((~x)^~n))^~p), ~x), ~x, ~y), And(Not(FalseQ(Set(~r, Divides((~y)^~m, (~v)^~m, ~x)))), Not(FalseQ(Set(~q, DerivativeDivides(~y, ~u, ~x)))))))
  end
 
-@rule integrate(~u*((~a + ~b*((~y)^~n) + ~c*((~v)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n, ~p), ~x), EqQ(~n2, 2~n), EqQ(~v, ~y)) 
- With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate((~a + ~b*((~x)^~n) + ~c*((~x)^(2~n)))^~p, ~x), ~x, ~y), Not(FalseQ(~q))))
+@rule integrate(~u*((~a + ~b*((~y)^~n) + ~c*((~v)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~v, ~y)) 
+ With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate((~a + ~b*((~x)^~n) + ~c*((~x)^(2 * ~n)))^~p, ~x), ~x, ~y), Not(FalseQ(~q))))
  end
 
-@rule integrate(~u*(~A + ~B*((~y)^~n))*((~a + ~b*((~v)^~n) + ~c*((~w)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~n, ~p), ~x), EqQ(~n2, 2~n), EqQ(~v, ~y), EqQ(~w, ~y)) 
- With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate((~A + ~B*((~x)^~n))*((~a + ~b*((~x)^~n) + ~c*((~x)^(2~n)))^~p), ~x), ~x, ~y), Not(FalseQ(~q))))
+@rule integrate(~u*(~A + ~B*((~y)^~n))*((~a + ~b*((~v)^~n) + ~c*((~w)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~v, ~y), EqQ(~w, ~y)) 
+ With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate((~A + ~B*((~x)^~n))*((~a + ~b*((~x)^~n) + ~c*((~x)^(2 * ~n)))^~p), ~x), ~x, ~y), Not(FalseQ(~q))))
  end
 
-@rule integrate(~u*(~A + ~B*((~y)^~n))*((~a + ~c*((~w)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~c, ~A, ~B, ~n, ~p), ~x), EqQ(~n2, 2~n), EqQ(~w, ~y)) 
- With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate((~A + ~B*((~x)^~n))*((~a + ~c*((~x)^(2~n)))^~p), ~x), ~x, ~y), Not(FalseQ(~q))))
+@rule integrate(~u*(~A + ~B*((~y)^~n))*((~a + ~c*((~w)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~c, ~A, ~B, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~w, ~y)) 
+ With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate((~A + ~B*((~x)^~n))*((~a + ~c*((~x)^(2 * ~n)))^~p), ~x), ~x, ~y), Not(FalseQ(~q))))
  end
 
-@rule integrate(~u*((~v)^~m)*((~a + ~b*((~y)^~n) + ~c*((~w)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~m, ~n, ~p), ~x), EqQ(~n2, 2~n), EqQ(~w, ~y)) 
- Module(List(~q, ~r), Condition(~q*~r*Subst(integrate(((~x)^~m)*((~a + ~b*((~x)^~n) + ~c*((~x)^(2~n)))^~p), ~x), ~x, ~y), And(Not(FalseQ(Set(~r, Divides((~y)^~m, (~v)^~m, ~x)))), Not(FalseQ(Set(~q, DerivativeDivides(~y, ~u, ~x)))))))
+@rule integrate(~u*((~v)^~m)*((~a + ~b*((~y)^~n) + ~c*((~w)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~m, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~w, ~y)) 
+ Module(List(~q, ~r), Condition(~q*~r*Subst(integrate(((~x)^~m)*((~a + ~b*((~x)^~n) + ~c*((~x)^(2 * ~n)))^~p), ~x), ~x, ~y), And(Not(FalseQ(Set(~r, Divides((~y)^~m, (~v)^~m, ~x)))), Not(FalseQ(Set(~q, DerivativeDivides(~y, ~u, ~x)))))))
  end
 
-@rule integrate(~u*(~A + ~B*((~y)^~n))*((~z)^~m)*((~a + ~b*((~v)^~n) + ~c*((~w)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~m, ~n, ~p), ~x), EqQ(~n2, 2~n), EqQ(~v, ~y), EqQ(~w, ~y)) 
- Module(List(~q, ~r), Condition(~q*~r*Subst(integrate((~A + ~B*((~x)^~n))*((~x)^~m)*((~a + ~b*((~x)^~n) + ~c*((~x)^(2~n)))^~p), ~x), ~x, ~y), And(Not(FalseQ(Set(~r, Divides((~y)^~m, (~z)^~m, ~x)))), Not(FalseQ(Set(~q, DerivativeDivides(~y, ~u, ~x)))))))
+@rule integrate(~u*(~A + ~B*((~y)^~n))*((~z)^~m)*((~a + ~b*((~v)^~n) + ~c*((~w)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~m, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~v, ~y), EqQ(~w, ~y)) 
+ Module(List(~q, ~r), Condition(~q*~r*Subst(integrate((~A + ~B*((~x)^~n))*((~x)^~m)*((~a + ~b*((~x)^~n) + ~c*((~x)^(2 * ~n)))^~p), ~x), ~x, ~y), And(Not(FalseQ(Set(~r, Divides((~y)^~m, (~z)^~m, ~x)))), Not(FalseQ(Set(~q, DerivativeDivides(~y, ~u, ~x)))))))
  end
 
-@rule integrate(~u*(~A + ~B*((~y)^~n))*((~z)^~m)*((~a + ~c*((~w)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~c, ~A, ~B, ~m, ~n, ~p), ~x), EqQ(~n2, 2~n), EqQ(~w, ~y)) 
- Module(List(~q, ~r), Condition(~q*~r*Subst(integrate((~A + ~B*((~x)^~n))*((~x)^~m)*((~a + ~c*((~x)^(2~n)))^~p), ~x), ~x, ~y), And(Not(FalseQ(Set(~r, Divides((~y)^~m, (~z)^~m, ~x)))), Not(FalseQ(Set(~q, DerivativeDivides(~y, ~u, ~x)))))))
+@rule integrate(~u*(~A + ~B*((~y)^~n))*((~z)^~m)*((~a + ~c*((~w)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~c, ~A, ~B, ~m, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~w, ~y)) 
+ Module(List(~q, ~r), Condition(~q*~r*Subst(integrate((~A + ~B*((~x)^~n))*((~x)^~m)*((~a + ~c*((~x)^(2 * ~n)))^~p), ~x), ~x, ~y), And(Not(FalseQ(Set(~r, Divides((~y)^~m, (~z)^~m, ~x)))), Not(FalseQ(Set(~q, DerivativeDivides(~y, ~u, ~x)))))))
  end
 
 @rule integrate(~u*((~c + ~d*((~v)^~n))^~p)*((~a + ~b*((~y)^~n))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n, ~p), ~x), EqQ(~v, ~y)) 
@@ -168,20 +168,20 @@
  With(List(Set(~v, RationalFunctionExpand(~u*((~a + ~b*((~x)^~n))^-1), ~x))), Condition(integrate(~v, ~x), SumQ(~v)))
  end
 
-@rule integrate(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n), ~x), EqQ(~n2, 2~n), EqQ((~b)^2 - 4~a*~c, 0), IntegerQ(~p), Not(AlgebraicFunctionQ(~u, ~x))) 
- (((~c)^(-~p))*(4^(-~p)))*integrate(~u*((~b + 2~c*((~x)^~n))^(2~p)), ~x)
+@rule integrate(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n), ~x), EqQ(~n2, 2 * ~n), EqQ((~b)^2 - 4 * ~a*~c, 0), IntegerQ(~p), Not(AlgebraicFunctionQ(~u, ~x))) 
+ (((~c)^(-~p))*(4^(-~p)))*integrate(~u*((~b + 2 * ~c*((~x)^~n))^(2 * ~p)), ~x)
  end
 
-@rule integrate(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n, ~p), ~x), EqQ(~n2, 2~n), EqQ((~b)^2 - 4~a*~c, 0), Not(IntegerQ(~p)), Not(AlgebraicFunctionQ(~u, ~x))) 
- ((~b + 2~c*((~x)^~n))^(-2~p))*((~a + ~b*((~x)^~n) + ~c*((~x)^(2~n)))^~p)*integrate(~u*((~b + 2~c*((~x)^~n))^(2~p)), ~x)
+@rule integrate(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ((~b)^2 - 4 * ~a*~c, 0), Not(IntegerQ(~p)), Not(AlgebraicFunctionQ(~u, ~x))) 
+ ((~b + 2 * ~c*((~x)^~n))^(-2 * ~p))*((~a + ~b*((~x)^~n) + ~c*((~x)^(2 * ~n)))^~p)*integrate(~u*((~b + 2 * ~c*((~x)^~n))^(2 * ~p)), ~x)
  end
 
-@rule integrate(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^~n2))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c), ~x), EqQ(~n2, 2~n), IGtQ(~n, 0)) 
- With(List(Set(~v, RationalFunctionExpand(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^(2~n)))^-1), ~x))), Condition(integrate(~v, ~x), SumQ(~v)))
+@rule integrate(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^~n2))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c), ~x), EqQ(~n2, 2 * ~n), IGtQ(~n, 0)) 
+ With(List(Set(~v, RationalFunctionExpand(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^(2 * ~n)))^-1), ~x))), Condition(integrate(~v, ~x), SumQ(~v)))
  end
 
-@rule integrate(~u*((~a*((~x)^~m) + ~b*sqrt(~c*((~x)^~n)))^-1), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~m, ~n), ~x) 
- integrate(~u*((((~a)^2)*((~x)^(2~m)) - ~c*((~b)^2)*((~x)^~n))^-1)*(~a*((~x)^~m) - ~b*sqrt(~c*((~x)^~n))), ~x)
+@rule integrate(~u*((~a*((~x)^~m) + ~b*Sqrt(~c*((~x)^~n)))^-1), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~m, ~n), ~x) 
+ integrate(~u*((((~a)^2)*((~x)^(2 * ~m)) - ~c*((~b)^2)*((~x)^~n))^-1)*(~a*((~x)^~m) - ~b*Sqrt(~c*((~x)^~n))), ~x)
  end
 
 @rule integrate(~u*((~x)^~m), ~x) =>  if FractionQ(~m) 
@@ -193,11 +193,11 @@
  end
 
 @rule integrate((~a + ~b*((~v)^~n))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ((1//2)*~n, 1)) 
- Dist(2(((~a)^-1)*((~n)^-1)), Sum(integrate(Together((1 - ((~v)^2)*(((-1)^(-4~k*((~n)^-1)))*(Rt(-~a*((~b)^-1), (1//2)*~n)^-1)))^-1), ~x), List(~k, 1, (1//2)*~n)), ~x)
+ Dist(2(((~a)^-1)*((~n)^-1)), Sum(integrate(Together((1 - ((~v)^2)*(((-1)^(-4 * ~k*((~n)^-1)))*(Rt(-~a*((~b)^-1), (1//2)*~n)^-1)))^-1), ~x), List(~k, 1, (1//2)*~n)), ~x)
  end
 
 @rule integrate((~a + ~b*((~v)^~n))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ((1//2)*(~n - 1), 0)) 
- Dist((~a*~n)^-1, Sum(integrate(Together((1 - ~v*(((-1)^(-2~k*((~n)^-1)))*(Rt(-~a*((~b)^-1), ~n)^-1)))^-1), ~x), List(~k, 1, ~n)), ~x)
+ Dist((~a*~n)^-1, Sum(integrate(Together((1 - ~v*(((-1)^(-2 * ~k*((~n)^-1)))*(Rt(-~a*((~b)^-1), ~n)^-1)))^-1), ~x), List(~k, 1, ~n)), ~x)
  end
 
 @rule integrate(~v*((~a + ~b*((~u)^~n))^-1), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ(~n, 0), PolynomialInQ(~v, ~u, ~x)) 
@@ -212,8 +212,8 @@
  ((~x)^(-~m*~p))*((~a + ~b*((~x)^~m))^~p)*((~c + ~d*((~x)^~n))^~q)*integrate(~u*((~x)^(~m*~p)), ~x)
  end
 
-@rule integrate(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n, ~p), ~x), EqQ(~n2, 2~n), EqQ((~b)^2 - 4~a*~c, 0), IntegerQ(~p - (1//2))) 
- (((~b + 2~c*((~x)^~n))^-1)*((4~c)^((1//2) - ~p)))*sqrt(~a + ~b*((~x)^~n) + ~c*((~x)^(2~n)))*integrate(~u*((~b + 2~c*((~x)^~n))^(2~p)), ~x)
+@rule integrate(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ((~b)^2 - 4 * ~a*~c, 0), IntegerQ(~p - (1//2))) 
+ (((~b + 2 * ~c*((~x)^~n))^-1)*((4 * ~c)^((1//2) - ~p)))*Sqrt(~a + ~b*((~x)^~n) + ~c*((~x)^(2 * ~n)))*integrate(~u*((~b + 2 * ~c*((~x)^~n))^(2 * ~p)), ~x)
  end
 
 @rule integrate(~u, ~x) => CannotIntegrate(~u, ~x)

@@ -14,12 +14,12 @@
  With(List(Set(~a, Simplify(D(~u, ~x))), Set(~b, Simplify(D(~v, ~x)))), Condition(~b*((~b*~u - ~a*~v)^-1)*integrate((~v)^-1, ~x) - ~a*((~b*~u - ~a*~v)^-1)*integrate((~u)^-1, ~x), NeQ(~b*~u - ~a*~v, 0)))
  end
 
-@rule integrate((~u*sqrt(~v))^-1, ~x) =>  if PiecewiseLinearQ(~u, ~v, ~x) 
- With(List(Set(~a, Simplify(D(~u, ~x))), Set(~b, Simplify(D(~v, ~x)))), Condition(2(((~a)^-1)*(Rt(((~a)^-1)*(~b*~u - ~a*~v), 2)^-1))*ArcTan((Rt(((~a)^-1)*(~b*~u - ~a*~v), 2)^-1)*sqrt(~v)), And(NeQ(~b*~u - ~a*~v, 0), PosQ(((~a)^-1)*(~b*~u - ~a*~v)))))
+@rule integrate((~u*Sqrt(~v))^-1, ~x) =>  if PiecewiseLinearQ(~u, ~v, ~x) 
+ With(List(Set(~a, Simplify(D(~u, ~x))), Set(~b, Simplify(D(~v, ~x)))), Condition(2(((~a)^-1)*(Rt(((~a)^-1)*(~b*~u - ~a*~v), 2)^-1))*ArcTan((Rt(((~a)^-1)*(~b*~u - ~a*~v), 2)^-1)*Sqrt(~v)), And(NeQ(~b*~u - ~a*~v, 0), PosQ(((~a)^-1)*(~b*~u - ~a*~v)))))
  end
 
-@rule integrate((~u*sqrt(~v))^-1, ~x) =>  if PiecewiseLinearQ(~u, ~v, ~x) 
- With(List(Set(~a, Simplify(D(~u, ~x))), Set(~b, Simplify(D(~v, ~x)))), Condition(-2(((~a)^-1)*(Rt(((~a)^-1)*(~a*~v - ~b*~u), 2)^-1))*ArcTanh((Rt(((~a)^-1)*(~a*~v - ~b*~u), 2)^-1)*sqrt(~v)), And(NeQ(~b*~u - ~a*~v, 0), NegQ(((~a)^-1)*(~b*~u - ~a*~v)))))
+@rule integrate((~u*Sqrt(~v))^-1, ~x) =>  if PiecewiseLinearQ(~u, ~v, ~x) 
+ With(List(Set(~a, Simplify(D(~u, ~x))), Set(~b, Simplify(D(~v, ~x)))), Condition(-2(((~a)^-1)*(Rt(((~a)^-1)*(~a*~v - ~b*~u), 2)^-1))*ArcTanh((Rt(((~a)^-1)*(~a*~v - ~b*~u), 2)^-1)*Sqrt(~v)), And(NeQ(~b*~u - ~a*~v, 0), NegQ(((~a)^-1)*(~b*~u - ~a*~v)))))
  end
 
 @rule integrate(((~u)^-1)*((~v)^~n), ~x) =>  if And(PiecewiseLinearQ(~u, ~v, ~x), LtQ(~n, -1)) 
@@ -30,19 +30,19 @@
  With(List(Set(~a, Simplify(D(~u, ~x))), Set(~b, Simplify(D(~v, ~x)))), Condition(((~v)^(1 + ~n))*(((1 + ~n)^-1)*((~b*~u - ~a*~v)^-1))*Hypergeometric2F1(1, 1 + ~n, 2 + ~n, -~a*~v*((~b*~u - ~a*~v)^-1)), NeQ(~b*~u - ~a*~v, 0)))
  end
 
-@rule integrate((sqrt(~u)*sqrt(~v))^-1, ~x) =>  if PiecewiseLinearQ(~u, ~v, ~x) 
- With(List(Set(~a, Simplify(D(~u, ~x))), Set(~b, Simplify(D(~v, ~x)))), Condition(2(Rt(~a*~b, 2)^-1)*ArcTanh((((~a)^-1)*(sqrt(~v)^-1))*sqrt(~u)*Rt(~a*~b, 2)), And(NeQ(~b*~u - ~a*~v, 0), PosQ(~a*~b))))
+@rule integrate((Sqrt(~u)*Sqrt(~v))^-1, ~x) =>  if PiecewiseLinearQ(~u, ~v, ~x) 
+ With(List(Set(~a, Simplify(D(~u, ~x))), Set(~b, Simplify(D(~v, ~x)))), Condition(2(Rt(~a*~b, 2)^-1)*ArcTanh((((~a)^-1)*(Sqrt(~v)^-1))*Sqrt(~u)*Rt(~a*~b, 2)), And(NeQ(~b*~u - ~a*~v, 0), PosQ(~a*~b))))
  end
 
-@rule integrate((sqrt(~u)*sqrt(~v))^-1, ~x) =>  if PiecewiseLinearQ(~u, ~v, ~x) 
- With(List(Set(~a, Simplify(D(~u, ~x))), Set(~b, Simplify(D(~v, ~x)))), Condition(2(Rt(-~a*~b, 2)^-1)*ArcTan((((~a)^-1)*(sqrt(~v)^-1))*sqrt(~u)*Rt(-~a*~b, 2)), And(NeQ(~b*~u - ~a*~v, 0), NegQ(~a*~b))))
+@rule integrate((Sqrt(~u)*Sqrt(~v))^-1, ~x) =>  if PiecewiseLinearQ(~u, ~v, ~x) 
+ With(List(Set(~a, Simplify(D(~u, ~x))), Set(~b, Simplify(D(~v, ~x)))), Condition(2(Rt(-~a*~b, 2)^-1)*ArcTan((((~a)^-1)*(Sqrt(~v)^-1))*Sqrt(~u)*Rt(-~a*~b, 2)), And(NeQ(~b*~u - ~a*~v, 0), NegQ(~a*~b))))
  end
 
 @rule integrate(((~u)^~m)*((~v)^~n), ~x) =>  if And(FreeQ(List(~m, ~n), ~x), PiecewiseLinearQ(~u, ~v, ~x), EqQ(2 + ~m + ~n, 0), NeQ(~m, -1)) 
  With(List(Set(~a, Simplify(D(~u, ~x))), Set(~b, Simplify(D(~v, ~x)))), Condition(-((~u)^(1 + ~m))*((~v)^(1 + ~n))*(((1 + ~m)^-1)*((~b*~u - ~a*~v)^-1)), NeQ(~b*~u - ~a*~v, 0)))
  end
 
-@rule integrate(((~u)^~m)*((~v)^~n), ~x) =>  if And(FreeQ(List(~m, ~n), ~x), PiecewiseLinearQ(~u, ~v, ~x), NeQ(~m, -1), Or(And(LtQ(~m, -1), GtQ(~n, 0), Not(And(ILtQ(~m + ~n, -2), Or(FractionQ(~m), GeQ(1 + ~m + 2~n, 0))))), And(IGtQ(~n, 0), IGtQ(~m, 0), LeQ(~n, ~m)), And(IGtQ(~n, 0), Not(IntegerQ(~m))), And(ILtQ(~m, 0), Not(IntegerQ(~n))))) 
+@rule integrate(((~u)^~m)*((~v)^~n), ~x) =>  if And(FreeQ(List(~m, ~n), ~x), PiecewiseLinearQ(~u, ~v, ~x), NeQ(~m, -1), Or(And(LtQ(~m, -1), GtQ(~n, 0), Not(And(ILtQ(~m + ~n, -2), Or(FractionQ(~m), GeQ(1 + ~m + 2 * ~n, 0))))), And(IGtQ(~n, 0), IGtQ(~m, 0), LeQ(~n, ~m)), And(IGtQ(~n, 0), Not(IntegerQ(~m))), And(ILtQ(~m, 0), Not(IntegerQ(~n))))) 
  With(List(Set(~a, Simplify(D(~u, ~x))), Set(~b, Simplify(D(~v, ~x)))), Condition(((~u)^(1 + ~m))*((~v)^~n)*(((~a)^-1)*((1 + ~m)^-1)) - ~b*~n*(((~a)^-1)*((1 + ~m)^-1))*integrate(((~u)^(1 + ~m))*((~v)^(~n - 1)), ~x), NeQ(~b*~u - ~a*~v, 0)))
  end
 

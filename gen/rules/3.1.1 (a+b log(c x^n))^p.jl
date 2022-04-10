@@ -2,11 +2,11 @@
  ~x*Log(~c*((~x)^~n)) - ~n*~x
  end
 
-@rule integrate((~a + ~b*Log(~c*((~x)^~n)))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n), ~x), GtQ(~p, 0), IntegerQ(2~p)) 
+@rule integrate((~a + ~b*Log(~c*((~x)^~n)))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n), ~x), GtQ(~p, 0), IntegerQ(2 * ~p)) 
  ~x*((~a + ~b*Log(~c*((~x)^~n)))^~p) - ~b*~n*~p*integrate((~a + ~b*Log(~c*((~x)^~n)))^(~p - 1), ~x)
  end
 
-@rule integrate((~a + ~b*Log(~c*((~x)^~n)))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n), ~x), LtQ(~p, -1), IntegerQ(2~p)) 
+@rule integrate((~a + ~b*Log(~c*((~x)^~n)))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n), ~x), LtQ(~p, -1), IntegerQ(2 * ~p)) 
  ~x*((~a + ~b*Log(~c*((~x)^~n)))^(1 + ~p))*(((~b)^-1)*((~n)^-1)*((1 + ~p)^-1)) - (((~b)^-1)*((~n)^-1)*((1 + ~p)^-1))*integrate((~a + ~b*Log(~c*((~x)^~n)))^(1 + ~p), ~x)
  end
 

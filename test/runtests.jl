@@ -7,3 +7,14 @@ using Test
     @test isequal(integrate(x^m,x) |> r2 |> simplify, x^(m+1)*(m+1)^-1 |> simplify)
 
 end
+
+
+
+@testset "rules can parse" begin
+    ruledir = "../gen/rules/"
+    fs = readdir(ruledir)
+    for f in fs
+        println(f)
+        @test try include(joinpath(ruledir,f)); true; catch; false; end
+    end
+end

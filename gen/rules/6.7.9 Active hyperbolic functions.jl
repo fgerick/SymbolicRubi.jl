@@ -175,19 +175,19 @@
  end
 
 @rule integrate(Sinh(~a + ~b*~x)*Tanh(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ((~b)^2 - ((~d)^2), 0)) 
- integrate((1//2)*((~E)^(~a + ~b*~x)) + ((~E)^(-~a - ~b*~x))*((1 + (~E)^(2~c + 2~d*~x))^-1) - (1//2)*((~E)^(-~a - ~b*~x)) - ((~E)^(~a + ~b*~x))*((1 + (~E)^(2~c + 2~d*~x))^-1), ~x)
+ integrate((1//2)*((~E)^(~a + ~b*~x)) + ((~E)^(-~a - ~b*~x))*((1 + (~E)^(2 * ~c + 2 * ~d*~x))^-1) - (1//2)*((~E)^(-~a - ~b*~x)) - ((~E)^(~a + ~b*~x))*((1 + (~E)^(2 * ~c + 2 * ~d*~x))^-1), ~x)
  end
 
 @rule integrate(Cosh(~a + ~b*~x)*Coth(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ((~b)^2 - ((~d)^2), 0)) 
- integrate((1//2)*((~E)^(~a + ~b*~x)) + (1//2)*((~E)^(-~a - ~b*~x)) - ((~E)^(~a + ~b*~x))*((1 - ((~E)^(2~c + 2~d*~x)))^-1) - ((~E)^(-~a - ~b*~x))*((1 - ((~E)^(2~c + 2~d*~x)))^-1), ~x)
+ integrate((1//2)*((~E)^(~a + ~b*~x)) + (1//2)*((~E)^(-~a - ~b*~x)) - ((~E)^(~a + ~b*~x))*((1 - ((~E)^(2 * ~c + 2 * ~d*~x)))^-1) - ((~E)^(-~a - ~b*~x))*((1 - ((~E)^(2 * ~c + 2 * ~d*~x)))^-1), ~x)
  end
 
 @rule integrate(Sinh(~a + ~b*~x)*Coth(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ((~b)^2 - ((~d)^2), 0)) 
- integrate((1//2)*((~E)^(~a + ~b*~x)) + ((~E)^(-~a - ~b*~x))*((1 - ((~E)^(2~c + 2~d*~x)))^-1) - (1//2)*((~E)^(-~a - ~b*~x)) - ((~E)^(~a + ~b*~x))*((1 - ((~E)^(2~c + 2~d*~x)))^-1), ~x)
+ integrate((1//2)*((~E)^(~a + ~b*~x)) + ((~E)^(-~a - ~b*~x))*((1 - ((~E)^(2 * ~c + 2 * ~d*~x)))^-1) - (1//2)*((~E)^(-~a - ~b*~x)) - ((~E)^(~a + ~b*~x))*((1 - ((~E)^(2 * ~c + 2 * ~d*~x)))^-1), ~x)
  end
 
 @rule integrate(Cosh(~a + ~b*~x)*Tanh(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ((~b)^2 - ((~d)^2), 0)) 
- integrate((1//2)*((~E)^(~a + ~b*~x)) + (1//2)*((~E)^(-~a - ~b*~x)) - ((~E)^(~a + ~b*~x))*((1 + (~E)^(2~c + 2~d*~x))^-1) - ((~E)^(-~a - ~b*~x))*((1 + (~E)^(2~c + 2~d*~x))^-1), ~x)
+ integrate((1//2)*((~E)^(~a + ~b*~x)) + (1//2)*((~E)^(-~a - ~b*~x)) - ((~E)^(~a + ~b*~x))*((1 + (~E)^(2 * ~c + 2 * ~d*~x))^-1) - ((~E)^(-~a - ~b*~x))*((1 + (~E)^(2 * ~c + 2 * ~d*~x))^-1), ~x)
  end
 
 @rule integrate(Sinh(~a*((~c + ~d*~x)^-1))^~n, ~x) =>  if And(FreeQ(List(~a, ~c, ~d), ~x), IGtQ(~n, 0)) 
@@ -239,7 +239,7 @@
  end
 
 @rule integrate(~u*(Sinh(~v)^~p)*(Cosh(~w)^~p), ~x) =>  if And(EqQ(~w, ~v), IntegerQ(~p)) 
- (2^(-~p))*integrate(~u*(Sinh(2~v)^~p), ~x)
+ (2^(-~p))*integrate(~u*(Sinh(2 * ~v)^~p), ~x)
  end
 
 @rule integrate((Sinh(~v)^~p)*(Cosh(~w)^~q), ~x) =>  if And(IGtQ(~p, 0), IGtQ(~q, 0), Or(And(PolynomialQ(~v, ~x), PolynomialQ(~w, ~x)), And(BinomialQ(List(~v, ~w), ~x), IndependentQ(Cancel(~v*((~w)^-1)), ~x)))) 
@@ -283,35 +283,35 @@
  end
 
 @rule integrate(((~a + ~b*Cosh(~c + ~d*~x)*Sinh(~c + ~d*~x))^~n)*((~e + ~f*~x)^~m), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m, ~n), ~x) 
- integrate(((~a + (1//2)*~b*Sinh(2~c + 2~d*~x))^~n)*((~e + ~f*~x)^~m), ~x)
+ integrate(((~a + (1//2)*~b*Sinh(2 * ~c + 2 * ~d*~x))^~n)*((~e + ~f*~x)^~m), ~x)
  end
 
 @rule integrate(((~x)^~m)*((~a + ~b*(Sinh(~c + ~d*~x)^2))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ(~a - ~b, 0), IGtQ(~m, 0), ILtQ(~n, 0), Or(EqQ(~n, -1), And(EqQ(~m, 1), EqQ(~n, -2)))) 
- (2^(-~n))*integrate(((~x)^~m)*((2~a + ~b*Cosh(2~c + 2~d*~x) - ~b)^~n), ~x)
+ (2^(-~n))*integrate(((~x)^~m)*((2 * ~a + ~b*Cosh(2 * ~c + 2 * ~d*~x) - ~b)^~n), ~x)
  end
 
 @rule integrate(((~x)^~m)*((~a + ~b*(Cosh(~c + ~d*~x)^2))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ(~a - ~b, 0), IGtQ(~m, 0), ILtQ(~n, 0), Or(EqQ(~n, -1), And(EqQ(~m, 1), EqQ(~n, -2)))) 
- (2^(-~n))*integrate(((~x)^~m)*((~b + 2~a + ~b*Cosh(2~c + 2~d*~x))^~n), ~x)
+ (2^(-~n))*integrate(((~x)^~m)*((~b + 2 * ~a + ~b*Cosh(2 * ~c + 2 * ~d*~x))^~n), ~x)
  end
 
 @rule integrate(((~f + ~g*~x)^~m)*((~a + ~b*(Cosh(~d + ~e*~x)^2) + ~c*(Sinh(~d + ~e*~x)^2))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g), ~x), IGtQ(~m, 0), NeQ(~a + ~b, 0), NeQ(~a + ~c, 0)) 
- 2integrate(((~f + ~g*~x)^~m)*((~b + 2~a + (~b + ~c)*Cosh(2~d + 2~e*~x) - ~c)^-1), ~x)
+ 2integrate(((~f + ~g*~x)^~m)*((~b + 2 * ~a + (~b + ~c)*Cosh(2 * ~d + 2 * ~e*~x) - ~c)^-1), ~x)
  end
 
 @rule integrate(((~b + ~c*(Tanh(~d + ~e*~x)^2))^-1)*((~f + ~g*~x)^~m)*(Sech(~d + ~e*~x)^2), ~x) =>  if And(FreeQ(List(~b, ~c, ~d, ~e, ~f, ~g), ~x), IGtQ(~m, 0)) 
- 2integrate(((~f + ~g*~x)^~m)*((~b + (~b + ~c)*Cosh(2~d + 2~e*~x) - ~c)^-1), ~x)
+ 2integrate(((~f + ~g*~x)^~m)*((~b + (~b + ~c)*Cosh(2 * ~d + 2 * ~e*~x) - ~c)^-1), ~x)
  end
 
 @rule integrate(((~f + ~g*~x)^~m)*((~b + ~a*(Sech(~d + ~e*~x)^2) + ~c*(Tanh(~d + ~e*~x)^2))^-1)*(Sech(~d + ~e*~x)^2), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g), ~x), IGtQ(~m, 0), NeQ(~a + ~b, 0), NeQ(~a + ~c, 0)) 
- 2integrate(((~f + ~g*~x)^~m)*((~b + 2~a + (~b + ~c)*Cosh(2~d + 2~e*~x) - ~c)^-1), ~x)
+ 2integrate(((~f + ~g*~x)^~m)*((~b + 2 * ~a + (~b + ~c)*Cosh(2 * ~d + 2 * ~e*~x) - ~c)^-1), ~x)
  end
 
 @rule integrate(((~c + ~b*(Coth(~d + ~e*~x)^2))^-1)*((~f + ~g*~x)^~m)*(Csch(~d + ~e*~x)^2), ~x) =>  if And(FreeQ(List(~b, ~c, ~d, ~e, ~f, ~g), ~x), IGtQ(~m, 0)) 
- 2integrate(((~f + ~g*~x)^~m)*((~b + (~b + ~c)*Cosh(2~d + 2~e*~x) - ~c)^-1), ~x)
+ 2integrate(((~f + ~g*~x)^~m)*((~b + (~b + ~c)*Cosh(2 * ~d + 2 * ~e*~x) - ~c)^-1), ~x)
  end
 
 @rule integrate(((~f + ~g*~x)^~m)*((~c + ~b*(Coth(~d + ~e*~x)^2) + ~a*(Csch(~d + ~e*~x)^2))^-1)*(Csch(~d + ~e*~x)^2), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g), ~x), IGtQ(~m, 0), NeQ(~a + ~b, 0), NeQ(~a + ~c, 0)) 
- 2integrate(((~f + ~g*~x)^~m)*((~b + 2~a + (~b + ~c)*Cosh(2~d + 2~e*~x) - ~c)^-1), ~x)
+ 2integrate(((~f + ~g*~x)^~m)*((~b + 2 * ~a + (~b + ~c)*Cosh(2 * ~d + 2 * ~e*~x) - ~c)^-1), ~x)
  end
 
 @rule integrate((~e + ~f*~x)*(~A + ~B*Sinh(~c + ~d*~x))*((~a + ~b*Sinh(~c + ~d*~x))^-2), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~A, ~B), ~x), EqQ(~A*~a + ~B*~b, 0)) 

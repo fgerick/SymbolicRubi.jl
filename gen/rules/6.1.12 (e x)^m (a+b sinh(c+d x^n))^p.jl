@@ -134,28 +134,28 @@
  ~b*~n*~p*((~n - 1)^-1)*integrate((Cosh(~a + ~b*((~x)^~n))^(~p - 1))*Sinh(~a + ~b*((~x)^~n)), ~x) - (((~x)^(1 - ~n))*((~n - 1)^-1))*(Cosh(~a + ~b*((~x)^~n))^~p)
  end
 
-@rule integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~n), ~x), EqQ(1 + ~m - 2~n), GtQ(~p, 1)) 
+@rule integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~n), ~x), EqQ(1 + ~m - 2 * ~n), GtQ(~p, 1)) 
  ((~x)^~n)*(Sinh(~a + ~b*((~x)^~n))^(~p - 1))*(((~b)^-1)*((~n)^-1)*((~p)^-1))*Cosh(~a + ~b*((~x)^~n)) - (~p - 1)*((~p)^-1)*integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^(~p - 2)), ~x) - ~n*(Sinh(~a + ~b*((~x)^~n))^~p)*(((~b)^-2)*((~n)^-2)*((~p)^-2))
  end
 
-@rule integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~n), ~x), EqQ(1 + ~m - 2~n), GtQ(~p, 1)) 
+@rule integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~n), ~x), EqQ(1 + ~m - 2 * ~n), GtQ(~p, 1)) 
  (~p - 1)*((~p)^-1)*integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^(~p - 2)), ~x) + ((~x)^~n)*(Cosh(~a + ~b*((~x)^~n))^(~p - 1))*(((~b)^-1)*((~n)^-1)*((~p)^-1))*Sinh(~a + ~b*((~x)^~n)) - ~n*(Cosh(~a + ~b*((~x)^~n))^~p)*(((~b)^-2)*((~n)^-2)*((~p)^-2))
  end
 
-@rule integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IntegersQ(~m, ~n), GtQ(~p, 1), LtQ(0, 2~n, 1 + ~m)) 
- (1 + ~m - ~n)*(1 + ~m - 2~n)*(((~b)^-2)*((~n)^-2)*((~p)^-2))*integrate(((~x)^(~m - 2~n))*(Sinh(~a + ~b*((~x)^~n))^~p), ~x) + (~n - 1 - ~m)*((~x)^(1 + ~m - 2~n))*(Sinh(~a + ~b*((~x)^~n))^~p)*(((~b)^-2)*((~n)^-2)*((~p)^-2)) + ((~x)^(1 + ~m - ~n))*(Sinh(~a + ~b*((~x)^~n))^(~p - 1))*(((~b)^-1)*((~n)^-1)*((~p)^-1))*Cosh(~a + ~b*((~x)^~n)) - (~p - 1)*((~p)^-1)*integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^(~p - 2)), ~x)
+@rule integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IntegersQ(~m, ~n), GtQ(~p, 1), LtQ(0, 2 * ~n, 1 + ~m)) 
+ (1 + ~m - ~n)*(1 + ~m - 2 * ~n)*(((~b)^-2)*((~n)^-2)*((~p)^-2))*integrate(((~x)^(~m - 2 * ~n))*(Sinh(~a + ~b*((~x)^~n))^~p), ~x) + (~n - 1 - ~m)*((~x)^(1 + ~m - 2 * ~n))*(Sinh(~a + ~b*((~x)^~n))^~p)*(((~b)^-2)*((~n)^-2)*((~p)^-2)) + ((~x)^(1 + ~m - ~n))*(Sinh(~a + ~b*((~x)^~n))^(~p - 1))*(((~b)^-1)*((~n)^-1)*((~p)^-1))*Cosh(~a + ~b*((~x)^~n)) - (~p - 1)*((~p)^-1)*integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^(~p - 2)), ~x)
  end
 
-@rule integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IntegersQ(~m, ~n), GtQ(~p, 1), LtQ(0, 2~n, 1 + ~m)) 
- (~p - 1)*((~p)^-1)*integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^(~p - 2)), ~x) + (1 + ~m - ~n)*(1 + ~m - 2~n)*(((~b)^-2)*((~n)^-2)*((~p)^-2))*integrate(((~x)^(~m - 2~n))*(Cosh(~a + ~b*((~x)^~n))^~p), ~x) + (~n - 1 - ~m)*((~x)^(1 + ~m - 2~n))*(Cosh(~a + ~b*((~x)^~n))^~p)*(((~b)^-2)*((~n)^-2)*((~p)^-2)) + ((~x)^(1 + ~m - ~n))*(Cosh(~a + ~b*((~x)^~n))^(~p - 1))*(((~b)^-1)*((~n)^-1)*((~p)^-1))*Sinh(~a + ~b*((~x)^~n))
+@rule integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IntegersQ(~m, ~n), GtQ(~p, 1), LtQ(0, 2 * ~n, 1 + ~m)) 
+ (~p - 1)*((~p)^-1)*integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^(~p - 2)), ~x) + (1 + ~m - ~n)*(1 + ~m - 2 * ~n)*(((~b)^-2)*((~n)^-2)*((~p)^-2))*integrate(((~x)^(~m - 2 * ~n))*(Cosh(~a + ~b*((~x)^~n))^~p), ~x) + (~n - 1 - ~m)*((~x)^(1 + ~m - 2 * ~n))*(Cosh(~a + ~b*((~x)^~n))^~p)*(((~b)^-2)*((~n)^-2)*((~p)^-2)) + ((~x)^(1 + ~m - ~n))*(Cosh(~a + ~b*((~x)^~n))^(~p - 1))*(((~b)^-1)*((~n)^-1)*((~p)^-1))*Sinh(~a + ~b*((~x)^~n))
  end
 
-@rule integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IntegersQ(~m, ~n), GtQ(~p, 1), LtQ(0, 2~n, 1 - ~m), NeQ(1 + ~m + ~n, 0)) 
- ((~x)^(1 + ~m))*((1 + ~m)^-1)*(Sinh(~a + ~b*((~x)^~n))^~p) + ((~b)^2)*((~n)^2)*((~p)^2)*(((1 + ~m)^-1)*((1 + ~m + ~n)^-1))*integrate(((~x)^(~m + 2~n))*(Sinh(~a + ~b*((~x)^~n))^~p), ~x) + ~p*((~b)^2)*((~n)^2)*(~p - 1)*(((1 + ~m)^-1)*((1 + ~m + ~n)^-1))*integrate(((~x)^(~m + 2~n))*(Sinh(~a + ~b*((~x)^~n))^(~p - 2)), ~x) - ~b*~n*~p*((~x)^(1 + ~m + ~n))*(((1 + ~m)^-1)*((1 + ~m + ~n)^-1))*(Sinh(~a + ~b*((~x)^~n))^(~p - 1))*Cosh(~a + ~b*((~x)^~n))
+@rule integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IntegersQ(~m, ~n), GtQ(~p, 1), LtQ(0, 2 * ~n, 1 - ~m), NeQ(1 + ~m + ~n, 0)) 
+ ((~x)^(1 + ~m))*((1 + ~m)^-1)*(Sinh(~a + ~b*((~x)^~n))^~p) + ((~b)^2)*((~n)^2)*((~p)^2)*(((1 + ~m)^-1)*((1 + ~m + ~n)^-1))*integrate(((~x)^(~m + 2 * ~n))*(Sinh(~a + ~b*((~x)^~n))^~p), ~x) + ~p*((~b)^2)*((~n)^2)*(~p - 1)*(((1 + ~m)^-1)*((1 + ~m + ~n)^-1))*integrate(((~x)^(~m + 2 * ~n))*(Sinh(~a + ~b*((~x)^~n))^(~p - 2)), ~x) - ~b*~n*~p*((~x)^(1 + ~m + ~n))*(((1 + ~m)^-1)*((1 + ~m + ~n)^-1))*(Sinh(~a + ~b*((~x)^~n))^(~p - 1))*Cosh(~a + ~b*((~x)^~n))
  end
 
-@rule integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IntegersQ(~m, ~n), GtQ(~p, 1), LtQ(0, 2~n, 1 - ~m), NeQ(1 + ~m + ~n, 0)) 
- ((~x)^(1 + ~m))*((1 + ~m)^-1)*(Cosh(~a + ~b*((~x)^~n))^~p) + ((~b)^2)*((~n)^2)*((~p)^2)*(((1 + ~m)^-1)*((1 + ~m + ~n)^-1))*integrate(((~x)^(~m + 2~n))*(Cosh(~a + ~b*((~x)^~n))^~p), ~x) - ~p*((~b)^2)*((~n)^2)*(~p - 1)*(((1 + ~m)^-1)*((1 + ~m + ~n)^-1))*integrate(((~x)^(~m + 2~n))*(Cosh(~a + ~b*((~x)^~n))^(~p - 2)), ~x) - ~b*~n*~p*((~x)^(1 + ~m + ~n))*(((1 + ~m)^-1)*((1 + ~m + ~n)^-1))*(Cosh(~a + ~b*((~x)^~n))^(~p - 1))*Sinh(~a + ~b*((~x)^~n))
+@rule integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IntegersQ(~m, ~n), GtQ(~p, 1), LtQ(0, 2 * ~n, 1 - ~m), NeQ(1 + ~m + ~n, 0)) 
+ ((~x)^(1 + ~m))*((1 + ~m)^-1)*(Cosh(~a + ~b*((~x)^~n))^~p) + ((~b)^2)*((~n)^2)*((~p)^2)*(((1 + ~m)^-1)*((1 + ~m + ~n)^-1))*integrate(((~x)^(~m + 2 * ~n))*(Cosh(~a + ~b*((~x)^~n))^~p), ~x) - ~p*((~b)^2)*((~n)^2)*(~p - 1)*(((1 + ~m)^-1)*((1 + ~m + ~n)^-1))*integrate(((~x)^(~m + 2 * ~n))*(Cosh(~a + ~b*((~x)^~n))^(~p - 2)), ~x) - ~b*~n*~p*((~x)^(1 + ~m + ~n))*(((1 + ~m)^-1)*((1 + ~m + ~n)^-1))*(Cosh(~a + ~b*((~x)^~n))^(~p - 1))*Sinh(~a + ~b*((~x)^~n))
  end
 
 @rule integrate(((~a + ~b*Sinh(~c + ~d*((~x)^~n)))^~p)*((~e*~x)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e), ~x), IntegerQ(~p), IGtQ(~n, 0), FractionQ(~m)) 
@@ -174,20 +174,20 @@
  integrate(ExpandTrigReduce((~e*~x)^~m, (~a + ~b*Cosh(~c + ~d*((~x)^~n)))^~p, ~x), ~x)
  end
 
-@rule integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~n), ~x), EqQ(1 + ~m - 2~n, 0), LtQ(~p, -1), NeQ(~p, -2)) 
+@rule integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~n), ~x), EqQ(1 + ~m - 2 * ~n, 0), LtQ(~p, -1), NeQ(~p, -2)) 
  ((~x)^~n)*(Sinh(~a + ~b*((~x)^~n))^(1 + ~p))*(((~b)^-1)*((~n)^-1)*((1 + ~p)^-1))*Cosh(~a + ~b*((~x)^~n)) - ~n*(Sinh(~a + ~b*((~x)^~n))^(2 + ~p))*(((~b)^-2)*((~n)^-2)*((1 + ~p)^-1)*((2 + ~p)^-1)) - (2 + ~p)*((1 + ~p)^-1)*integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^(2 + ~p)), ~x)
  end
 
-@rule integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~n), ~x), EqQ(1 + ~m - 2~n, 0), LtQ(~p, -1), NeQ(~p, -2)) 
+@rule integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~n), ~x), EqQ(1 + ~m - 2 * ~n, 0), LtQ(~p, -1), NeQ(~p, -2)) 
  (2 + ~p)*((1 + ~p)^-1)*integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^(2 + ~p)), ~x) + ~n*(Cosh(~a + ~b*((~x)^~n))^(2 + ~p))*(((~b)^-2)*((~n)^-2)*((1 + ~p)^-1)*((2 + ~p)^-1)) - ((~x)^~n)*(Cosh(~a + ~b*((~x)^~n))^(1 + ~p))*(((~b)^-1)*((~n)^-1)*((1 + ~p)^-1))*Sinh(~a + ~b*((~x)^~n))
  end
 
-@rule integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IntegersQ(~m, ~n), LtQ(~p, -1), NeQ(~p, -2), LtQ(0, 2~n, 1 + ~m)) 
- ((~x)^(1 + ~m - ~n))*(Sinh(~a + ~b*((~x)^~n))^(1 + ~p))*(((~b)^-1)*((~n)^-1)*((1 + ~p)^-1))*Cosh(~a + ~b*((~x)^~n)) + (1 + ~m - ~n)*(1 + ~m - 2~n)*(((~b)^-2)*((~n)^-2)*((1 + ~p)^-1)*((2 + ~p)^-1))*integrate(((~x)^(~m - 2~n))*(Sinh(~a + ~b*((~x)^~n))^(2 + ~p)), ~x) - (2 + ~p)*((1 + ~p)^-1)*integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^(2 + ~p)), ~x) - (1 + ~m - ~n)*((~x)^(1 + ~m - 2~n))*(Sinh(~a + ~b*((~x)^~n))^(2 + ~p))*(((~b)^-2)*((~n)^-2)*((1 + ~p)^-1)*((2 + ~p)^-1))
+@rule integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IntegersQ(~m, ~n), LtQ(~p, -1), NeQ(~p, -2), LtQ(0, 2 * ~n, 1 + ~m)) 
+ ((~x)^(1 + ~m - ~n))*(Sinh(~a + ~b*((~x)^~n))^(1 + ~p))*(((~b)^-1)*((~n)^-1)*((1 + ~p)^-1))*Cosh(~a + ~b*((~x)^~n)) + (1 + ~m - ~n)*(1 + ~m - 2 * ~n)*(((~b)^-2)*((~n)^-2)*((1 + ~p)^-1)*((2 + ~p)^-1))*integrate(((~x)^(~m - 2 * ~n))*(Sinh(~a + ~b*((~x)^~n))^(2 + ~p)), ~x) - (2 + ~p)*((1 + ~p)^-1)*integrate(((~x)^~m)*(Sinh(~a + ~b*((~x)^~n))^(2 + ~p)), ~x) - (1 + ~m - ~n)*((~x)^(1 + ~m - 2 * ~n))*(Sinh(~a + ~b*((~x)^~n))^(2 + ~p))*(((~b)^-2)*((~n)^-2)*((1 + ~p)^-1)*((2 + ~p)^-1))
  end
 
-@rule integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IntegersQ(~m, ~n), LtQ(~p, -1), NeQ(~p, -2), LtQ(0, 2~n, 1 + ~m)) 
- (2 + ~p)*((1 + ~p)^-1)*integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^(2 + ~p)), ~x) + (1 + ~m - ~n)*((~x)^(1 + ~m - 2~n))*(Cosh(~a + ~b*((~x)^~n))^(2 + ~p))*(((~b)^-2)*((~n)^-2)*((1 + ~p)^-1)*((2 + ~p)^-1)) - (1 + ~m - ~n)*(1 + ~m - 2~n)*(((~b)^-2)*((~n)^-2)*((1 + ~p)^-1)*((2 + ~p)^-1))*integrate(((~x)^(~m - 2~n))*(Cosh(~a + ~b*((~x)^~n))^(2 + ~p)), ~x) - ((~x)^(1 + ~m - ~n))*(Cosh(~a + ~b*((~x)^~n))^(1 + ~p))*(((~b)^-1)*((~n)^-1)*((1 + ~p)^-1))*Sinh(~a + ~b*((~x)^~n))
+@rule integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IntegersQ(~m, ~n), LtQ(~p, -1), NeQ(~p, -2), LtQ(0, 2 * ~n, 1 + ~m)) 
+ (2 + ~p)*((1 + ~p)^-1)*integrate(((~x)^~m)*(Cosh(~a + ~b*((~x)^~n))^(2 + ~p)), ~x) + (1 + ~m - ~n)*((~x)^(1 + ~m - 2 * ~n))*(Cosh(~a + ~b*((~x)^~n))^(2 + ~p))*(((~b)^-2)*((~n)^-2)*((1 + ~p)^-1)*((2 + ~p)^-1)) - (1 + ~m - ~n)*(1 + ~m - 2 * ~n)*(((~b)^-2)*((~n)^-2)*((1 + ~p)^-1)*((2 + ~p)^-1))*integrate(((~x)^(~m - 2 * ~n))*(Cosh(~a + ~b*((~x)^~n))^(2 + ~p)), ~x) - ((~x)^(1 + ~m - ~n))*(Cosh(~a + ~b*((~x)^~n))^(1 + ~p))*(((~b)^-1)*((~n)^-1)*((1 + ~p)^-1))*Sinh(~a + ~b*((~x)^~n))
  end
 
 @rule integrate(((~x)^~m)*((~a + ~b*Sinh(~c + ~d*((~x)^~n)))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), IntegerQ(~p), ILtQ(~n, 0), IntegerQ(~m)) 

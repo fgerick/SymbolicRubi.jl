@@ -31,19 +31,19 @@
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*(sin(~d + ~e*~x)^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e, ~n), ~x), Not(IntegerQ(~n))) 
- ((~E)^(~I*~n*(~d + ~e*~x)))*(((~E)^(2~I*(~d + ~e*~x)) - 1)^(-~n))*(sin(~d + ~e*~x)^~n)*integrate(((~E)^(-~I*~n*(~d + ~e*~x)))*((~F)^(~c*(~a + ~b*~x)))*(((~E)^(2~I*(~d + ~e*~x)) - 1)^~n), ~x)
+ ((~E)^(~I*~n*(~d + ~e*~x)))*(((~E)^(2 * ~I*(~d + ~e*~x)) - 1)^(-~n))*(sin(~d + ~e*~x)^~n)*integrate(((~E)^(-~I*~n*(~d + ~e*~x)))*((~F)^(~c*(~a + ~b*~x)))*(((~E)^(2 * ~I*(~d + ~e*~x)) - 1)^~n), ~x)
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*(cos(~d + ~e*~x)^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e, ~n), ~x), Not(IntegerQ(~n))) 
- ((~E)^(~I*~n*(~d + ~e*~x)))*((1 + (~E)^(2~I*(~d + ~e*~x)))^(-~n))*(cos(~d + ~e*~x)^~n)*integrate(((~E)^(-~I*~n*(~d + ~e*~x)))*((~F)^(~c*(~a + ~b*~x)))*((1 + (~E)^(2~I*(~d + ~e*~x)))^~n), ~x)
+ ((~E)^(~I*~n*(~d + ~e*~x)))*((1 + (~E)^(2 * ~I*(~d + ~e*~x)))^(-~n))*(cos(~d + ~e*~x)^~n)*integrate(((~E)^(-~I*~n*(~d + ~e*~x)))*((~F)^(~c*(~a + ~b*~x)))*((1 + (~E)^(2 * ~I*(~d + ~e*~x)))^~n), ~x)
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*(tan(~d + ~e*~x)^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e), ~x), IntegerQ(~n)) 
- ((~I)^~n)*integrate(ExpandIntegrand(((~F)^(~c*(~a + ~b*~x)))*((1 + (~E)^(2~I*(~d + ~e*~x)))^(-~n))*((1 - ((~E)^(2~I*(~d + ~e*~x))))^~n), ~x), ~x)
+ ((~I)^~n)*integrate(ExpandIntegrand(((~F)^(~c*(~a + ~b*~x)))*((1 + (~E)^(2 * ~I*(~d + ~e*~x)))^(-~n))*((1 - ((~E)^(2 * ~I*(~d + ~e*~x))))^~n), ~x), ~x)
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*(cot(~d + ~e*~x)^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e), ~x), IntegerQ(~n)) 
- ((-~I)^~n)*integrate(ExpandIntegrand(((~F)^(~c*(~a + ~b*~x)))*((1 + (~E)^(2~I*(~d + ~e*~x)))^~n)*((1 - ((~E)^(2~I*(~d + ~e*~x))))^(-~n)), ~x), ~x)
+ ((-~I)^~n)*integrate(ExpandIntegrand(((~F)^(~c*(~a + ~b*~x)))*((1 + (~E)^(2 * ~I*(~d + ~e*~x)))^~n)*((1 - ((~E)^(2 * ~I*(~d + ~e*~x))))^(-~n)), ~x), ~x)
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*(Sec(~d + ~e*~x)^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e), ~x), NeQ(((~e)^2)*((~n)^2) + ((~b)^2)*((~c)^2)*(Log(~F)^2), 0), LtQ(~n, -1)) 
@@ -70,52 +70,52 @@
  (((~e)^2)*((~n - 2)^2) + ((~b)^2)*((~c)^2)*(Log(~F)^2))*(((~e)^-2)*((~n - 1)^-1)*((~n - 2)^-1))*integrate(((~F)^(~c*(~a + ~b*~x)))*(Csc(~d + ~e*~x)^(~n - 2)), ~x) - ((~F)^(~c*(~a + ~b*~x)))*(((~e)^-1)*((~n - 1)^-1))*(Csc(~d + ~e*~x)^(~n - 1))*cos(~d + ~e*~x) - ~b*~c*((~F)^(~c*(~a + ~b*~x)))*(Csc(~d + ~e*~x)^(~n - 2))*(((~e)^-2)*((~n - 1)^-1)*((~n - 2)^-1))*Log(~F)
  end
 
-@rule integrate(((~F)^(~c*(~a + ~b*~x)))*(Sec(~d + ~Pi*~k + ~e*~x)^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e), ~x), IntegerQ(4~k), IntegerQ(~n)) 
- ((~E)^(~I*~n*(~d + ~e*~x)))*((~E)^(~I*~Pi*~k*~n))*((~F)^(~c*(~a + ~b*~x)))*(2^~n)*((~b*~c*Log(~F) + ~I*~e*~n)^-1)*Hypergeometric2F1(~n, (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), 1 + (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), -((~E)^(2~I*(~d + ~e*~x)))*((~E)^(2~I*~Pi*~k)))
+@rule integrate(((~F)^(~c*(~a + ~b*~x)))*(Sec(~d + ~Pi*~k + ~e*~x)^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e), ~x), IntegerQ(4 * ~k), IntegerQ(~n)) 
+ ((~E)^(~I*~n*(~d + ~e*~x)))*((~E)^(~I*~Pi*~k*~n))*((~F)^(~c*(~a + ~b*~x)))*(2^~n)*((~b*~c*Log(~F) + ~I*~e*~n)^-1)*Hypergeometric2F1(~n, (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), 1 + (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), -((~E)^(2 * ~I*(~d + ~e*~x)))*((~E)^(2 * ~I*~Pi*~k)))
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*(Sec(~d + ~e*~x)^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e), ~x), IntegerQ(~n)) 
- ((~E)^(~I*~n*(~d + ~e*~x)))*((~F)^(~c*(~a + ~b*~x)))*(2^~n)*((~b*~c*Log(~F) + ~I*~e*~n)^-1)*Hypergeometric2F1(~n, (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), 1 + (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), -((~E)^(2~I*(~d + ~e*~x))))
+ ((~E)^(~I*~n*(~d + ~e*~x)))*((~F)^(~c*(~a + ~b*~x)))*(2^~n)*((~b*~c*Log(~F) + ~I*~e*~n)^-1)*Hypergeometric2F1(~n, (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), 1 + (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), -((~E)^(2 * ~I*(~d + ~e*~x))))
  end
 
-@rule integrate(((~F)^(~c*(~a + ~b*~x)))*(Csc(~d + ~Pi*~k + ~e*~x)^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e), ~x), IntegerQ(4~k), IntegerQ(~n)) 
- ((~E)^(~I*~n*(~d + ~e*~x)))*((~E)^(~I*~Pi*~k*~n))*((~F)^(~c*(~a + ~b*~x)))*((~b*~c*Log(~F) + ~I*~e*~n)^-1)*((-2~I)^~n)*Hypergeometric2F1(~n, (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), 1 + (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), ((~E)^(2~I*(~d + ~e*~x)))*((~E)^(2~I*~Pi*~k)))
+@rule integrate(((~F)^(~c*(~a + ~b*~x)))*(Csc(~d + ~Pi*~k + ~e*~x)^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e), ~x), IntegerQ(4 * ~k), IntegerQ(~n)) 
+ ((~E)^(~I*~n*(~d + ~e*~x)))*((~E)^(~I*~Pi*~k*~n))*((~F)^(~c*(~a + ~b*~x)))*((~b*~c*Log(~F) + ~I*~e*~n)^-1)*((-2 * ~I)^~n)*Hypergeometric2F1(~n, (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), 1 + (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), ((~E)^(2 * ~I*(~d + ~e*~x)))*((~E)^(2 * ~I*~Pi*~k)))
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*(Csc(~d + ~e*~x)^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e), ~x), IntegerQ(~n)) 
- ((~E)^(~I*~n*(~d + ~e*~x)))*((~F)^(~c*(~a + ~b*~x)))*((~b*~c*Log(~F) + ~I*~e*~n)^-1)*((-2~I)^~n)*Hypergeometric2F1(~n, (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), 1 + (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), (~E)^(2~I*(~d + ~e*~x)))
+ ((~E)^(~I*~n*(~d + ~e*~x)))*((~F)^(~c*(~a + ~b*~x)))*((~b*~c*Log(~F) + ~I*~e*~n)^-1)*((-2 * ~I)^~n)*Hypergeometric2F1(~n, (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), 1 + (1//2)*~n - ~I*~b*~c*((1//2)*((~e)^-1))*Log(~F), (~E)^(2 * ~I*(~d + ~e*~x)))
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*(Sec(~d + ~e*~x)^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e), ~x), Not(IntegerQ(~n))) 
- ((~E)^(-~I*~n*(~d + ~e*~x)))*((1 + (~E)^(2~I*(~d + ~e*~x)))^~n)*(Sec(~d + ~e*~x)^~n)*integrate(SimplifyIntegrand(((~E)^(~I*~n*(~d + ~e*~x)))*((~F)^(~c*(~a + ~b*~x)))*((1 + (~E)^(2~I*(~d + ~e*~x)))^(-~n)), ~x), ~x)
+ ((~E)^(-~I*~n*(~d + ~e*~x)))*((1 + (~E)^(2 * ~I*(~d + ~e*~x)))^~n)*(Sec(~d + ~e*~x)^~n)*integrate(SimplifyIntegrand(((~E)^(~I*~n*(~d + ~e*~x)))*((~F)^(~c*(~a + ~b*~x)))*((1 + (~E)^(2 * ~I*(~d + ~e*~x)))^(-~n)), ~x), ~x)
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*(Csc(~d + ~e*~x)^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e), ~x), Not(IntegerQ(~n))) 
- ((~E)^(~I*~n*(~d + ~e*~x)))*((1 - ((~E)^(-2~I*(~d + ~e*~x))))^~n)*(Csc(~d + ~e*~x)^~n)*integrate(SimplifyIntegrand(((~E)^(-~I*~n*(~d + ~e*~x)))*((~F)^(~c*(~a + ~b*~x)))*((1 - ((~E)^(-2~I*(~d + ~e*~x))))^(-~n)), ~x), ~x)
+ ((~E)^(~I*~n*(~d + ~e*~x)))*((1 - ((~E)^(-2 * ~I*(~d + ~e*~x))))^~n)*(Csc(~d + ~e*~x)^~n)*integrate(SimplifyIntegrand(((~E)^(-~I*~n*(~d + ~e*~x)))*((~F)^(~c*(~a + ~b*~x)))*((1 - ((~E)^(-2 * ~I*(~d + ~e*~x))))^(-~n)), ~x), ~x)
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*((~f + ~g*sin(~d + ~e*~x))^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e, ~f, ~g), ~x), EqQ((~f)^2 - ((~g)^2), 0), ILtQ(~n, 0)) 
- ((~f)^~n)*(2^~n)*integrate(((~F)^(~c*(~a + ~b*~x)))*(cos((1//2)*~d + (1//2)*~e*~x - ~Pi*~f*((1//4)*((~g)^-1)))^(2~n)), ~x)
+ ((~f)^~n)*(2^~n)*integrate(((~F)^(~c*(~a + ~b*~x)))*(cos((1//2)*~d + (1//2)*~e*~x - ~Pi*~f*((1//4)*((~g)^-1)))^(2 * ~n)), ~x)
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*((~f + ~g*cos(~d + ~e*~x))^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e, ~f, ~g), ~x), EqQ(~f - ~g, 0), ILtQ(~n, 0)) 
- ((~f)^~n)*(2^~n)*integrate(((~F)^(~c*(~a + ~b*~x)))*(cos((1//2)*~d + (1//2)*~e*~x)^(2~n)), ~x)
+ ((~f)^~n)*(2^~n)*integrate(((~F)^(~c*(~a + ~b*~x)))*(cos((1//2)*~d + (1//2)*~e*~x)^(2 * ~n)), ~x)
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*((~f + ~g*cos(~d + ~e*~x))^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e, ~f, ~g), ~x), EqQ(~f + ~g, 0), ILtQ(~n, 0)) 
- ((~f)^~n)*(2^~n)*integrate(((~F)^(~c*(~a + ~b*~x)))*(sin((1//2)*~d + (1//2)*~e*~x)^(2~n)), ~x)
+ ((~f)^~n)*(2^~n)*integrate(((~F)^(~c*(~a + ~b*~x)))*(sin((1//2)*~d + (1//2)*~e*~x)^(2 * ~n)), ~x)
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*((~f + ~g*sin(~d + ~e*~x))^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e, ~f, ~g, ~n), ~x), EqQ((~f)^2 - ((~g)^2), 0), Not(IntegerQ(~n))) 
- ((~f + ~g*sin(~d + ~e*~x))^~n)*(cos((1//2)*~d + (1//2)*~e*~x - ~Pi*~f*((1//4)*((~g)^-1)))^(-2~n))*integrate(((~F)^(~c*(~a + ~b*~x)))*(cos((1//2)*~d + (1//2)*~e*~x - ~Pi*~f*((1//4)*((~g)^-1)))^(2~n)), ~x)
+ ((~f + ~g*sin(~d + ~e*~x))^~n)*(cos((1//2)*~d + (1//2)*~e*~x - ~Pi*~f*((1//4)*((~g)^-1)))^(-2 * ~n))*integrate(((~F)^(~c*(~a + ~b*~x)))*(cos((1//2)*~d + (1//2)*~e*~x - ~Pi*~f*((1//4)*((~g)^-1)))^(2 * ~n)), ~x)
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*((~f + ~g*cos(~d + ~e*~x))^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e, ~f, ~g, ~n), ~x), EqQ(~f - ~g, 0), Not(IntegerQ(~n))) 
- ((~f + ~g*cos(~d + ~e*~x))^~n)*(cos((1//2)*~d + (1//2)*~e*~x)^(-2~n))*integrate(((~F)^(~c*(~a + ~b*~x)))*(cos((1//2)*~d + (1//2)*~e*~x)^(2~n)), ~x)
+ ((~f + ~g*cos(~d + ~e*~x))^~n)*(cos((1//2)*~d + (1//2)*~e*~x)^(-2 * ~n))*integrate(((~F)^(~c*(~a + ~b*~x)))*(cos((1//2)*~d + (1//2)*~e*~x)^(2 * ~n)), ~x)
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*((~f + ~g*cos(~d + ~e*~x))^~n), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e, ~f, ~g, ~n), ~x), EqQ(~f + ~g, 0), Not(IntegerQ(~n))) 
- ((~f + ~g*cos(~d + ~e*~x))^~n)*(sin((1//2)*~d + (1//2)*~e*~x)^(-2~n))*integrate(((~F)^(~c*(~a + ~b*~x)))*(sin((1//2)*~d + (1//2)*~e*~x)^(2~n)), ~x)
+ ((~f + ~g*cos(~d + ~e*~x))^~n)*(sin((1//2)*~d + (1//2)*~e*~x)^(-2 * ~n))*integrate(((~F)^(~c*(~a + ~b*~x)))*(sin((1//2)*~d + (1//2)*~e*~x)^(2 * ~n)), ~x)
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*((~f + ~g*sin(~d + ~e*~x))^~n)*(cos(~d + ~e*~x)^~m), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e, ~f, ~g), ~x), EqQ((~f)^2 - ((~g)^2), 0), IntegersQ(~m, ~n), EqQ(~m + ~n, 0)) 
@@ -131,11 +131,11 @@
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*(~h + ~i*cos(~d + ~e*~x))*((~f + ~g*sin(~d + ~e*~x))^-1), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e, ~f, ~g, ~h, ~i), ~x), EqQ((~f)^2 - ((~g)^2), 0), EqQ((~h)^2 - ((~i)^2), 0), EqQ(~g*~h - ~f*~i, 0)) 
- 2~i*integrate(((~F)^(~c*(~a + ~b*~x)))*((~f + ~g*sin(~d + ~e*~x))^-1)*cos(~d + ~e*~x), ~x) + integrate(((~F)^(~c*(~a + ~b*~x)))*(~h - ~i*cos(~d + ~e*~x))*((~f + ~g*sin(~d + ~e*~x))^-1), ~x)
+ 2 * ~i*integrate(((~F)^(~c*(~a + ~b*~x)))*((~f + ~g*sin(~d + ~e*~x))^-1)*cos(~d + ~e*~x), ~x) + integrate(((~F)^(~c*(~a + ~b*~x)))*(~h - ~i*cos(~d + ~e*~x))*((~f + ~g*sin(~d + ~e*~x))^-1), ~x)
  end
 
 @rule integrate(((~F)^(~c*(~a + ~b*~x)))*(~h + ~i*sin(~d + ~e*~x))*((~f + ~g*cos(~d + ~e*~x))^-1), ~x) =>  if And(FreeQ(List(~F, ~a, ~b, ~c, ~d, ~e, ~f, ~g, ~h, ~i), ~x), EqQ((~f)^2 - ((~g)^2), 0), EqQ((~h)^2 - ((~i)^2), 0), EqQ(~g*~h + ~f*~i, 0)) 
- 2~i*integrate(((~F)^(~c*(~a + ~b*~x)))*((~f + ~g*cos(~d + ~e*~x))^-1)*sin(~d + ~e*~x), ~x) + integrate(((~F)^(~c*(~a + ~b*~x)))*(~h - ~i*sin(~d + ~e*~x))*((~f + ~g*cos(~d + ~e*~x))^-1), ~x)
+ 2 * ~i*integrate(((~F)^(~c*(~a + ~b*~x)))*((~f + ~g*cos(~d + ~e*~x))^-1)*sin(~d + ~e*~x), ~x) + integrate(((~F)^(~c*(~a + ~b*~x)))*(~h - ~i*sin(~d + ~e*~x))*((~f + ~g*cos(~d + ~e*~x))^-1), ~x)
  end
 
 @rule integrate(((~F)^(~c*~u))*((~G)(~v)^~n), ~x) =>  if And(FreeQ(List(~F, ~c, ~n), ~x), TrigQ(~G), LinearQ(List(~u, ~v), ~x), Not(LinearMatchQ(List(~u, ~v), ~x))) 

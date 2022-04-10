@@ -14,7 +14,7 @@
  ((~f)^-1)*((~a + ~b*Csc(~e + ~f*~x))^~m)*tan(~e + ~f*~x) + ~b*~m*integrate(((~a + ~b*Csc(~e + ~f*~x))^(~m - 1))*Csc(~e + ~f*~x), ~x)
  end
 
-@rule integrate(((~a + ~b*csc(~e + ~f*~x))^~m)*((~g*cos(~e + ~f*~x))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~g, ~m, ~p), ~x), Or(EqQ((~a)^2 - ((~b)^2), 0), IntegersQ(2~m, ~p))) 
+@rule integrate(((~a + ~b*csc(~e + ~f*~x))^~m)*((~g*cos(~e + ~f*~x))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~g, ~m, ~p), ~x), Or(EqQ((~a)^2 - ((~b)^2), 0), IntegersQ(2 * ~m, ~p))) 
  ((~a + ~b*Csc(~e + ~f*~x))^FracPart(~m))*((~b + ~a*sin(~e + ~f*~x))^(-FracPart(~m)))*(sin(~e + ~f*~x)^FracPart(~m))*integrate(((~b + ~a*sin(~e + ~f*~x))^~m)*((~g*cos(~e + ~f*~x))^~p)*(sin(~e + ~f*~x)^(-~m)), ~x)
  end
 

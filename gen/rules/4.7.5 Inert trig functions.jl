@@ -211,7 +211,7 @@
  end
 
 @rule integrate(~u*((~c*sin(~v))^~m), ~x) =>  if And(FreeQ(~c, ~x), LinearQ(~v, ~x), IntegerQ(~m + 2^-1), Not(SumQ(~u)), InverseFunctionFreeQ(~u, ~x)) 
- With(List(Set(~w, FunctionOfTrig(~u*((~c*tan((1//2)*~v))^(-~m))*(sin((1//2)*~v)^(2~m)), ~x))), Condition(((~c*sin(~v))^~m)*((~c*tan((1//2)*~v))^~m)*(sin((1//2)*~v)^(-2~m))*integrate(~u*((~c*tan((1//2)*~v))^(-~m))*(sin((1//2)*~v)^(2~m)), ~x), And(Not(FalseQ(~w)), FunctionOfQ(NonfreeFactors(tan(~w), ~x), ~u*((~c*tan((1//2)*~v))^(-~m))*(sin((1//2)*~v)^(2~m)), ~x))))
+ With(List(Set(~w, FunctionOfTrig(~u*((~c*tan((1//2)*~v))^(-~m))*(sin((1//2)*~v)^(2 * ~m)), ~x))), Condition(((~c*sin(~v))^~m)*((~c*tan((1//2)*~v))^~m)*(sin((1//2)*~v)^(-2 * ~m))*integrate(~u*((~c*tan((1//2)*~v))^(-~m))*(sin((1//2)*~v)^(2 * ~m)), ~x), And(Not(FalseQ(~w)), FunctionOfQ(NonfreeFactors(tan(~w), ~x), ~u*((~c*tan((1//2)*~v))^(-~m))*(sin((1//2)*~v)^(2 * ~m)), ~x))))
  end
 
 @rule integrate(~u*((~b*(sec(~c + ~d*~x)^~n) + ~a*(tan(~c + ~d*~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), IntegersQ(~n, ~p)) 
@@ -243,15 +243,15 @@
  end
 
 @rule integrate(~u*((~a*~v)^~p), ~x) =>  if And(FreeQ(List(~a, ~p), ~x), Not(IntegerQ(~p)), Not(InertTrigFreeQ(~v))) 
- With(List(Set(~uu, ActivateTrig(~u)), Set(~vv, ActivateTrig(~v))), ((~a)^IntPart(~p))*(~vv^(-FracPart(~p)))*((~a*~vv)^FracPart(~p))*integrate(~uu*(~vv^~p), ~x))
+ With(List(Set(~uu, ActivateTrig(~u)), Set(~vv, ActivateTrig(~v))), ((~a)^IntPart(~p))*((~vv)^(-FracPart(~p)))*((~a*~vv)^FracPart(~p))*integrate(~uu*((~vv)^~p), ~x))
  end
 
 @rule integrate(~u*((~v)^(~m*~p)), ~x) =>  if And(FreeQ(List(~m, ~p), ~x), Not(IntegerQ(~p)), Not(InertTrigFreeQ(~v))) 
- With(List(Set(~uu, ActivateTrig(~u)), Set(~vv, ActivateTrig(~v))), (~vv^(~m*FracPart(~p)))*(~vv^(-~m*FracPart(~p)))*integrate(~uu*(~vv^(~m*~p)), ~x))
+ With(List(Set(~uu, ActivateTrig(~u)), Set(~vv, ActivateTrig(~v))), ((~vv)^(~m*FracPart(~p)))*((~vv)^(-~m*FracPart(~p)))*integrate(~uu*((~vv)^(~m*~p)), ~x))
  end
 
 @rule integrate(~u*((((~v)^~m)*((~w)^~n))^~p), ~x) =>  if And(FreeQ(List(~m, ~n, ~p), ~x), Not(IntegerQ(~p)), Or(Not(InertTrigFreeQ(~v)), Not(InertTrigFreeQ(~w)))) 
- With(List(Set(~uu, ActivateTrig(~u)), Set(~vv, ActivateTrig(~v)), Set(~ww, ActivateTrig(~w))), ((~vv^(-~m*FracPart(~p)))*(~ww^(-~n*FracPart(~p))))*(((~vv^~m)*(~ww^~n))^FracPart(~p))*integrate(~uu*(~vv^(~m*~p))*(~ww^(~n*~p)), ~x))
+ With(List(Set(~uu, ActivateTrig(~u)), Set(~vv, ActivateTrig(~v)), Set(~ww, ActivateTrig(~w))), (((~vv)^(-~m*FracPart(~p)))*((~ww)^(-~n*FracPart(~p))))*((((~vv)^~m)*((~ww)^~n))^FracPart(~p))*integrate(~uu*((~vv)^(~m*~p))*((~ww)^(~n*~p)), ~x))
  end
 
 @rule integrate(~u, ~x) =>  if Not(InertTrigFreeQ(~u)) 

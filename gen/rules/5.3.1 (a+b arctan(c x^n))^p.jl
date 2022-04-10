@@ -1,9 +1,9 @@
 @rule integrate((~a + ~b*ArcTan(~c*((~x)^~n)))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n), ~x), IGtQ(~p, 0), Or(EqQ(~n, 1), EqQ(~p, 1))) 
- ~x*((~a + ~b*ArcTan(~c*((~x)^~n)))^~p) - ~b*~c*~n*~p*integrate(((~x)^~n)*((~a + ~b*ArcTan(~c*((~x)^~n)))^(~p - 1))*((1 + ((~c)^2)*((~x)^(2~n)))^-1), ~x)
+ ~x*((~a + ~b*ArcTan(~c*((~x)^~n)))^~p) - ~b*~c*~n*~p*integrate(((~x)^~n)*((~a + ~b*ArcTan(~c*((~x)^~n)))^(~p - 1))*((1 + ((~c)^2)*((~x)^(2 * ~n)))^-1), ~x)
  end
 
 @rule integrate((~a + ~b*ArcCot(~c*((~x)^~n)))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n), ~x), IGtQ(~p, 0), Or(EqQ(~n, 1), EqQ(~p, 1))) 
- ~x*((~a + ~b*ArcCot(~c*((~x)^~n)))^~p) + ~b*~c*~n*~p*integrate(((~x)^~n)*((~a + ~b*ArcCot(~c*((~x)^~n)))^(~p - 1))*((1 + ((~c)^2)*((~x)^(2~n)))^-1), ~x)
+ ~x*((~a + ~b*ArcCot(~c*((~x)^~n)))^~p) + ~b*~c*~n*~p*integrate(((~x)^~n)*((~a + ~b*ArcCot(~c*((~x)^~n)))^(~p - 1))*((1 + ((~c)^2)*((~x)^(2 * ~n)))^-1), ~x)
  end
 
 @rule integrate((~a + ~b*ArcTan(~c*((~x)^~n)))^~p, ~x) =>  if And(FreeQ(List(~a, ~b, ~c), ~x), IGtQ(~p, 1), IGtQ(~n, 0)) 
