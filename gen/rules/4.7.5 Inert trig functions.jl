@@ -78,6 +78,10 @@
  With(List(Set(~d, FreeFactors(Coth(~c*(~a + ~b*~x)), ~x))), Condition((((~b)^-1)*((~c)^-1)*((~d)^(1 - ~n)))*Subst(integrate(SubstFor((((~x)^~n)*(1 - ((~d)^2)*((~x)^2)))^-1, ((~d)^-1)*Coth(~c*(~a + ~b*~x)), ~u, ~x), ~x), ~x, ((~d)^-1)*Coth(~c*(~a + ~b*~x))), And(FunctionOfQ(((~d)^-1)*Coth(~c*(~a + ~b*~x)), ~u, ~x, ~True), TryPureTanSubst((Tanh(~c*(~a + ~b*~x))^~n)*ActivateTrig(~u), ~x))))
  end
 
+@rule integrate(~u, ~x) => With(List(Set(~v, FunctionOfTrig(~u, ~x))), Condition(With(List(Set(~d, FreeFactors(cot(~v), ~x))), Dist(-~d*(Coefficient(~v, ~x, 1)^-1), Subst(integrate(SubstFor((1 + ((~d)^2)*((~x)^2))^-1, ((~d)^-1)*cot(~v), ~u, ~x), ~x), ~x, ((~d)^-1)*cot(~v)), ~x)), And(Not(FalseQ(~v)), FunctionOfQ(NonfreeFactors(cot(~v), ~x), ~u, ~x, ~True), TryPureTanSubst(ActivateTrig(~u), ~x))))
+
+@rule integrate(~u, ~x) => With(List(Set(~v, FunctionOfTrig(~u, ~x))), Condition(With(List(Set(~d, FreeFactors(tan(~v), ~x))), Dist(~d*(Coefficient(~v, ~x, 1)^-1), Subst(integrate(SubstFor((1 + ((~d)^2)*((~x)^2))^-1, ((~d)^-1)*tan(~v), ~u, ~x), ~x), ~x, ((~d)^-1)*tan(~v)), ~x)), And(Not(FalseQ(~v)), FunctionOfQ(NonfreeFactors(tan(~v), ~x), ~u, ~x, ~True), TryPureTanSubst(ActivateTrig(~u), ~x))))
+
 @rule integrate(((~F)(~a + ~b*~x)^~p)*((~G)(~c + ~d*~x)^~q), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), Or(EqQ(~F, ~sin), EqQ(~F, ~cos)), Or(EqQ(~G, ~sin), EqQ(~G, ~cos)), IGtQ(~p, 0), IGtQ(~q, 0)) 
  integrate(ExpandTrigReduce(ActivateTrig((F(~a + ~b*~x)^~p)*(G(~c + ~d*~x)^~q)), ~x), ~x)
  end
@@ -174,6 +178,10 @@
  With(List(Set(~e, FreeFactors(cos(~c*(~a + ~b*~x)), ~x))), Condition(~d*integrate((sin(~c*(~a + ~b*~x))^~n)*ActivateTrig(~u), ~x) + integrate(ActivateTrig(~u*~v), ~x), FunctionOfQ(((~e)^-1)*cos(~c*(~a + ~b*~x)), ~u, ~x)))
  end
 
+@rule integrate(~u, ~x) => With(List(Set(~v, FunctionOfTrig(~u, ~x))), Condition(With(List(Set(~d, FreeFactors(sin(~v), ~x))), Dist(~d*(Coefficient(~v, ~x, 1)^-1), Subst(integrate(SubstFor(1, ((~d)^-1)*sin(~v), ~u*(cos(~v)^-1), ~x), ~x), ~x, ((~d)^-1)*sin(~v)), ~x)), And(Not(FalseQ(~v)), FunctionOfQ(NonfreeFactors(sin(~v), ~x), ~u*(cos(~v)^-1), ~x))))
+
+@rule integrate(~u, ~x) => With(List(Set(~v, FunctionOfTrig(~u, ~x))), Condition(With(List(Set(~d, FreeFactors(cos(~v), ~x))), Dist(-~d*(Coefficient(~v, ~x, 1)^-1), Subst(integrate(SubstFor(1, ((~d)^-1)*cos(~v), ~u*(sin(~v)^-1), ~x), ~x), ~x, ((~d)^-1)*cos(~v)), ~x)), And(Not(FalseQ(~v)), FunctionOfQ(NonfreeFactors(cos(~v), ~x), ~u*(sin(~v)^-1), ~x))))
+
 @rule integrate(~u*((~a + ~b*(cos(~d + ~e*~x)^2) + ~c*(sin(~d + ~e*~x)^2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~p), ~x), EqQ(~b - ~c, 0)) 
  ((~a + ~c)^~p)*integrate(ActivateTrig(~u), ~x)
  end
@@ -208,6 +216,10 @@
 
 @rule integrate(~u*((~a*((~b*(~F)(~c + ~d*~x))^~p))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~n, ~p), ~x), InertTrigQ(~F), Not(IntegerQ(~n)), Not(IntegerQ(~p))) 
  With(List(Set(~v, ActivateTrig(F(~c + ~d*~x)))), ((~a)^IntPart(~n))*((~b*~v)^(-~p*FracPart(~n)))*((~a*((~b*~v)^~p))^FracPart(~n))*integrate(((~b*~v)^(~n*~p))*ActivateTrig(~u), ~x))
+ end
+
+@rule integrate(~u, ~x) =>  if And(InverseFunctionFreeQ(~u, ~x), Not(MatchQ(~u, Condition(~v*((~c*(tan(~w)^~n)*(tan(~z)^~n))^~p), And(FreeQ(List(~c, ~p), ~x), IntegerQ(~n), LinearQ(~w, ~x), EqQ(~z, 2 * ~w)))))) 
+ With(List(Set(~v, FunctionOfTrig(~u, ~x))), Condition(With(List(Set(~d, FreeFactors(tan(~v), ~x))), Dist(~d*(Coefficient(~v, ~x, 1)^-1), Subst(integrate(SubstFor((1 + ((~d)^2)*((~x)^2))^-1, ((~d)^-1)*tan(~v), ~u, ~x), ~x), ~x, ((~d)^-1)*tan(~v)), ~x)), And(Not(FalseQ(~v)), FunctionOfQ(NonfreeFactors(tan(~v), ~x), ~u, ~x))))
  end
 
 @rule integrate(~u*((~c*sin(~v))^~m), ~x) =>  if And(FreeQ(~c, ~x), LinearQ(~v, ~x), IntegerQ(~m + 2^-1), Not(SumQ(~u)), InverseFunctionFreeQ(~u, ~x)) 
@@ -256,6 +268,10 @@
 
 @rule integrate(~u, ~x) =>  if Not(InertTrigFreeQ(~u)) 
  With(List(Set(~v, ExpandTrig(~u, ~x))), Condition(integrate(~v, ~x), SumQ(~v)))
+ end
+
+@rule integrate(~u, ~x) =>  if And(InverseFunctionFreeQ(~u, ~x), Not(FalseQ(FunctionOfTrig(~u, ~x)))) 
+ With(List(Set(~w, Block(List(Set(var"~\$ShowSteps", ~False), Set(var"~\$StepCounter", ~Null)), integrate(SubstFor((1 + ((~x)^2)*(FreeFactors(tan((1//2)*FunctionOfTrig(~u, ~x)), ~x)^2))^-1, (FreeFactors(tan((1//2)*FunctionOfTrig(~u, ~x)), ~x)^-1)*tan((1//2)*FunctionOfTrig(~u, ~x)), ~u, ~x), ~x)))), Condition(Module(List(Set(~v, FunctionOfTrig(~u, ~x)), ~d), CompoundExpression(Set(~d, FreeFactors(tan((1//2)*~v), ~x)), Dist(2 * ~d*(Coefficient(~v, ~x, 1)^-1), Subst(integrate(SubstFor((1 + ((~d)^2)*((~x)^2))^-1, ((~d)^-1)*tan((1//2)*~v), ~u, ~x), ~x), ~x, ((~d)^-1)*tan((1//2)*~v)), ~x))), CalculusFreeQ(~w, ~x)))
  end
 
 @rule integrate(~u, ~x) =>  if Not(InertTrigFreeQ(~u)) 

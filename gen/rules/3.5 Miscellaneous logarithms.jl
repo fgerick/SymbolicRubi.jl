@@ -160,6 +160,10 @@
  integrate((~u)^(~a*Log(~f)), ~x)
  end
 
+@rule integrate(~u, ~x) =>  if NonsumQ(~u) 
+ With(List(Set(~lst, FunctionOfLog(Cancel(~u*~x), ~x))), Condition((Part(~lst, 3)^-1)*Subst(integrate(Part(~lst, 1), ~x), ~x, Log(Part(~lst, 2))), Not(FalseQ(~lst))))
+ end
+
 @rule integrate(~u*Log(Gamma(~v)), ~x) => (Log(Gamma(~v)) - LogGamma(~v))*integrate(~u, ~x) + integrate(~u*LogGamma(~v), ~x)
 
 @rule integrate(~u*((~a*((~x)^~m) + ~b*((~x)^~r)*(Log(~c*((~x)^~n))^~q))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~m, ~n, ~p, ~q, ~r), ~x), IntegerQ(~p)) 

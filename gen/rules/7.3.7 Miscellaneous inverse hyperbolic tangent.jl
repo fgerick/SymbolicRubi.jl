@@ -94,6 +94,14 @@
  (Sqrt(~d + ~e*((~x)^2))^-1)*Sqrt(~a + ~b*((~x)^2))*integrate((Sqrt(~a + ~b*((~x)^2))^-1)*(ArcCoth(~c*~x*(Sqrt(~a + ~b*((~x)^2))^-1))^~m), ~x)
  end
 
+@rule integrate(~u*((~v)^~n), ~x) =>  if And(QuadraticQ(~v, ~x), ILtQ(~n, 0), PosQ(Discriminant(~v, ~x)), MatchQ(~u, Condition(~r*((~f)^~w), FreeQ(~f, ~x)))) 
+ With(List(Set(~tmp, InverseFunctionOfLinear(~u, ~x))), Condition(((-((1//4)*(Coefficient(~v, ~x, 2)^-1))*Discriminant(~v, ~x))^~n)*(Coefficient(Part(~tmp, 1), ~x, 1)^-1)*Subst(integrate(SimplifyIntegrand((Sech(~x)^(2 + 2 * ~n))*SubstForInverseFunction(~u, ~tmp, ~x), ~x), ~x), ~x, ~tmp), And(Not(FalseQ(~tmp)), EqQ(Head(~tmp), ~ArcTanh), EqQ((Part(~tmp, 1)^2)*Discriminant(~v, ~x) - (D(~v, ~x)^2), 0))))
+ end
+
+@rule integrate(~u*((~v)^~n), ~x) =>  if And(QuadraticQ(~v, ~x), ILtQ(~n, 0), PosQ(Discriminant(~v, ~x)), MatchQ(~u, Condition(~r*((~f)^~w), FreeQ(~f, ~x)))) 
+ With(List(Set(~tmp, InverseFunctionOfLinear(~u, ~x))), Condition(((-((1//4)*(Coefficient(~v, ~x, 2)^-1))*Discriminant(~v, ~x))^~n)*(Coefficient(Part(~tmp, 1), ~x, 1)^-1)*Subst(integrate(SimplifyIntegrand(((-(Csch(~x)^2))^(1 + ~n))*SubstForInverseFunction(~u, ~tmp, ~x), ~x), ~x), ~x, ~tmp), And(Not(FalseQ(~tmp)), EqQ(Head(~tmp), ~ArcCoth), EqQ((Part(~tmp, 1)^2)*Discriminant(~v, ~x) - (D(~v, ~x)^2), 0))))
+ end
+
 @rule integrate(ArcTanh(~c + ~d*Tanh(~a + ~b*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ((~c - ~d)^2, 1)) 
  ~b*integrate(~x*((~c + ~c*((~E)^(2 * ~a + 2 * ~b*~x)) - ~d)^-1), ~x) + ~x*ArcTanh(~c + ~d*Tanh(~a + ~b*~x))
  end

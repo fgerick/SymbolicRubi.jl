@@ -434,6 +434,8 @@
  ((~a1 + ~b1*((~x)^~n))^FracPart(~p))*((~a2 + ~b2*((~x)^~n))^FracPart(~p))*((~a1*~a2 + ~b1*~b2*((~x)^(2 * ~n)))^(-FracPart(~p)))*integrate(((~a1*~a2 + ~b1*~b2*((~x)^(2 * ~n)))^~p)*((~c*~x)^~m), ~x)
  end
 
+@rule IntBinomialQ(~a, ~b, ~c, ~n, ~m, ~p, ~x) => Or(IGtQ(~p, 0), And(RationalQ(~m), IntegersQ(~n, 2 * ~p)), IntegerQ(~p + (1 + ~m)*((~n)^-1)), And(Or(EqQ(~n, 2), EqQ(~n, 4)), IntegersQ(2 * ~m, 4 * ~p)), And(EqQ(~n, 2), IntegerQ(6 * ~p), Or(IntegerQ(~m), IntegerQ(~m - ~p))))
+
 @rule integrate(((~a + ~b*((~c*~x)^~n))^~p)*((~d*~x)^~m), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n, ~p), ~x) 
  ((~c)^-1)*Subst(integrate(((~a + ~b*((~x)^~n))^~p)*((~d*~x*((~c)^-1))^~m), ~x), ~x, ~c*~x)
  end

@@ -102,6 +102,14 @@
  (1//4)*~Pi*~s*integrate(~u, ~x) - (1//2)*integrate(~u*ArcTan(~v), ~x)
  end
 
+@rule integrate(~u*((~v)^~n), ~x) =>  if And(QuadraticQ(~v, ~x), ILtQ(~n, 0), NegQ(Discriminant(~v, ~x)), MatchQ(~u, Condition(~r*((~f)^~w), FreeQ(~f, ~x)))) 
+ With(List(Set(~tmp, InverseFunctionOfLinear(~u, ~x))), Condition(((-((1//4)*(Coefficient(~v, ~x, 2)^-1))*Discriminant(~v, ~x))^~n)*(Coefficient(Part(~tmp, 1), ~x, 1)^-1)*Subst(integrate(SimplifyIntegrand((Sec(~x)^(2 + 2 * ~n))*SubstForInverseFunction(~u, ~tmp, ~x), ~x), ~x), ~x, ~tmp), And(Not(FalseQ(~tmp)), EqQ(Head(~tmp), ~ArcTan), EqQ((Part(~tmp, 1)^2)*Discriminant(~v, ~x) + D(~v, ~x)^2, 0))))
+ end
+
+@rule integrate(~u*((~v)^~n), ~x) =>  if And(QuadraticQ(~v, ~x), ILtQ(~n, 0), NegQ(Discriminant(~v, ~x)), MatchQ(~u, Condition(~r*((~f)^~w), FreeQ(~f, ~x)))) 
+ With(List(Set(~tmp, InverseFunctionOfLinear(~u, ~x))), Condition(-((-((1//4)*(Coefficient(~v, ~x, 2)^-1))*Discriminant(~v, ~x))^~n)*(Coefficient(Part(~tmp, 1), ~x, 1)^-1)*Subst(integrate(SimplifyIntegrand((Csc(~x)^(2 + 2 * ~n))*SubstForInverseFunction(~u, ~tmp, ~x), ~x), ~x), ~x, ~tmp), And(Not(FalseQ(~tmp)), EqQ(Head(~tmp), ~ArcCot), EqQ((Part(~tmp, 1)^2)*Discriminant(~v, ~x) + D(~v, ~x)^2, 0))))
+ end
+
 @rule integrate(ArcTan(~c + ~d*tan(~a + ~b*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ((~c + ~I*~d)^2, -1)) 
  ~x*ArcTan(~c + ~d*tan(~a + ~b*~x)) - ~I*~b*integrate(~x*((~c + ~I*~d + ~c*((~E)^(2 * ~I*~a + 2 * ~I*~b*~x)))^-1), ~x)
  end

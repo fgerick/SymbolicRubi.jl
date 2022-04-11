@@ -258,6 +258,8 @@
  integrate((NormalizePseudoBinomial(~v, ~x)^~q)*(NormalizePseudoBinomial(~u*((~x)^(~m*((~p)^-1))), ~x)^~p), ~x)
  end
 
+@rule IntBinomialQ(~a, ~b, ~c, ~d, ~n, ~p, ~q, ~x) => Or(IntegersQ(~p, ~q), IGtQ(~p, 0), IGtQ(~q, 0), And(Or(EqQ(~n, 2), EqQ(~n, 4)), Or(IntegersQ(~p, 4 * ~q), IntegersQ(4 * ~p, ~q))), And(EqQ(~n, 2), Or(IntegersQ(2 * ~p, 2 * ~q), And(IntegersQ(3 * ~p, ~q), EqQ(~b*~c + 3 * ~a*~d, 0)), And(IntegersQ(~p, 3 * ~q), EqQ(~a*~d + 3 * ~b*~c, 0)))), And(EqQ(~n, 3), Or(IntegersQ(~p + 3^-1, ~q), IntegersQ(~q + 3^-1, ~p))), And(EqQ(~n, 3), Or(IntegersQ((2//3) + ~p, ~q), IntegersQ((2//3) + ~q, ~p)), EqQ(~b*~c + ~a*~d, 0)))
+
 @rule integrate(((~c + ~d*((~x)^~mn))^~q)*((~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~n, ~p), ~x), EqQ(~mn, -~n), IntegerQ(~q), Or(PosQ(~n), Not(IntegerQ(~p)))) 
  integrate(((~x)^(-~n*~q))*((~a + ~b*((~x)^~n))^~p)*((~d + ~c*((~x)^~n))^~q), ~x)
  end

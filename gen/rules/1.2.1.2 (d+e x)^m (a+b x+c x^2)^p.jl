@@ -546,3 +546,5 @@
  (Coefficient(~u, ~x, 1)^-1)*Subst(integrate(((~a + ~c*((~x)^2))^~p)*((~d + ~e*~x)^~m), ~x), ~x, ~u)
  end
 
+@rule IntQuadraticQ(~a, ~b, ~c, ~d, ~e, ~m, ~p, ~x) => Or(IntegerQ(~p), IGtQ(~m, 0), IntegersQ(2 * ~m, 2 * ~p), IntegersQ(~m, 4 * ~p), And(IntegersQ(~m, ~p + 3^-1), Or(EqQ(((~c)^2)*((~d)^2) + ((~b)^2)*((~e)^2) - 3 * ~a*~c*((~e)^2) - ~b*~c*~d*~e, 0), EqQ(((~c)^2)*((~d)^2) + 9 * ~a*~c*((~e)^2) - 2((~b)^2)*((~e)^2) - ~b*~c*~d*~e, 0))))
+

@@ -1,3 +1,7 @@
+@rule integrate(~u, ~x) =>  if FunctionOfTrigOfLinearQ(~u, ~x) 
+ integrate(DeactivateTrig(~u, ~x), ~x)
+ end
+
 @rule integrate(((~a*sin(~e + ~f*~x))^~m)*((~b*cos(~e + ~f*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~e, ~f, ~m, ~n), ~x), EqQ(2 + ~m + ~n, 0), NeQ(~m, -1)) 
  ((~b*cos(~e + ~f*~x))^(1 + ~n))*((~a*sin(~e + ~f*~x))^(1 + ~m))*(((~a)^-1)*((~b)^-1)*((~f)^-1)*((1 + ~m)^-1))
  end

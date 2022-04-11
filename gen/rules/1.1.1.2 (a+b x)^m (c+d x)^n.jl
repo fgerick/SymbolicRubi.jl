@@ -158,3 +158,5 @@
  (Coefficient(~u, ~x, 1)^-1)*Subst(integrate(((~a + ~b*~x)^~m)*((~c + ~d*~x)^~n), ~x), ~x, ~u)
  end
 
+@rule IntLinearQ(~a, ~b, ~c, ~d, ~m, ~n, ~x) => Or(IGtQ(~m, 0), IGtQ(~n, 0), IntegersQ(3 * ~m, 3 * ~n), IntegersQ(4 * ~m, 4 * ~n), IntegersQ(2 * ~m, 6 * ~n), IntegersQ(6 * ~m, 2 * ~n), ILtQ(~m + ~n, -1), And(IntegerQ(~m + ~n), RationalQ(~m)))
+

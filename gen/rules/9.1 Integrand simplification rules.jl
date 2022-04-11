@@ -44,6 +44,10 @@
  ~a*integrate(~u, ~x)
  end
 
+@rule integrate(~u, ~x) =>  if SumQ(~u) 
+ IntSum(~u, ~x)
+ end
+
 @rule integrate(~u*((~c*~x)^~m), ~x) =>  if And(FreeQ(List(~c, ~m), ~x), SumQ(~u), Not(LinearQ(~u, ~x)), Not(MatchQ(~u, Condition(~a + ~b*~v, And(FreeQ(List(~a, ~b), ~x), InverseFunctionQ(~v)))))) 
  integrate(ExpandIntegrand(~u*((~c*~x)^~m), ~x), ~x)
  end

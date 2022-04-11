@@ -334,6 +334,8 @@
  ((~e)^IntPart(~m))*((~x)^(-FracPart(~m)))*((~e*~x)^FracPart(~m))*integrate(((~x)^~m)*((~a + ~b*((~x)^~n))^~p)*((~c + ~d*((~x)^(-~n)))^~q), ~x)
  end
 
+@rule IntBinomialQ(~a, ~b, ~c, ~d, ~e, ~m, ~n, ~p, ~q, ~x) => Or(IntegersQ(~p, ~q), IGtQ(~p, 0), IGtQ(~q, 0), And(EqQ(~n, 2), Or(IntegersQ(~m, 2 * ~p, 2 * ~q), IntegersQ(2 * ~m, ~p, 2 * ~q), IntegersQ(2 * ~m, 2 * ~p, ~q))), And(EqQ(~n, 4), Or(IntegersQ(~m, ~p, 2 * ~q), IntegersQ(~m, 2 * ~p, ~q))), And(EqQ(~n, 2), IntegersQ((1//2)*~m, ~p + 3^-1, ~q), Or(EqQ(~b*~c + 3 * ~a*~d, 0), EqQ(~b*~c - 9 * ~a*~d, 0))), And(EqQ(~n, 2), IntegersQ((1//2)*~m, ~q + 3^-1, ~p), Or(EqQ(~a*~d + 3 * ~b*~c, 0), EqQ(~a*~d - 9 * ~b*~c, 0))), And(EqQ(~n, 3), IntegersQ((1//3)*(~m - 1), ~q, ~p - (1//2)), Or(EqQ(~b*~c - 4 * ~a*~d, 0), EqQ(~b*~c + 8 * ~a*~d, 0), EqQ(((~b)^2)*((~c)^2) - 8((~a)^2)*((~d)^2) - 20 * ~a*~b*~c*~d, 0))), And(EqQ(~n, 3), IntegersQ((1//3)*(~m - 1), ~p, ~q - (1//2)), Or(EqQ(4 * ~b*~c - ~a*~d, 0), EqQ(~a*~d + 8 * ~b*~c, 0), EqQ(8((~b)^2)*((~c)^2) + 20 * ~a*~b*~c*~d - ((~a)^2)*((~d)^2), 0))), And(EqQ(~n, 3), Or(IntegersQ(~m, ~q, 3 * ~p), IntegersQ(~m, ~p, 3 * ~q)), EqQ(~b*~c + ~a*~d, 0)), And(EqQ(~n, 3), Or(IntegersQ((1//3)*(2 + ~m), (2//3) + ~p, ~q), IntegersQ((1//3)*(2 + ~m), (2//3) + ~q, ~p))), And(EqQ(~n, 3), Or(IntegersQ((1//3)*~m, ~p + 3^-1, ~q), IntegersQ((1//3)*~m, ~q + 3^-1, ~p))))
+
 @rule integrate(~u*((~a1 + ~b1*((~x)^~non2))^~p)*((~c + ~d*((~x)^~n))^~q)*((~a2 + ~b2*((~x)^~non2))^~p), ~x) =>  if And(FreeQ(List(~a1, ~b1, ~a2, ~b2, ~c, ~d, ~n, ~p, ~q), ~x), EqQ(~non2, (1//2)*~n), EqQ(~a1*~b2 + ~a2*~b1, 0), Or(IntegerQ(~p), And(GtQ(~a1, 0), GtQ(~a2, 0)))) 
  integrate(~u*((~c + ~d*((~x)^~n))^~q)*((~a1*~a2 + ~b1*~b2*((~x)^~n))^~p), ~x)
  end

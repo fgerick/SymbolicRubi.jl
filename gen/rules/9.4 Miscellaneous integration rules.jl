@@ -136,6 +136,10 @@
  ((1 + ~m)^-1)*Subst(integrate(SubstFor((~x)^(1 + ~m), ~u, ~x), ~x), ~x, (~x)^(1 + ~m))
  end
 
+@rule integrate(~u, ~x) => With(List(Set(~lst, SubstForFractionalPowerOfLinear(~u, ~x))), Condition(Part(~lst, 2)*Part(~lst, 4)*Subst(integrate(Part(~lst, 1), ~x), ~x, Part(~lst, 3)^(Part(~lst, 2)^-1)), And(Not(FalseQ(~lst)), SubstForFractionalPowerQ(~u, Part(~lst, 3), ~x))))
+
+@rule integrate(~u, ~x) => With(List(Set(~lst, SubstForFractionalPowerOfQuotientOfLinears(~u, ~x))), Condition(Part(~lst, 2)*Part(~lst, 4)*Subst(integrate(Part(~lst, 1), ~x), ~x, Part(~lst, 3)^(Part(~lst, 2)^-1)), Not(FalseQ(~lst))))
+
 @rule integrate(~u*((~a*((~v)^~m)*((~w)^~n)*((~z)^~q))^~p), ~x) =>  if And(FreeQ(List(~a, ~m, ~n, ~p, ~q), ~x), Not(IntegerQ(~p)), Not(FreeQ(~v, ~x)), Not(FreeQ(~w, ~x)), Not(FreeQ(~z, ~x))) 
  ((~a)^IntPart(~p))*((~a*((~v)^~m)*((~w)^~n)*((~z)^~q))^FracPart(~p))*(((~v)^(-~m*FracPart(~p)))*((~w)^(-~n*FracPart(~p)))*((~z)^(-~q*FracPart(~p))))*integrate(~u*((~v)^(~m*~p))*((~w)^(~n*~p))*((~z)^(~p*~q)), ~x)
  end
@@ -184,8 +188,30 @@
  integrate(~u*((((~a)^2)*((~x)^(2 * ~m)) - ~c*((~b)^2)*((~x)^~n))^-1)*(~a*((~x)^~m) - ~b*Sqrt(~c*((~x)^~n))), ~x)
  end
 
+@rule integrate(~u, ~x) => With(List(Set(~lst, FunctionOfLinear(~u, ~x))), Condition(Dist(Part(~lst, 3)^-1, Subst(integrate(Part(~lst, 1), ~x), ~x, ~x*Part(~lst, 3) + Part(~lst, 2)), ~x), Not(FalseQ(~lst))))
+
+@rule integrate(~u*((~x)^-1), ~x) =>  if And(NonsumQ(~u), Not(RationalFunctionQ(~u, ~x))) 
+ With(List(Set(~lst, PowerVariableExpn(~u, 0, ~x))), Condition((Part(~lst, 2)^-1)*Subst(integrate(NormalizeIntegrand(Simplify(((~x)^-1)*Part(~lst, 1)), ~x), ~x), ~x, (~x*Part(~lst, 3))^Part(~lst, 2)), And(Not(FalseQ(~lst)), NeQ(Part(~lst, 2), 0))))
+ end
+
+@rule integrate(~u*((~x)^~m), ~x) =>  if And(IntegerQ(~m), NeQ(~m, -1), NonsumQ(~u), Or(GtQ(~m, 0), Not(AlgebraicFunctionQ(~u, ~x)))) 
+ With(List(Set(~lst, PowerVariableExpn(~u, 1 + ~m, ~x))), Condition((Part(~lst, 2)^-1)*Subst(integrate(NormalizeIntegrand(Simplify(((~x)^-1)*Part(~lst, 1)), ~x), ~x), ~x, (~x*Part(~lst, 3))^Part(~lst, 2)), And(Not(FalseQ(~lst)), NeQ(Part(~lst, 2), 1 + ~m))))
+ end
+
 @rule integrate(~u*((~x)^~m), ~x) =>  if FractionQ(~m) 
  With(List(Set(~k, Denominator(~m))), ~k*Subst(integrate(((~x)^(~k*(1 + ~m) - 1))*ReplaceAll(~u, Rule(~x, (~x)^~k)), ~x), ~x, (~x)^((~k)^-1)))
+ end
+
+@rule integrate(~u, ~x) =>  if EulerIntegrandQ(~u, ~x) 
+ With(List(Set(~lst, FunctionOfSquareRootOfQuadratic(~u, ~x))), Condition(2Subst(integrate(Part(~lst, 1), ~x), ~x, Part(~lst, 2)), And(Not(FalseQ(~lst)), EqQ(Part(~lst, 3), 1))))
+ end
+
+@rule integrate(~u, ~x) =>  if EulerIntegrandQ(~u, ~x) 
+ With(List(Set(~lst, FunctionOfSquareRootOfQuadratic(~u, ~x))), Condition(2Subst(integrate(Part(~lst, 1), ~x), ~x, Part(~lst, 2)), And(Not(FalseQ(~lst)), EqQ(Part(~lst, 3), 2))))
+ end
+
+@rule integrate(~u, ~x) =>  if EulerIntegrandQ(~u, ~x) 
+ With(List(Set(~lst, FunctionOfSquareRootOfQuadratic(~u, ~x))), Condition(2Subst(integrate(Part(~lst, 1), ~x), ~x, Part(~lst, 2)), And(Not(FalseQ(~lst)), EqQ(Part(~lst, 3), 3))))
  end
 
 @rule integrate((~a + ~b*((~v)^2))^-1, ~x) =>  if FreeQ(List(~a, ~b), ~x) 
@@ -215,6 +241,8 @@
 @rule integrate(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ((~b)^2 - 4 * ~a*~c, 0), IntegerQ(~p - (1//2))) 
  (((~b + 2 * ~c*((~x)^~n))^-1)*((4 * ~c)^((1//2) - ~p)))*Sqrt(~a + ~b*((~x)^~n) + ~c*((~x)^(2 * ~n)))*integrate(~u*((~b + 2 * ~c*((~x)^~n))^(2 * ~p)), ~x)
  end
+
+@rule integrate(~u, ~x) => With(List(Set(~lst, SubstForFractionalPowerOfLinear(~u, ~x))), Condition(Part(~lst, 2)*Part(~lst, 4)*Subst(integrate(Part(~lst, 1), ~x), ~x, Part(~lst, 3)^(Part(~lst, 2)^-1)), Not(FalseQ(~lst))))
 
 @rule integrate(~u, ~x) => CannotIntegrate(~u, ~x)
 
