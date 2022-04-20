@@ -1,15 +1,26 @@
 module SymbolicRubi
 
-# Write your package code here.
+using Metatheory
 using SymbolicUtils
+const SU = SymbolicUtils
 export @rule, @syms, simplify
 
 @syms integrate(f,x)
-export integrate
+
+function _integrate(f,x)
+    
+    integrate(f,x) |> SU.Chain(r_1)
+end
+export _integrate
 
 include("functions.jl")
+export Log
+
 
 include("example.jl")
-export r1,r2
+export r_1
+
+
+
 
 end

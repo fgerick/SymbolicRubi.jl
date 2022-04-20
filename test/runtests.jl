@@ -2,9 +2,12 @@ using SymbolicRubi
 using Test
 
 @testset "SymbolicRubi.jl" begin
-    @syms x m
-    @test isequal(integrate(x^-1,x) |> r1, log(x))
-    @test isequal(integrate(x^m,x) |> r2 |> simplify, x^(m+1)*(m+1)^-1 |> simplify)
+    @syms a b m u x
+    @test isequal(_integrate(x^-1,x), log(x))
+    @test isequal(_integrate(x^m,x), x^(m+1)*(m+1)^-1)
+    # @test isequal(integrate((a + b*(2x))^m, x) |> r5, (SymbolicRubi.Coefficient(2x, x, 1)^-1)*integrate((a + b*2x)^m, 2x))
+    @test isequal(_integrate((a + b*x)^m, x), ((a + b*x)^(1 + m))*(((b)^-1)*((1 + m)^-1)))
+    @test isequal(_integrate((a + b*x)^-1,x), ((b)^-1)*log(a+b*x))
 
 end
 
