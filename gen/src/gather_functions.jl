@@ -5,33 +5,35 @@ fncallrgx = r"(\w+)\["
 startcodergx = r"^\(* Code *\)$"
 
 thisdir = abspath(@__DIR__)
-rubidir = normpath(joinpath(thisdir, "..", "Rubi", "IntegrationRules"))
+rubirulesdir = normpath(joinpath(thisdir, "..", "Rubi", "IntegrationRules"))
+rubitestdir = normpath(joinpath(thisdir, "..", "RubiTestFiles"))
 
-for (root, dirs, files) in walkdir(rubidir)
-  for file in files
-    !endswith(file, ".m") && continue
-    fname = joinpath(root,file)
-    f = open(fname, "r")
-    iter = readlines(f)
-    for line in iter
-      if match(startcodergx, line) !== nothing
-        break
-      end
-    end
-
-    for line in iter
-      for m in eachmatch(fncallrgx, line)
-        fn = first(m.captures)
-        if !in(fn, fns)
-          push!(fns, first(m.captures))
+for rubidir in [ rubirulesdir, rubitestdir ]
+  for (root, dirs, files) in walkdir(rubidir)
+    for file in files
+      !endswith(file, ".m") && continue
+      fname = joinpath(root,file)
+      f = open(fname, "r")
+      iter = readlines(f)
+      for line in iter
+        if match(startcodergx, line) !== nothing
+          break
         end
       end
-    end
 
-    close(f)
+      for line in iter
+        for m in eachmatch(fncallrgx, line)
+          fn = first(m.captures)
+          if !in(fn, fns)
+            push!(fns, first(m.captures))
+          end
+        end
+      end
+
+      close(f)
+    end
   end
 end
-# display(fns)
 
 defined_fns = String[]
 missing_fns = String[]
@@ -44,9 +46,7 @@ for fn in fns
 end
 
 
-rulesdir = normpath(joinpath(thisdir, "..", "rules"))
-mkpath(rulesdir)
-required_functions = joinpath(rulesdir, "required_functions.jl")
+required_functions = joinpath(thisdir, "required_functions.jl")
 f = open(required_functions, "w")
 print(f, """
 =========================================
