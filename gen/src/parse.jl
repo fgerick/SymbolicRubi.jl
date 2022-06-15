@@ -36,11 +36,11 @@ function flatten_function(f::MathLink.WExpr, args)
   return f,argsn
 end
 
-function convert2sym(x::MathLink.WSymbol)
-  return Sym{Number}(Symbol("α"*x.name))
+function convert2sym(x::MathLink.WSymbol, prefix="")
+  return Sym{Number}(Symbol(prefix*x.name))
 end
 
-function convert2sym(x::MathLink.WExpr)
+function convert2sym(x::MathLink.WExpr,prefix="")
   head0 = x.head
   if typeof(head0) <: MathLink.WSymbol
     f = convertfunc2sym(head0.name,length(x.args))
@@ -51,7 +51,7 @@ function convert2sym(x::MathLink.WExpr)
   args_ = []
   for a in argsn
     if typeof(a) <: Union{MathLink.WSymbol,MathLink.WExpr}
-      push!(args_,convert2sym(a))
+      push!(args_,convert2sym(a,prefix))
     else
       push!(args_,a)
     end
@@ -72,6 +72,7 @@ end
 # end
 
 function ml_string_to_sym(str)
+  prefix = "α"
   try
     w = MathLink.parseexpr(str)
     if w==W"Null"
@@ -79,13 +80,13 @@ function ml_string_to_sym(str)
     end
     try
       w1 = get_args_if_match(w, "SetDelayed")
-      w1 = [convert2sym(w1[1]), convert2sym.(split_condition(w1[2]))]
+      w1 = [convert2sym(w1[1],prefix), convert2sym.(split_condition(w1[2],prefix))]
       # convert2sym.(w1)
     catch
       w1 = get_args_if_match(w, "If")
       if w1[1] == W"TrueQ"(W"$LoadShowSteps")
         w2 = get_args_if_match(w1[3], "SetDelayed")
-        w2 = [convert2sym(w2[1]), convert2sym.(split_condition(w2[2]))]
+        w2 = [convert2sym(w2[1],prefix), convert2sym.(split_condition(w2[2],prefix))]
         # convert2sym.(w2)
       end 
     end
@@ -107,6 +108,7 @@ end
 #     sr = map(s->string_tc.(s),sym)
 #     return sr
 # end
+
 
 function rulestr2sstring(r)
   sym = ml_string_to_sym(r)
@@ -250,4 +252,71 @@ function all_rules(rulesdir,jldir)
   println("\n\n")
   @show succeeded
   @show failed
+end
+
+
+const RGX_RUBI_TEST = r"^{(.*)}"
+const RGX_START_COMMENT = r"^\(\*"
+const RGX_END_COMMENT = r"\*\)$"
+const RubiTest = MathLink.WExpr
+
+
+function parse_rubi_tests(filename)
+
+  iscommented = false
+  tests = RubiTest[]
+
+  open(filename, "r") do file
+    for (idx,line) in enumerate(readlines(file))
+      if !iscommented
+        # some files contain commented tests, skip those
+        cm = match(RGX_START_COMMENT, line)
+        if !isnothing(cm)
+          cm = match(RGX_END_COMMENT, line)
+          if isnothing(cm) # comment does not end on same line
+            iscommented = true
+            continue
+          end
+        end
+        m = match(RGX_RUBI_TEST, line)
+        isnothing(m) && continue
+        try
+          wexpr_test = MathLink.parseexpr(line)
+          push!(tests, wexpr_test)
+        catch e
+          @warn "Problem on line nr. $idx"
+          display(e)
+          display(line)
+        end
+      else
+        cm = match(RGX_END_COMMENT, line)
+        if cm !== nothing
+          iscommented = false
+          continue
+        end
+      end
+    end
+  end
+
+  return tests
+end
+
+
+function all_tests()
+
+  thisdir = abspath(@__DIR__)
+  rubitestdir = normpath(joinpath(thisdir, "..", "RubiTestFiles"))
+
+  testset = Dict{String,Vector{RubiTest}}()
+  for (root, dirs, files) in walkdir(rubitestdir)
+    for file in files
+      !endswith(file, ".m") && continue
+      println("Processing file '$file' ...")
+      fname = joinpath(root,file)
+      tests = parse_rubi_tests(fname)
+      testset[file] = tests
+    end
+  end
+
+  return testset
 end
