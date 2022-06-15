@@ -261,15 +261,15 @@ const RGX_END_COMMENT = r"\*\)$"
 const RubiTest = MathLink.WExpr
 
 
-function parse_rubi_tests(filename)
+function parse_rubitest_file(filename)
 
   iscommented = false
-  tests = RubiTest[]
+  wexprs = MathLink.WExpr[]
 
   open(filename, "r") do file
     for (idx,line) in enumerate(readlines(file))
       if !iscommented
-        # some files contain commented tests, skip those
+        # some files contain commented blocks, skip those
         cm = match(RGX_START_COMMENT, line)
         if !isnothing(cm)
           cm = match(RGX_END_COMMENT, line)
@@ -281,8 +281,7 @@ function parse_rubi_tests(filename)
         m = match(RGX_RUBI_TEST, line)
         isnothing(m) && continue
         try
-          wexpr_test = MathLink.parseexpr(line)
-          push!(tests, wexpr_test)
+          push!(wexprs, MathLink.parseexpr(line))
         catch e
           @warn "Problem on line nr. $idx"
           display(e)
@@ -298,25 +297,94 @@ function parse_rubi_tests(filename)
     end
   end
 
-  return tests
+  return wexprs
 end
 
 
-function all_tests()
+# cache testset
+const _RUBI_TESTSET = Dict{String,Vector{MathLink.WExpr}}()
+
+function load_rubi_testset(reload::Bool=false)
+
+  xor(reload, length(_RUBI_TESTSET) > 0) && return _RUBI_TESTSET
 
   thisdir = abspath(@__DIR__)
   rubitestdir = normpath(joinpath(thisdir, "..", "RubiTestFiles"))
 
-  testset = Dict{String,Vector{RubiTest}}()
+  testset = Dict{String,Vector{MathLink.WExpr}}()
   for (root, dirs, files) in walkdir(rubitestdir)
     for file in files
       !endswith(file, ".m") && continue
       println("Processing file '$file' ...")
       fname = joinpath(root,file)
-      tests = parse_rubi_tests(fname)
-      testset[file] = tests
+      testset[file] = parse_rubitest_file(fname)
+    end
+  end
+  return testset
+
+  copy!(_RUBI_TESTSET, testset)
+
+  return _RUBI_TESTSET
+end
+
+
+# cache ruleset
+const _RUBI_RULESET = Dict{String,Vector{MathLink.WExpr}}()
+
+function load_rubi_ruleset(reload::Bool=false)
+
+  xor(reload, length(_RUBI_RULESET) > 0) && return _RUBI_RULESET
+
+  thisdir = abspath(@__DIR__)
+  rubirulesdir = normpath(joinpath(thisdir, "..", "Rubi", "IntegrationRules"))
+
+  ruleset = Dict{String,Vector{MathLink.WExpr}}()
+  for (root, dirs, files) in walkdir(rubirulesdir)
+    for file in files
+      !endswith(file, ".m") && continue
+      println("Processing file '$file' ...")
+      fname = joinpath(root,file)
+      ruleset[file] = parse_rubirule_file(fname)
     end
   end
 
-  return testset
+  copy!(_RUBI_RULESET, ruleset)
+
+  return _RUBI_RULESET
+end
+
+
+function parse_rubirule_file(filename)
+
+  wexprs = MathLink.WExpr[]
+
+  open(filename, "r") do file
+    ruleblock = ""
+    block_finished = false
+    skipped_header = false
+    for (idx,line) in enumerate(readlines(file))
+      if !skipped_header && !startswith(line, "(* ::Code:: *)")
+        continue
+      elseif !skipped_header
+        skipped_header = true
+      end
+      if !startswith(line, "(* ::Code:: *)")
+        ruleblock *= line
+        block_finished = false
+      elseif !block_finished
+        try
+          we = MathLink.parseexpr(ruleblock)
+          we != W"Null" && push!(wexprs, we)
+        catch e
+          @warn "Problem on line nr. $idx"
+          display(e)
+          display(line)
+        end
+        ruleblock = ""
+        block_finished = true
+      end
+    end
+  end
+
+  return wexprs
 end
