@@ -133,7 +133,7 @@ function load_rubi_testset(reload::Bool=false)
   for (root, dirs, files) in walkdir(rubitestdir)
     for file in files
       !endswith(file, ".m") && continue
-      println("Processing file '$file' ...")
+      println("Parsing file '$file' ...")
       fname = joinpath(root,file)
       testset[file] = parse_rubitest_file(fname)
     end
@@ -156,7 +156,7 @@ function load_rubi_ruleset(reload::Bool=false)
   for (root, dirs, files) in walkdir(rubirulesdir)
     for file in files
       !endswith(file, ".m") && continue
-      println("Processing file '$file' ...")
+      println("Parsing file '$file' ...")
       fname = joinpath(root,file)
       ruleset[file] = parse_rubirule_file(fname)
     end
