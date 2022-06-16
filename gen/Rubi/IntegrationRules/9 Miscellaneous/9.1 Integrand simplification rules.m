@@ -98,12 +98,10 @@ FreeQ[a,x] && Not[MatchQ[u, b_*v_ /; FreeQ[b,x]]]
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   ShowStep["","Int[a*u + b*v + \[CenterEllipsis],x]","a*Integrate[u,x] + b*Integrate[v,x] + \[CenterEllipsis]",Hold[
   IntSum[u,x]]] /;
 SimplifyFlag && SumQ[u],
-
 Int[u_,x_Symbol] :=
   IntSum[u,x] /;
 SumQ[u]]

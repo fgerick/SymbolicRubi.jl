@@ -322,14 +322,12 @@ NonsumQ[u]] *)
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   With[{lst=FunctionOfLog[Cancel[x*u],x]},
   ShowStep["","Int[F[Log[a*x^n]]/x,x]","Subst[Int[F[x],x],x,Log[a*x^n]]/n",Hold[
   1/lst[[3]]*Subst[Int[lst[[1]],x],x,Log[lst[[2]]]]]] /;
  Not[FalseQ[lst]]] /;
 SimplifyFlag && NonsumQ[u],
-
 Int[u_,x_Symbol] :=
   With[{lst=FunctionOfLog[Cancel[x*u],x]},
   1/lst[[3]]*Subst[Int[lst[[1]],x],x,Log[lst[[2]]]] /;

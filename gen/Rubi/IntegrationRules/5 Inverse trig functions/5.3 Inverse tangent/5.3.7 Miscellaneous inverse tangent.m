@@ -187,7 +187,6 @@ EqQ[s^2,1] && EqQ[w,v^2+1]
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_*v_^n_.,x_Symbol] :=
   With[{tmp=InverseFunctionOfLinear[u,x]},
   ShowStep["","Int[f[x,ArcTan[a+b*x]]/(1+(a+b*x)^2),x]",
@@ -196,7 +195,6 @@ Int[u_*v_^n_.,x_Symbol] :=
 	Subst[Int[SimplifyIntegrand[SubstForInverseFunction[u,tmp,x]*Sec[x]^(2*(n+1)),x],x], x, tmp]]] /;
  Not[FalseQ[tmp]] && EqQ[Head[tmp],ArcTan] && EqQ[Discriminant[v,x]*tmp[[1]]^2+D[v,x]^2,0]] /;
 SimplifyFlag && QuadraticQ[v,x] && ILtQ[n,0] && NegQ[Discriminant[v,x]] && MatchQ[u,r_.*f_^w_ /; FreeQ[f,x]],
-
 Int[u_*v_^n_.,x_Symbol] :=
   With[{tmp=InverseFunctionOfLinear[u,x]},
   (-Discriminant[v,x]/(4*Coefficient[v,x,2]))^n/Coefficient[tmp[[1]],x,1]*
@@ -207,7 +205,6 @@ QuadraticQ[v,x] && ILtQ[n,0] && NegQ[Discriminant[v,x]] && MatchQ[u,r_.*f_^w_ /;
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_*v_^n_.,x_Symbol] :=
   With[{tmp=InverseFunctionOfLinear[u,x]},
   ShowStep["","Int[f[x,ArcCot[a+b*x]]/(1+(a+b*x)^2),x]",
@@ -216,7 +213,6 @@ Int[u_*v_^n_.,x_Symbol] :=
 	Subst[Int[SimplifyIntegrand[SubstForInverseFunction[u,tmp,x]*Csc[x]^(2*(n+1)),x],x], x, tmp]]] /;
  Not[FalseQ[tmp]] && EqQ[Head[tmp],ArcCot] && EqQ[Discriminant[v,x]*tmp[[1]]^2+D[v,x]^2,0]] /;
 SimplifyFlag && QuadraticQ[v,x] && ILtQ[n,0] && NegQ[Discriminant[v,x]] && MatchQ[u,r_.*f_^w_ /; FreeQ[f,x]],
-
 Int[u_*v_^n_.,x_Symbol] :=
   With[{tmp=InverseFunctionOfLinear[u,x]},
   -(-Discriminant[v,x]/(4*Coefficient[v,x,2]))^n/Coefficient[tmp[[1]],x,1]*
