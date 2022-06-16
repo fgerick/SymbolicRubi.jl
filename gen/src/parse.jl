@@ -261,7 +261,7 @@ function unwrap_rule(rule::MathLink.WExpr)
       # the /; is the infix for condition: https://reference.wolfram.com/language/ref/Condition.html
       result_condition.args
     else
-      result_condition, W_NULL
+      result_condition, nothing
     end
     return (:rule, pattern, result, condition)
   elseif rule.head == W_SET
@@ -286,7 +286,7 @@ function unwrap_rule(rule::MathLink.WExpr)
 end
 
 
-build_jl_rule(line_expr) = build_jl_rule(line_expr[1], Val(line_expr[2][1]), line_expr[2][2:end]...)
+build_jl_rule(line_expr) = (line_expr[1], build_jl_rule(line_expr[1], Val(line_expr[2][1]), line_expr[2][2:end]...))
 
 
 function build_jl_rule(linenr, ::Val{:rule}, pattern, result, condition)
@@ -295,9 +295,11 @@ function build_jl_rule(linenr, ::Val{:rule}, pattern, result, condition)
   jl_condition = convert2sym(condition) |> to_metatheory
   str_rule = "@rule $(jl_pattern) => "
   if !isnothing(jl_condition)
-      str_rule *= "\n   $(jl_condition)\n$(jl_result)\nend"
+      str_rule *= """if $(jl_condition)
+        $(jl_result)
+      end"""
   else
-    str_rule *= "$(jl_condition)"
+    str_rule *= "$(jl_result)"
   end
   return str_rule
 end
