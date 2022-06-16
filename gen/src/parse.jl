@@ -258,13 +258,28 @@ end
 const RGX_RUBI_TEST = r"^{(.*)}"
 const RGX_START_COMMENT = r"^\(\*"
 const RGX_END_COMMENT = r"\*\)$"
-const RubiTest = MathLink.WExpr
+
+
+const RubiCodeBlock = Tuple{Int64 #=line nr.=#,MathLink.WExpr}
+# cache ruleset
+const _RUBI_RULESET = Dict{String,Vector{RubiCodeBlock}}()
+# cache testset
+const _RUBI_TESTSET = Dict{String,Vector{RubiCodeBlock}}()
+# avoid repeated calls to Wolfram engine for these types
+const W_NULL               = W"Null"
+const W_SETDELAYED         = W"SetDelayed"
+const W_IF                 = W"If"
+const W_TRUEQ_LOADSHOWSTEP = W"TrueQ"(W"$LoadShowSteps")
+const W_COMPOUNDEXPRESSION = W"CompoundExpression"
+const W_CONDITION          = W"Condition"
+
 
 
 function parse_rubitest_file(filename)
 
   iscommented = false
-  wexprs = MathLink.WExpr[]
+  wexprs = RubiCodeBlock[]
+  lineidx = 1
 
   open(filename, "r") do file
     for (idx,line) in enumerate(readlines(file))
@@ -281,7 +296,7 @@ function parse_rubitest_file(filename)
         m = match(RGX_RUBI_TEST, line)
         isnothing(m) && continue
         try
-          push!(wexprs, MathLink.parseexpr(line))
+          push!( wexprs, RubiCodeBlock( (idx, MathLink.parseexpr(line)) ) )
         catch e
           @warn "Problem on line nr. $idx"
           display(e)
@@ -300,18 +315,14 @@ function parse_rubitest_file(filename)
   return wexprs
 end
 
-
-# cache testset
-const _RUBI_TESTSET = Dict{String,Vector{MathLink.WExpr}}()
-
 function load_rubi_testset(reload::Bool=false)
 
-  xor(reload, length(_RUBI_TESTSET) > 0) && return _RUBI_TESTSET
+  (!reload && length(_RUBI_TESTSET) > 0) && return _RUBI_TESTSET
 
   thisdir = abspath(@__DIR__)
   rubitestdir = normpath(joinpath(thisdir, "..", "RubiTestFiles"))
 
-  testset = Dict{String,Vector{MathLink.WExpr}}()
+  testset = Dict{String,Vector{RubiCodeBlock}}()
   for (root, dirs, files) in walkdir(rubitestdir)
     for file in files
       !endswith(file, ".m") && continue
@@ -327,18 +338,14 @@ function load_rubi_testset(reload::Bool=false)
   return _RUBI_TESTSET
 end
 
-
-# cache ruleset
-const _RUBI_RULESET = Dict{String,Vector{MathLink.WExpr}}()
-
 function load_rubi_ruleset(reload::Bool=false)
 
-  xor(reload, length(_RUBI_RULESET) > 0) && return _RUBI_RULESET
+  (!reload && length(_RUBI_RULESET) > 0) && return _RUBI_RULESET
 
   thisdir = abspath(@__DIR__)
   rubirulesdir = normpath(joinpath(thisdir, "..", "Rubi", "IntegrationRules"))
 
-  ruleset = Dict{String,Vector{MathLink.WExpr}}()
+  ruleset = Dict{String,Vector{RubiCodeBlock}}()
   for (root, dirs, files) in walkdir(rubirulesdir)
     for file in files
       !endswith(file, ".m") && continue
@@ -356,34 +363,81 @@ end
 
 function parse_rubirule_file(filename)
 
-  wexprs = MathLink.WExpr[]
+  wexprs = RubiCodeBlock[]
+  lineidx = 1
 
   open(filename, "r") do file
+
+    fileiter = readlines(file)
+
     ruleblock = ""
-    block_finished = false
-    skipped_header = false
-    for (idx,line) in enumerate(readlines(file))
-      if !skipped_header && !startswith(line, "(* ::Code:: *)")
-        continue
-      elseif !skipped_header
-        skipped_header = true
-      end
-      if !startswith(line, "(* ::Code:: *)")
-        ruleblock *= line
-        block_finished = false
-      elseif !block_finished
-        try
-          we = MathLink.parseexpr(ruleblock)
-          we != W"Null" && push!(wexprs, we)
-        catch e
-          @warn "Problem on line nr. $idx"
-          display(e)
-          display(line)
+    record_block = true
+    parse_block = false
+    iscommented = false
+    lineidx = -1
+
+    for (idx,line) in enumerate(fileiter)
+
+      if !iscommented
+
+        # some files contain commented blocks, skip those
+        cm = match(RGX_START_COMMENT, line)
+        if !isnothing(cm)
+          cm = match(RGX_END_COMMENT, line)
+          if isnothing(cm) # comment does not end on same line
+            iscommented = true
+            record_block = false
+            ruleblock = ""
+            continue
+          end
         end
-        ruleblock = ""
-        block_finished = true
+
+        if startswith(line, "(* ::Code:: *)")
+          record_block = true
+          lineidx = idx+1 # code block starts on next line
+        elseif length(strip(line)) == 0 && record_block
+          # empty line indicates end of code block, ready to parse now
+          record_block = false
+          try
+            we = MathLink.parseexpr(ruleblock)
+            we != W_NULL && push!( wexprs, RubiCodeBlock( (lineidx, we) ) )
+          catch e
+            # Would like to catch on warning 'Expression "..." has no closing "]"', but
+            # that does not have its own exception
+            # if e isa ???
+            #   @warn "Encountered If[TrueQ[$LoadShowStep], ... with line breaks, continuing block recording ..."
+            #   record_block = true
+            #   continue
+            # end
+            error("Problem at '$(filename):$(lineidx)'.")
+          end
+          ruleblock = ""
+        elseif record_block
+          ruleblock *= line
+        end
+
+      else
+        # check if comment has ended
+        cm = match(RGX_END_COMMENT, line)
+        if !isnothing(cm)
+          iscommented = false
+          continue
+        end
+      end
+
+    end
+
+    if record_block
+      # if there are no empty lines after the last code block, but a block was
+      # recorded, we have to parse it here
+      try
+        we = MathLink.parseexpr(ruleblock)
+        we != W_NULL && push!( wexprs, RubiCodeBlock( (lineidx, we) ) )
+      catch e
+        error("Problem at '$(filename):$(lineidx)'.")
       end
     end
+
   end
 
   return wexprs
