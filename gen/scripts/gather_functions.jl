@@ -47,7 +47,7 @@ end
 vec_fnslist = [ (k,v) for (k,v) in pairs(fnslist) ]
 sort!(vec_fnslist, by=kv->length(kv[2]))
 
-fname_required_functions = joinpath(thisdir, "required_functions.md")
+fname_required_functions = joinpath(thisdir, "required_functions.txt")
 open(fname_required_functions, "w") do io
   print(io, """
   =========================================
