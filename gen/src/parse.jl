@@ -290,9 +290,9 @@ build_jl_rule(line_expr) = (line_expr[1], build_jl_rule(line_expr[1], Val(line_e
 
 
 function build_jl_rule(linenr, ::Val{:rule}, pattern, result, condition)
-  jl_pattern = convert2sym(pattern) |> to_metatheory
-  jl_result = convert2sym(result) |> to_metatheory
-  jl_condition = convert2sym(condition) |> to_metatheory
+  jl_pattern = convert2sym(pattern, "α") |> to_metatheory
+  jl_result = convert2sym(result, "α") |> to_metatheory
+  jl_condition = convert2sym(condition, "α") |> to_metatheory
   str_rule = "@rule $(jl_pattern) => "
   if !isnothing(jl_condition)
       str_rule *= """if $(jl_condition)
