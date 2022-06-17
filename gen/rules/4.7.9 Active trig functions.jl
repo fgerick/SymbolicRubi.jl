@@ -1,416 +1,520 @@
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0)) 
- ((~b)^-1)*integrate(((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^(~n - 1)), ~x) - ~a*((~b)^-1)*integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^(~n - 1)), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0)) 
- ((~b)^-1)*integrate(((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^(~n - 1)), ~x) - ~a*((~b)^-1)*integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^(~n - 1)), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*cos(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), EqQ((~a)^2 - ((~b)^2), 0)) 
- 2integrate(((~E)^(~I*(~c + ~d*~x)))*((~a - ~I*~b*((~E)^(~I*(~c + ~d*~x))))^-1)*((~e + ~f*~x)^~m), ~x) - ~I*((~e + ~f*~x)^(1 + ~m))*(((~b)^-1)*((~f)^-1)*((1 + ~m)^-1))
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*sin(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), EqQ((~a)^2 - ((~b)^2), 0)) 
- ~I*((~e + ~f*~x)^(1 + ~m))*(((~b)^-1)*((~f)^-1)*((1 + ~m)^-1)) - 2 * ~I*integrate(((~E)^(~I*(~c + ~d*~x)))*((~e + ~f*~x)^~m)*((~a + ~b*((~E)^(~I*(~c + ~d*~x))))^-1), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*cos(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), PosQ((~a)^2 - ((~b)^2))) 
- integrate(((~E)^(~I*(~c + ~d*~x)))*((~e + ~f*~x)^~m)*((~a - Rt((~a)^2 - ((~b)^2), 2) - ~I*~b*((~E)^(~I*(~c + ~d*~x))))^-1), ~x) + integrate(((~E)^(~I*(~c + ~d*~x)))*((~e + ~f*~x)^~m)*((~a + Rt((~a)^2 - ((~b)^2), 2) - ~I*~b*((~E)^(~I*(~c + ~d*~x))))^-1), ~x) - ~I*((~e + ~f*~x)^(1 + ~m))*(((~b)^-1)*((~f)^-1)*((1 + ~m)^-1))
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*sin(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), PosQ((~a)^2 - ((~b)^2))) 
- ~I*((~e + ~f*~x)^(1 + ~m))*(((~b)^-1)*((~f)^-1)*((1 + ~m)^-1)) - ~I*integrate(((~E)^(~I*(~c + ~d*~x)))*((~e + ~f*~x)^~m)*((~a + ~b*((~E)^(~I*(~c + ~d*~x))) - Rt((~a)^2 - ((~b)^2), 2))^-1), ~x) - ~I*integrate(((~E)^(~I*(~c + ~d*~x)))*((~e + ~f*~x)^~m)*((~a + ~b*((~E)^(~I*(~c + ~d*~x))) + Rt((~a)^2 - ((~b)^2), 2))^-1), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*cos(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), NegQ((~a)^2 - ((~b)^2))) 
- ~I*integrate(((~E)^(~I*(~c + ~d*~x)))*((~e + ~f*~x)^~m)*((~I*~a + ~b*((~E)^(~I*(~c + ~d*~x))) - Rt((~b)^2 - ((~a)^2), 2))^-1), ~x) + ~I*integrate(((~E)^(~I*(~c + ~d*~x)))*((~e + ~f*~x)^~m)*((~I*~a + ~b*((~E)^(~I*(~c + ~d*~x))) + Rt((~b)^2 - ((~a)^2), 2))^-1), ~x) - ~I*((~e + ~f*~x)^(1 + ~m))*(((~b)^-1)*((~f)^-1)*((1 + ~m)^-1))
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*sin(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), NegQ((~a)^2 - ((~b)^2))) 
- ~I*((~e + ~f*~x)^(1 + ~m))*(((~b)^-1)*((~f)^-1)*((1 + ~m)^-1)) + integrate(((~E)^(~I*(~c + ~d*~x)))*((~e + ~f*~x)^~m)*((~I*~a + ~I*~b*((~E)^(~I*(~c + ~d*~x))) + Rt((~b)^2 - ((~a)^2), 2))^-1), ~x) + integrate(((~E)^(~I*(~c + ~d*~x)))*((~e + ~f*~x)^~m)*((~I*~a + ~I*~b*((~E)^(~I*(~c + ~d*~x))) - Rt((~b)^2 - ((~a)^2), 2))^-1), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m), ~x), IGtQ(~n, 1), EqQ((~a)^2 - ((~b)^2), 0)) 
- ((~a)^-1)*integrate(((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^(~n - 2)), ~x) - ((~b)^-1)*integrate(((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^(~n - 2))*sin(~c + ~d*~x), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m), ~x), IGtQ(~n, 1), EqQ((~a)^2 - ((~b)^2), 0)) 
- ((~a)^-1)*integrate(((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^(~n - 2)), ~x) - ((~b)^-1)*integrate(((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^(~n - 2))*cos(~c + ~d*~x), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~n, 1), NeQ((~a)^2 - ((~b)^2), 0), IGtQ(~m, 0)) 
- ~a*((~b)^-2)*integrate(((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^(~n - 2)), ~x) - ((~b)^-1)*integrate(((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^(~n - 2))*sin(~c + ~d*~x), ~x) - ((~b)^-2)*((~a)^2 - ((~b)^2))*integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^(~n - 2)), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~n, 1), NeQ((~a)^2 - ((~b)^2), 0), IGtQ(~m, 0)) 
- ~a*((~b)^-2)*integrate(((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^(~n - 2)), ~x) - ((~b)^-1)*integrate(((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^(~n - 2))*cos(~c + ~d*~x), ~x) - ((~b)^-2)*((~a)^2 - ((~b)^2))*integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^(~n - 2)), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(tan(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0)) 
- ((~b)^-1)*integrate(((~e + ~f*~x)^~m)*(tan(~c + ~d*~x)^(~n - 1))*Sec(~c + ~d*~x), ~x) - ~a*((~b)^-1)*integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(tan(~c + ~d*~x)^(~n - 1))*Sec(~c + ~d*~x), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cot(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0)) 
- ((~b)^-1)*integrate(((~e + ~f*~x)^~m)*(cot(~c + ~d*~x)^(~n - 1))*Csc(~c + ~d*~x), ~x) - ~a*((~b)^-1)*integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cot(~c + ~d*~x)^(~n - 1))*Csc(~c + ~d*~x), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cot(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0)) 
- ((~a)^-1)*integrate(((~e + ~f*~x)^~m)*(cot(~c + ~d*~x)^~n), ~x) - ~b*((~a)^-1)*integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cot(~c + ~d*~x)^(~n - 1))*cos(~c + ~d*~x), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(tan(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0)) 
- ((~a)^-1)*integrate(((~e + ~f*~x)^~m)*(tan(~c + ~d*~x)^~n), ~x) - ~b*((~a)^-1)*integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(tan(~c + ~d*~x)^(~n - 1))*sin(~c + ~d*~x), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(Sec(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~n), ~x), IGtQ(~m, 0), EqQ((~a)^2 - ((~b)^2), 0)) 
- ((~a)^-1)*integrate(((~e + ~f*~x)^~m)*(Sec(~c + ~d*~x)^(2 + ~n)), ~x) - ((~b)^-1)*integrate(((~e + ~f*~x)^~m)*(Sec(~c + ~d*~x)^(1 + ~n))*tan(~c + ~d*~x), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(Csc(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~n), ~x), IGtQ(~m, 0), EqQ((~a)^2 - ((~b)^2), 0)) 
- ((~a)^-1)*integrate(((~e + ~f*~x)^~m)*(Csc(~c + ~d*~x)^(2 + ~n)), ~x) - ((~b)^-1)*integrate(((~e + ~f*~x)^~m)*(Csc(~c + ~d*~x)^(1 + ~n))*cot(~c + ~d*~x), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(Sec(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), NeQ((~a)^2 - ((~b)^2), 0), IGtQ(~n, 0)) 
- (((~a)^2 - ((~b)^2))^-1)*integrate((~a - ~b*sin(~c + ~d*~x))*((~e + ~f*~x)^~m)*(Sec(~c + ~d*~x)^~n), ~x) - ((~b)^2)*(((~a)^2 - ((~b)^2))^-1)*integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(Sec(~c + ~d*~x)^(~n - 2)), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(Csc(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), NeQ((~a)^2 - ((~b)^2), 0), IGtQ(~n, 0)) 
- (((~a)^2 - ((~b)^2))^-1)*integrate((~a - ~b*cos(~c + ~d*~x))*((~e + ~f*~x)^~m)*(Csc(~c + ~d*~x)^~n), ~x) - ((~b)^2)*(((~a)^2 - ((~b)^2))^-1)*integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(Csc(~c + ~d*~x)^(~n - 2)), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(Csc(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0)) 
- ((~a)^-1)*integrate(((~e + ~f*~x)^~m)*(Csc(~c + ~d*~x)^~n), ~x) - ~b*((~a)^-1)*integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(Csc(~c + ~d*~x)^(~n - 1)), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(Sec(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0)) 
- ((~a)^-1)*integrate(((~e + ~f*~x)^~m)*(Sec(~c + ~d*~x)^~n), ~x) - ~b*((~a)^-1)*integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(Sec(~c + ~d*~x)^(~n - 1)), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*((~F)(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m, ~n), ~x), TrigQ(~F)) 
- Unintegrable(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(F(~c + ~d*~x)^~n), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*((~F)(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m, ~n), ~x), TrigQ(~F)) 
- Unintegrable(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(F(~c + ~d*~x)^~n), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^~p)*(sin(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0)) 
- ((~b)^-1)*integrate(((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^~p)*(sin(~c + ~d*~x)^(~n - 1)), ~x) - ~a*((~b)^-1)*integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^~p)*(sin(~c + ~d*~x)^(~n - 1)), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^~n)*(sin(~c + ~d*~x)^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0)) 
- ((~b)^-1)*integrate(((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^(~n - 1))*(sin(~c + ~d*~x)^~p), ~x) - ~a*((~b)^-1)*integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^(~n - 1))*(sin(~c + ~d*~x)^~p), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^~p)*(tan(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0)) 
- ((~b)^-1)*integrate(((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^(~p - 1))*(tan(~c + ~d*~x)^(~n - 1)), ~x) - ~a*((~b)^-1)*integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^(~p - 1))*(tan(~c + ~d*~x)^(~n - 1)), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cot(~c + ~d*~x)^~n)*(sin(~c + ~d*~x)^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0)) 
- ((~b)^-1)*integrate(((~e + ~f*~x)^~m)*(cot(~c + ~d*~x)^(~n - 1))*(sin(~c + ~d*~x)^(~p - 1)), ~x) - ~a*((~b)^-1)*integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cot(~c + ~d*~x)^(~n - 1))*(sin(~c + ~d*~x)^(~p - 1)), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^~p)*(cot(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0)) 
- ((~a)^-1)*integrate(((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^~p)*(cot(~c + ~d*~x)^~n), ~x) - ~b*((~a)^-1)*integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^(1 + ~p))*(cot(~c + ~d*~x)^(~n - 1)), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^~p)*(tan(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0)) 
- ((~a)^-1)*integrate(((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^~p)*(tan(~c + ~d*~x)^~n), ~x) - ~b*((~a)^-1)*integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^(1 + ~p))*(tan(~c + ~d*~x)^(~n - 1)), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^~p)*(Csc(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0)) 
- ((~a)^-1)*integrate(((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^~p)*(Csc(~c + ~d*~x)^~n), ~x) - ~b*((~a)^-1)*integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^~p)*(Csc(~c + ~d*~x)^(~n - 1)), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^~p)*(Sec(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0)) 
- ((~a)^-1)*integrate(((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^~p)*(Sec(~c + ~d*~x)^~n), ~x) - ~b*((~a)^-1)*integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^~p)*(Sec(~c + ~d*~x)^(~n - 1)), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^~p)*((~F)(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m, ~n, ~p), ~x), TrigQ(~F)) 
- Unintegrable(((~a + ~b*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(cos(~c + ~d*~x)^~p)*(F(~c + ~d*~x)^~n), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^~p)*((~F)(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m, ~n), ~x), TrigQ(~F)) 
- Unintegrable(((~a + ~b*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(sin(~c + ~d*~x)^~p)*(F(~c + ~d*~x)^~n), ~x)
- end
-
-@rule integrate(((~a + ~b*Sec(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*((~F)(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), TrigQ(~F), IntegersQ(~m, ~n)) 
- integrate(((~b + ~a*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(F(~c + ~d*~x)^~n)*cos(~c + ~d*~x), ~x)
- end
-
-@rule integrate(((~a + ~b*Csc(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*((~F)(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), TrigQ(~F), IntegersQ(~m, ~n)) 
- integrate(((~b + ~a*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(F(~c + ~d*~x)^~n)*sin(~c + ~d*~x), ~x)
- end
-
-@rule integrate(((~a + ~b*Sec(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*((~F)(~c + ~d*~x)^~n)*((~G)(~c + ~d*~x)^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), TrigQ(~F), TrigQ(~G), IntegersQ(~m, ~n, ~p)) 
- integrate(((~b + ~a*cos(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(F(~c + ~d*~x)^~n)*(G(~c + ~d*~x)^~p)*cos(~c + ~d*~x), ~x)
- end
-
-@rule integrate(((~a + ~b*Csc(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*((~F)(~c + ~d*~x)^~n)*((~G)(~c + ~d*~x)^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), TrigQ(~F), TrigQ(~G), IntegersQ(~m, ~n, ~p)) 
- integrate(((~b + ~a*sin(~c + ~d*~x))^-1)*((~e + ~f*~x)^~m)*(F(~c + ~d*~x)^~n)*(G(~c + ~d*~x)^~p)*sin(~c + ~d*~x), ~x)
- end
-
-@rule integrate((sin(~a + ~b*~x)^~p)*(sin(~c + ~d*~x)^~q), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~q), ~x), IGtQ(~p, 0), Not(IntegerQ(~q))) 
- (2^(-~p - ~q))*integrate(ExpandIntegrand((~I*((~E)^(-~I*(~c + ~d*~x))) - ~I*((~E)^(~I*(~c + ~d*~x))))^~q, (~I*((~E)^(-~I*(~a + ~b*~x))) - ~I*((~E)^(~I*(~a + ~b*~x))))^~p, ~x), ~x)
- end
-
-@rule integrate((cos(~a + ~b*~x)^~p)*(cos(~c + ~d*~x)^~q), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~q), ~x), IGtQ(~p, 0), Not(IntegerQ(~q))) 
- (2^(-~p - ~q))*integrate(ExpandIntegrand(((~E)^(~I*(~c + ~d*~x)) + (~E)^(-~I*(~c + ~d*~x)))^~q, ((~E)^(~I*(~a + ~b*~x)) + (~E)^(-~I*(~a + ~b*~x)))^~p, ~x), ~x)
- end
-
-@rule integrate((sin(~a + ~b*~x)^~p)*(cos(~c + ~d*~x)^~q), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~q), ~x), IGtQ(~p, 0), Not(IntegerQ(~q))) 
- (2^(-~p - ~q))*integrate(ExpandIntegrand(((~E)^(~I*(~c + ~d*~x)) + (~E)^(-~I*(~c + ~d*~x)))^~q, (~I*((~E)^(-~I*(~a + ~b*~x))) - ~I*((~E)^(~I*(~a + ~b*~x))))^~p, ~x), ~x)
- end
-
-@rule integrate((cos(~a + ~b*~x)^~p)*(sin(~c + ~d*~x)^~q), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~q), ~x), IGtQ(~p, 0), Not(IntegerQ(~q))) 
- (2^(-~p - ~q))*integrate(ExpandIntegrand((~I*((~E)^(-~I*(~c + ~d*~x))) - ~I*((~E)^(~I*(~c + ~d*~x))))^~q, ((~E)^(~I*(~a + ~b*~x)) + (~E)^(-~I*(~a + ~b*~x)))^~p, ~x), ~x)
- end
-
-@rule integrate(sin(~a + ~b*~x)*tan(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ((~b)^2 - ((~d)^2), 0)) 
- integrate((1//2)*((~E)^(-~I*(~a + ~b*~x))) + ((~E)^(~I*(~a + ~b*~x)))*((1 + (~E)^(2 * ~I*(~c + ~d*~x)))^-1) - (1//2)*((~E)^(~I*(~a + ~b*~x))) - ((~E)^(-~I*(~a + ~b*~x)))*((1 + (~E)^(2 * ~I*(~c + ~d*~x)))^-1), ~x)
- end
-
-@rule integrate(cos(~a + ~b*~x)*cot(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ((~b)^2 - ((~d)^2), 0)) 
- integrate((1//2)*~I*((~E)^(~I*(~a + ~b*~x))) + (1//2)*~I*((~E)^(-~I*(~a + ~b*~x))) - ~I*((~E)^(~I*(~a + ~b*~x)))*((1 - ((~E)^(2 * ~I*(~c + ~d*~x))))^-1) - ~I*((~E)^(-~I*(~a + ~b*~x)))*((1 - ((~E)^(2 * ~I*(~c + ~d*~x))))^-1), ~x)
- end
-
-@rule integrate(sin(~a + ~b*~x)*cot(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ((~b)^2 - ((~d)^2), 0)) 
- integrate((1//2)*((~E)^(~I*(~a + ~b*~x))) + ((~E)^(-~I*(~a + ~b*~x)))*((1 - ((~E)^(2 * ~I*(~c + ~d*~x))))^-1) - (1//2)*((~E)^(-~I*(~a + ~b*~x))) - ((~E)^(~I*(~a + ~b*~x)))*((1 - ((~E)^(2 * ~I*(~c + ~d*~x))))^-1), ~x)
- end
-
-@rule integrate(cos(~a + ~b*~x)*tan(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ((~b)^2 - ((~d)^2), 0)) 
- integrate(~I*((~E)^(~I*(~a + ~b*~x)))*((1 + (~E)^(2 * ~I*(~c + ~d*~x)))^-1) + ~I*((~E)^(-~I*(~a + ~b*~x)))*((1 + (~E)^(2 * ~I*(~c + ~d*~x)))^-1) - (1//2)*~I*((~E)^(~I*(~a + ~b*~x))) - (1//2)*~I*((~E)^(-~I*(~a + ~b*~x))), ~x)
- end
-
-@rule integrate(sin(~a*((~c + ~d*~x)^-1))^~n, ~x) =>  if And(FreeQ(List(~a, ~c, ~d), ~x), IGtQ(~n, 0)) 
- -((~d)^-1)*Subst(integrate(((~x)^-2)*(sin(~a*~x)^~n), ~x), ~x, (~c + ~d*~x)^-1)
- end
-
-@rule integrate(cos(~a*((~c + ~d*~x)^-1))^~n, ~x) =>  if And(FreeQ(List(~a, ~c, ~d), ~x), IGtQ(~n, 0)) 
- -((~d)^-1)*Subst(integrate(((~x)^-2)*(cos(~a*~x)^~n), ~x), ~x, (~c + ~d*~x)^-1)
- end
-
-@rule integrate(sin(~e*(~a + ~b*~x)*((~c + ~d*~x)^-1))^~n, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), IGtQ(~n, 0), NeQ(~b*~c - ~a*~d, 0)) 
- -((~d)^-1)*Subst(integrate(((~x)^-2)*(sin(~b*~e*((~d)^-1) - ~e*~x*((~d)^-1)*(~b*~c - ~a*~d))^~n), ~x), ~x, (~c + ~d*~x)^-1)
- end
-
-@rule integrate(cos(~e*(~a + ~b*~x)*((~c + ~d*~x)^-1))^~n, ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), IGtQ(~n, 0), NeQ(~b*~c - ~a*~d, 0)) 
- -((~d)^-1)*Subst(integrate(((~x)^-2)*(cos(~b*~e*((~d)^-1) - ~e*~x*((~d)^-1)*(~b*~c - ~a*~d))^~n), ~x), ~x, (~c + ~d*~x)^-1)
- end
-
-@rule integrate(sin(~u)^~n, ~x) =>  if And(IGtQ(~n, 0), QuotientOfLinearsQ(~u, ~x)) 
- Module(List(Set(~lst, QuotientOfLinearsParts(~u, ~x))), integrate(sin(((~x*Part(~lst, 4) + Part(~lst, 3))^-1)*(~x*Part(~lst, 2) + Part(~lst, 1)))^~n, ~x))
- end
-
-@rule integrate(cos(~u)^~n, ~x) =>  if And(IGtQ(~n, 0), QuotientOfLinearsQ(~u, ~x)) 
- Module(List(Set(~lst, QuotientOfLinearsParts(~u, ~x))), integrate(cos(((~x*Part(~lst, 4) + Part(~lst, 3))^-1)*(~x*Part(~lst, 2) + Part(~lst, 1)))^~n, ~x))
- end
-
-@rule integrate(~u*(sin(~v)^~p)*(sin(~w)^~q), ~x) =>  if EqQ(~w, ~v) 
- integrate(~u*(sin(~v)^(~p + ~q)), ~x)
- end
-
-@rule integrate(~u*(cos(~v)^~p)*(cos(~w)^~q), ~x) =>  if EqQ(~w, ~v) 
- integrate(~u*(cos(~v)^(~p + ~q)), ~x)
- end
-
-@rule integrate((sin(~v)^~p)*(sin(~w)^~q), ~x) =>  if And(Or(And(PolynomialQ(~v, ~x), PolynomialQ(~w, ~x)), And(BinomialQ(List(~v, ~w), ~x), IndependentQ(Cancel(~v*((~w)^-1)), ~x))), IGtQ(~p, 0), IGtQ(~q, 0)) 
- integrate(ExpandTrigReduce((sin(~v)^~p)*(sin(~w)^~q), ~x), ~x)
- end
-
-@rule integrate((cos(~v)^~p)*(cos(~w)^~q), ~x) =>  if And(Or(And(PolynomialQ(~v, ~x), PolynomialQ(~w, ~x)), And(BinomialQ(List(~v, ~w), ~x), IndependentQ(Cancel(~v*((~w)^-1)), ~x))), IGtQ(~p, 0), IGtQ(~q, 0)) 
- integrate(ExpandTrigReduce((cos(~v)^~p)*(cos(~w)^~q), ~x), ~x)
- end
-
-@rule integrate(((~x)^~m)*(sin(~v)^~p)*(sin(~w)^~q), ~x) =>  if And(IGtQ(~m, 0), IGtQ(~p, 0), IGtQ(~q, 0), Or(And(PolynomialQ(~v, ~x), PolynomialQ(~w, ~x)), And(BinomialQ(List(~v, ~w), ~x), IndependentQ(Cancel(~v*((~w)^-1)), ~x)))) 
- integrate(ExpandTrigReduce((~x)^~m, (sin(~v)^~p)*(sin(~w)^~q), ~x), ~x)
- end
-
-@rule integrate(((~x)^~m)*(cos(~v)^~p)*(cos(~w)^~q), ~x) =>  if And(IGtQ(~m, 0), IGtQ(~p, 0), IGtQ(~q, 0), Or(And(PolynomialQ(~v, ~x), PolynomialQ(~w, ~x)), And(BinomialQ(List(~v, ~w), ~x), IndependentQ(Cancel(~v*((~w)^-1)), ~x)))) 
- integrate(ExpandTrigReduce((~x)^~m, (cos(~v)^~p)*(cos(~w)^~q), ~x), ~x)
- end
-
-@rule integrate(~u*(sin(~v)^~p)*(cos(~w)^~p), ~x) =>  if And(EqQ(~w, ~v), IntegerQ(~p)) 
- (2^(-~p))*integrate(~u*(sin(2 * ~v)^~p), ~x)
- end
-
-@rule integrate((sin(~v)^~p)*(cos(~w)^~q), ~x) =>  if And(IGtQ(~p, 0), IGtQ(~q, 0), Or(And(PolynomialQ(~v, ~x), PolynomialQ(~w, ~x)), And(BinomialQ(List(~v, ~w), ~x), IndependentQ(Cancel(~v*((~w)^-1)), ~x)))) 
- integrate(ExpandTrigReduce((sin(~v)^~p)*(cos(~w)^~q), ~x), ~x)
- end
-
-@rule integrate(((~x)^~m)*(sin(~v)^~p)*(cos(~w)^~q), ~x) =>  if And(IGtQ(~m, 0), IGtQ(~p, 0), IGtQ(~q, 0), Or(And(PolynomialQ(~v, ~x), PolynomialQ(~w, ~x)), And(BinomialQ(List(~v, ~w), ~x), IndependentQ(Cancel(~v*((~w)^-1)), ~x)))) 
- integrate(ExpandTrigReduce((~x)^~m, (sin(~v)^~p)*(cos(~w)^~q), ~x), ~x)
- end
-
-@rule integrate((tan(~w)^~n)*sin(~v), ~x) =>  if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v)) 
- cos(~v - ~w)*integrate((tan(~w)^(~n - 1))*Sec(~w), ~x) - integrate((tan(~w)^(~n - 1))*cos(~v), ~x)
- end
-
-@rule integrate((cot(~w)^~n)*cos(~v), ~x) =>  if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v)) 
- cos(~v - ~w)*integrate((cot(~w)^(~n - 1))*Csc(~w), ~x) - integrate((cot(~w)^(~n - 1))*sin(~v), ~x)
- end
-
-@rule integrate((cot(~w)^~n)*sin(~v), ~x) =>  if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v)) 
- sin(~v - ~w)*integrate((cot(~w)^(~n - 1))*Csc(~w), ~x) + integrate((cot(~w)^(~n - 1))*cos(~v), ~x)
- end
-
-@rule integrate((tan(~w)^~n)*cos(~v), ~x) =>  if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v)) 
- integrate((tan(~w)^(~n - 1))*sin(~v), ~x) - sin(~v - ~w)*integrate((tan(~w)^(~n - 1))*Sec(~w), ~x)
- end
-
-@rule integrate((Sec(~w)^~n)*sin(~v), ~x) =>  if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v)) 
- cos(~v - ~w)*integrate((Sec(~w)^(~n - 1))*tan(~w), ~x) + sin(~v - ~w)*integrate(Sec(~w)^(~n - 1), ~x)
- end
-
-@rule integrate((Csc(~w)^~n)*cos(~v), ~x) =>  if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v)) 
- cos(~v - ~w)*integrate((Csc(~w)^(~n - 1))*cot(~w), ~x) - sin(~v - ~w)*integrate(Csc(~w)^(~n - 1), ~x)
- end
-
-@rule integrate((Csc(~w)^~n)*sin(~v), ~x) =>  if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v)) 
- cos(~v - ~w)*integrate(Csc(~w)^(~n - 1), ~x) + sin(~v - ~w)*integrate((Csc(~w)^(~n - 1))*cot(~w), ~x)
- end
-
-@rule integrate((Sec(~w)^~n)*cos(~v), ~x) =>  if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v)) 
- cos(~v - ~w)*integrate(Sec(~w)^(~n - 1), ~x) - sin(~v - ~w)*integrate((Sec(~w)^(~n - 1))*tan(~w), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~c + ~d*~x)*sin(~c + ~d*~x))^~n)*((~e + ~f*~x)^~m), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m, ~n), ~x) 
- integrate(((~a + (1//2)*~b*sin(2 * ~c + 2 * ~d*~x))^~n)*((~e + ~f*~x)^~m), ~x)
- end
-
-@rule integrate(((~x)^~m)*((~a + ~b*(sin(~c + ~d*~x)^2))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ(~a + ~b, 0), IGtQ(~m, 0), ILtQ(~n, 0), Or(EqQ(~n, -1), And(EqQ(~m, 1), EqQ(~n, -2)))) 
- (2^(-~n))*integrate(((~x)^~m)*((~b + 2 * ~a - ~b*cos(2 * ~c + 2 * ~d*~x))^~n), ~x)
- end
-
-@rule integrate(((~x)^~m)*((~a + ~b*(cos(~c + ~d*~x)^2))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ(~a + ~b, 0), IGtQ(~m, 0), ILtQ(~n, 0), Or(EqQ(~n, -1), And(EqQ(~m, 1), EqQ(~n, -2)))) 
- (2^(-~n))*integrate(((~x)^~m)*((~b + 2 * ~a + ~b*cos(2 * ~c + 2 * ~d*~x))^~n), ~x)
- end
-
-@rule integrate(((~f + ~g*~x)^~m)*((~a + ~b*(cos(~d + ~e*~x)^2) + ~c*(sin(~d + ~e*~x)^2))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g), ~x), IGtQ(~m, 0), NeQ(~a + ~b, 0), NeQ(~a + ~c, 0)) 
- 2integrate(((~f + ~g*~x)^~m)*((~b + ~c + 2 * ~a + (~b - ~c)*cos(2 * ~d + 2 * ~e*~x))^-1), ~x)
- end
-
-@rule integrate(((~f + ~g*~x)^~m)*((~b + ~c*(tan(~d + ~e*~x)^2))^-1)*(Sec(~d + ~e*~x)^2), ~x) =>  if And(FreeQ(List(~b, ~c, ~d, ~e, ~f, ~g), ~x), IGtQ(~m, 0)) 
- 2integrate(((~f + ~g*~x)^~m)*((~b + ~c + (~b - ~c)*cos(2 * ~d + 2 * ~e*~x))^-1), ~x)
- end
-
-@rule integrate(((~f + ~g*~x)^~m)*((~b + ~c*(tan(~d + ~e*~x)^2) + ~a*(Sec(~d + ~e*~x)^2))^-1)*(Sec(~d + ~e*~x)^2), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g), ~x), IGtQ(~m, 0), NeQ(~a + ~b, 0), NeQ(~a + ~c, 0)) 
- 2integrate(((~f + ~g*~x)^~m)*((~b + ~c + 2 * ~a + (~b - ~c)*cos(2 * ~d + 2 * ~e*~x))^-1), ~x)
- end
-
-@rule integrate(((~f + ~g*~x)^~m)*((~c + ~b*(cot(~d + ~e*~x)^2))^-1)*(Csc(~d + ~e*~x)^2), ~x) =>  if And(FreeQ(List(~b, ~c, ~d, ~e, ~f, ~g), ~x), IGtQ(~m, 0)) 
- 2integrate(((~f + ~g*~x)^~m)*((~b + ~c + (~b - ~c)*cos(2 * ~d + 2 * ~e*~x))^-1), ~x)
- end
-
-@rule integrate(((~f + ~g*~x)^~m)*((~c + ~a*(Csc(~d + ~e*~x)^2) + ~b*(cot(~d + ~e*~x)^2))^-1)*(Csc(~d + ~e*~x)^2), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g), ~x), IGtQ(~m, 0), NeQ(~a + ~b, 0), NeQ(~a + ~c, 0)) 
- 2integrate(((~f + ~g*~x)^~m)*((~b + ~c + 2 * ~a + (~b - ~c)*cos(2 * ~d + 2 * ~e*~x))^-1), ~x)
- end
-
-@rule integrate((~e + ~f*~x)*(~A + ~B*sin(~c + ~d*~x))*((~a + ~b*sin(~c + ~d*~x))^-2), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~A, ~B), ~x), EqQ(~A*~a - ~B*~b, 0)) 
- ~B*~f*(((~a)^-1)*((~d)^-1))*integrate(((~a + ~b*sin(~c + ~d*~x))^-1)*cos(~c + ~d*~x), ~x) - ~B*(~e + ~f*~x)*(((~a)^-1)*((~d)^-1)*((~a + ~b*sin(~c + ~d*~x))^-1))*cos(~c + ~d*~x)
- end
-
-@rule integrate((~e + ~f*~x)*(~A + ~B*cos(~c + ~d*~x))*((~a + ~b*cos(~c + ~d*~x))^-2), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~A, ~B), ~x), EqQ(~A*~a - ~B*~b, 0)) 
- ~B*(~e + ~f*~x)*(((~a)^-1)*((~d)^-1)*((~a + ~b*cos(~c + ~d*~x))^-1))*sin(~c + ~d*~x) - ~B*~f*(((~a)^-1)*((~d)^-1))*integrate(((~a + ~b*cos(~c + ~d*~x))^-1)*sin(~c + ~d*~x), ~x)
- end
-
-@rule integrate(((~x)^2)*((~c*sin(~a*~x) + ~d*~x*cos(~a*~x))^-2), ~x) =>  if And(FreeQ(List(~a, ~c, ~d), ~x), EqQ(~d + ~a*~c, 0)) 
- ~x*(((~a)^-1)*((~d)^-1)*((~c*sin(~a*~x) + ~d*~x*cos(~a*~x))^-1)*(sin(~a*~x)^-1)) + ((~d)^-2)*integrate(sin(~a*~x)^-2, ~x)
- end
-
-@rule integrate(((~x)^2)*((~c*cos(~a*~x) + ~d*~x*sin(~a*~x))^-2), ~x) =>  if And(FreeQ(List(~a, ~c, ~d), ~x), EqQ(~a*~c - ~d, 0)) 
- ((~d)^-2)*integrate(cos(~a*~x)^-2, ~x) - ~x*(((~a)^-1)*((~d)^-1)*((~c*cos(~a*~x) + ~d*~x*sin(~a*~x))^-1)*(cos(~a*~x)^-1))
- end
-
-@rule integrate(((~c*sin(~a*~x) + ~d*~x*cos(~a*~x))^-2)*(sin(~a*~x)^2), ~x) =>  if And(FreeQ(List(~a, ~c, ~d), ~x), EqQ(~d + ~a*~c, 0)) 
- (~x*((~d)^2))^-1 + (((~a)^-1)*((~d)^-1)*((~x)^-1)*((~c*sin(~a*~x) + ~d*~x*cos(~a*~x))^-1))*sin(~a*~x)
- end
-
-@rule integrate(((~c*cos(~a*~x) + ~d*~x*sin(~a*~x))^-2)*(cos(~a*~x)^2), ~x) =>  if And(FreeQ(List(~a, ~c, ~d), ~x), EqQ(~a*~c - ~d, 0)) 
- (~x*((~d)^2))^-1 - (((~a)^-1)*((~d)^-1)*((~x)^-1)*((~c*cos(~a*~x) + ~d*~x*sin(~a*~x))^-1))*cos(~a*~x)
- end
-
-@rule integrate(((~c*sin(~a*~x) + ~d*~x*cos(~a*~x))^-2)*((~b*~x)^~m)*(sin(~a*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), EqQ(~d + ~a*~c, 0), EqQ(~m, 2 - ~n)) 
- ~b*((~b*~x)^(~m - 1))*(sin(~a*~x)^(~n - 1))*(((~a)^-1)*((~d)^-1)*((~c*sin(~a*~x) + ~d*~x*cos(~a*~x))^-1)) - ((~b)^2)*((~d)^-2)*(~n - 1)*integrate(((~b*~x)^(~m - 2))*(sin(~a*~x)^(~n - 2)), ~x)
- end
-
-@rule integrate(((~c*cos(~a*~x) + ~d*~x*sin(~a*~x))^-2)*((~b*~x)^~m)*(cos(~a*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), EqQ(~a*~c - ~d, 0), EqQ(~m, 2 - ~n)) 
- -~b*((~b*~x)^(~m - 1))*(cos(~a*~x)^(~n - 1))*(((~a)^-1)*((~d)^-1)*((~c*cos(~a*~x) + ~d*~x*sin(~a*~x))^-1)) - ((~b)^2)*((~d)^-2)*(~n - 1)*integrate(((~b*~x)^(~m - 2))*(cos(~a*~x)^(~n - 2)), ~x)
- end
-
-@rule integrate(((~c*sin(~a*~x) + ~d*~x*cos(~a*~x))^-2)*((~b*~x)^~m)*(Csc(~a*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), EqQ(~d + ~a*~c, 0), EqQ(~m, 2 + ~n)) 
- ~b*((~b*~x)^(~m - 1))*(Csc(~a*~x)^(1 + ~n))*(((~a)^-1)*((~d)^-1)*((~c*sin(~a*~x) + ~d*~x*cos(~a*~x))^-1)) + ((~b)^2)*((~d)^-2)*(1 + ~n)*integrate(((~b*~x)^(~m - 2))*(Csc(~a*~x)^(2 + ~n)), ~x)
- end
-
-@rule integrate(((~c*cos(~a*~x) + ~d*~x*sin(~a*~x))^-2)*((~b*~x)^~m)*(Sec(~a*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), EqQ(~a*~c - ~d, 0), EqQ(~m, 2 + ~n)) 
- ((~b)^2)*((~d)^-2)*(1 + ~n)*integrate(((~b*~x)^(~m - 2))*(Sec(~a*~x)^(2 + ~n)), ~x) - ~b*((~b*~x)^(~m - 1))*(Sec(~a*~x)^(1 + ~n))*(((~a)^-1)*((~d)^-1)*((~c*cos(~a*~x) + ~d*~x*sin(~a*~x))^-1))
- end
-
-@rule integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*((~g + ~h*~x)^~p)*((~c + ~d*sin(~e + ~f*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~h), ~x), EqQ(~b*~c + ~a*~d, 0), EqQ((~a)^2 - ((~b)^2), 0), IntegerQ(~m), IGtQ(~n - ~m, 0)) 
- ((~a)^~m)*((~c)^~m)*integrate(((~g + ~h*~x)^~p)*((~c + ~d*sin(~e + ~f*~x))^(~n - ~m))*(cos(~e + ~f*~x)^(2 * ~m)), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~e + ~f*~x))^~m)*((~g + ~h*~x)^~p)*((~c + ~d*cos(~e + ~f*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~h), ~x), EqQ(~b*~c + ~a*~d, 0), EqQ((~a)^2 - ((~b)^2), 0), IntegerQ(~m), IGtQ(~n - ~m, 0)) 
- ((~a)^~m)*((~c)^~m)*integrate(((~g + ~h*~x)^~p)*((~c + ~d*cos(~e + ~f*~x))^(~n - ~m))*(sin(~e + ~f*~x)^(2 * ~m)), ~x)
- end
-
-@rule integrate(((~a + ~b*sin(~e + ~f*~x))^~m)*((~g + ~h*~x)^~p)*((~c + ~d*sin(~e + ~f*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~h), ~x), EqQ(~b*~c + ~a*~d, 0), EqQ((~a)^2 - ((~b)^2), 0), IntegerQ(~p), IntegerQ(2 * ~m), IGeQ(~n - ~m, 0)) 
- ((~a)^IntPart(~m))*((~c)^IntPart(~m))*((~a + ~b*sin(~e + ~f*~x))^FracPart(~m))*((~c + ~d*sin(~e + ~f*~x))^FracPart(~m))*(cos(~e + ~f*~x)^(-2FracPart(~m)))*integrate(((~g + ~h*~x)^~p)*((~c + ~d*sin(~e + ~f*~x))^(~n - ~m))*(cos(~e + ~f*~x)^(2 * ~m)), ~x)
- end
-
-@rule integrate(((~a + ~b*cos(~e + ~f*~x))^~m)*((~g + ~h*~x)^~p)*((~c + ~d*cos(~e + ~f*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~h), ~x), EqQ(~b*~c + ~a*~d, 0), EqQ((~a)^2 - ((~b)^2), 0), IntegerQ(~p), IntegerQ(2 * ~m), IGeQ(~n - ~m, 0)) 
- ((~a)^IntPart(~m))*((~c)^IntPart(~m))*((~a + ~b*cos(~e + ~f*~x))^FracPart(~m))*((~c + ~d*cos(~e + ~f*~x))^FracPart(~m))*(sin(~e + ~f*~x)^(-2FracPart(~m)))*integrate(((~g + ~h*~x)^~p)*((~c + ~d*cos(~e + ~f*~x))^(~n - ~m))*(sin(~e + ~f*~x)^(2 * ~m)), ~x)
- end
-
-@rule integrate(((~a + ~b*tan(~v))^~n)*(Sec(~v)^~m), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IntegerQ((1//2)*(~m - 1)), EqQ(~m + ~n, 0)) 
- integrate((~a*cos(~v) + ~b*sin(~v))^~n, ~x)
- end
-
-@rule integrate(((~a + ~b*cot(~v))^~n)*(Csc(~v)^~m), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IntegerQ((1//2)*(~m - 1)), EqQ(~m + ~n, 0)) 
- integrate((~a*sin(~v) + ~b*cos(~v))^~n, ~x)
- end
-
-@rule integrate(~u*(sin(~a + ~b*~x)^~m)*(sin(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), IGtQ(~m, 0), IGtQ(~n, 0)) 
- integrate(ExpandTrigReduce(~u, (sin(~a + ~b*~x)^~m)*(sin(~c + ~d*~x)^~n), ~x), ~x)
- end
-
-@rule integrate(~u*(cos(~a + ~b*~x)^~m)*(cos(~c + ~d*~x)^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), IGtQ(~m, 0), IGtQ(~n, 0)) 
- integrate(ExpandTrigReduce(~u, (cos(~a + ~b*~x)^~m)*(cos(~c + ~d*~x)^~n), ~x), ~x)
- end
-
-@rule integrate(Sec(~a + ~b*~x)*Sec(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ((~b)^2 - ((~d)^2), 0), NeQ(~b*~c - ~a*~d, 0)) 
- Csc(((~b)^-1)*(~b*~c - ~a*~d))*integrate(tan(~c + ~d*~x), ~x) - Csc(((~d)^-1)*(~b*~c - ~a*~d))*integrate(tan(~a + ~b*~x), ~x)
- end
-
-@rule integrate(Csc(~a + ~b*~x)*Csc(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ((~b)^2 - ((~d)^2), 0), NeQ(~b*~c - ~a*~d, 0)) 
- Csc(((~b)^-1)*(~b*~c - ~a*~d))*integrate(cot(~a + ~b*~x), ~x) - Csc(((~d)^-1)*(~b*~c - ~a*~d))*integrate(cot(~c + ~d*~x), ~x)
- end
-
-@rule integrate(tan(~a + ~b*~x)*tan(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ((~b)^2 - ((~d)^2), 0), NeQ(~b*~c - ~a*~d, 0)) 
- ~b*((~d)^-1)*cos(((~d)^-1)*(~b*~c - ~a*~d))*integrate(Sec(~a + ~b*~x)*Sec(~c + ~d*~x), ~x) - ~b*~x*((~d)^-1)
- end
-
-@rule integrate(cot(~a + ~b*~x)*cot(~c + ~d*~x), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ((~b)^2 - ((~d)^2), 0), NeQ(~b*~c - ~a*~d, 0)) 
- cos(((~d)^-1)*(~b*~c - ~a*~d))*integrate(Csc(~a + ~b*~x)*Csc(~c + ~d*~x), ~x) - ~b*~x*((~d)^-1)
- end
-
-@rule integrate(~u*((~a*cos(~v) + ~b*sin(~v))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~n), ~x), EqQ((~a)^2 + (~b)^2, 0)) 
- integrate(~u*((~a*((~E)^(-~a*~v*((~b)^-1))))^~n), ~x)
- end
-
-@rule integrate(sin(~d*((~a + ~b*Log(~c*((~x)^~n)))^2)), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~d, ~n), ~x) 
- (1//2)*~I*integrate((~E)^(-~I*~d*((~a + ~b*Log(~c*((~x)^~n)))^2)), ~x) - (1//2)*~I*integrate((~E)^(~I*~d*((~a + ~b*Log(~c*((~x)^~n)))^2)), ~x)
- end
-
-@rule integrate(cos(~d*((~a + ~b*Log(~c*((~x)^~n)))^2)), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~d, ~n), ~x) 
- (1//2)*integrate((~E)^(~I*~d*((~a + ~b*Log(~c*((~x)^~n)))^2)), ~x) + (1//2)*integrate((~E)^(-~I*~d*((~a + ~b*Log(~c*((~x)^~n)))^2)), ~x)
- end
-
-@rule integrate(((~e*~x)^~m)*sin(~d*((~a + ~b*Log(~c*((~x)^~n)))^2)), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~d, ~e, ~m, ~n), ~x) 
- (1//2)*~I*integrate(((~E)^(-~I*~d*((~a + ~b*Log(~c*((~x)^~n)))^2)))*((~e*~x)^~m), ~x) - (1//2)*~I*integrate(((~E)^(~I*~d*((~a + ~b*Log(~c*((~x)^~n)))^2)))*((~e*~x)^~m), ~x)
- end
-
-@rule integrate(((~e*~x)^~m)*cos(~d*((~a + ~b*Log(~c*((~x)^~n)))^2)), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~d, ~e, ~m, ~n), ~x) 
- (1//2)*integrate(((~E)^(~I*~d*((~a + ~b*Log(~c*((~x)^~n)))^2)))*((~e*~x)^~m), ~x) + (1//2)*integrate(((~E)^(-~I*~d*((~a + ~b*Log(~c*((~x)^~n)))^2)))*((~e*~x)^~m), ~x)
- end
+# line nr: 23
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0))
+  Power(~b, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(sin(~c + ~d*~x), ~n - 1), ~x) - ~a*Power(~b, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*sin(~c + ~d*~x), -1)*Power(sin(~c + ~d*~x), ~n - 1), ~x)
+end
+
+# line nr: 29
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0))
+  Power(~b, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(cos(~c + ~d*~x), ~n - 1), ~x) - ~a*Power(~b, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*cos(~c + ~d*~x), -1)*Power(cos(~c + ~d*~x), ~n - 1), ~x)
+end
+
+# line nr: 35
+@rule integrate(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), EqQ(Power(~a, 2) - Power(~b, 2), 0))
+  2integrate(Power(~E, ~I*(~c + ~d*~x))*Power(~a - ~I*~b*Power(~E, ~I*(~c + ~d*~x)), -1)*Power(~e + ~f*~x, ~m), ~x) - ~I*Power(~e + ~f*~x, 1 + ~m)*Power(~b*~f*(1 + ~m), -1)
+end
+
+# line nr: 41
+@rule integrate(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), EqQ(Power(~a, 2) - Power(~b, 2), 0))
+  ~I*Power(~e + ~f*~x, 1 + ~m)*Power(~b*~f*(1 + ~m), -1) - 2 * ~I*integrate(Power(~E, ~I*(~c + ~d*~x))*Power(~e + ~f*~x, ~m)*Power(~a + ~b*Power(~E, ~I*(~c + ~d*~x)), -1), ~x)
+end
+
+# line nr: 47
+@rule integrate(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), PosQ(Power(~a, 2) - Power(~b, 2)))
+  integrate(Power(~E, ~I*(~c + ~d*~x))*Power(~e + ~f*~x, ~m)*Power(~a - Rt(Power(~a, 2) - Power(~b, 2), 2) - ~I*~b*Power(~E, ~I*(~c + ~d*~x)), -1), ~x) + integrate(Power(~E, ~I*(~c + ~d*~x))*Power(~e + ~f*~x, ~m)*Power(~a + Rt(Power(~a, 2) - Power(~b, 2), 2) - ~I*~b*Power(~E, ~I*(~c + ~d*~x)), -1), ~x) - ~I*Power(~e + ~f*~x, 1 + ~m)*Power(~b*~f*(1 + ~m), -1)
+end
+
+# line nr: 55
+@rule integrate(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), PosQ(Power(~a, 2) - Power(~b, 2)))
+  ~I*Power(~e + ~f*~x, 1 + ~m)*Power(~b*~f*(1 + ~m), -1) - ~I*integrate(Power(~E, ~I*(~c + ~d*~x))*Power(~e + ~f*~x, ~m)*Power(~a + ~b*Power(~E, ~I*(~c + ~d*~x)) - Rt(Power(~a, 2) - Power(~b, 2), 2), -1), ~x) - ~I*integrate(Power(~E, ~I*(~c + ~d*~x))*Power(~e + ~f*~x, ~m)*Power(~a + ~b*Power(~E, ~I*(~c + ~d*~x)) + Rt(Power(~a, 2) - Power(~b, 2), 2), -1), ~x)
+end
+
+# line nr: 63
+@rule integrate(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), NegQ(Power(~a, 2) - Power(~b, 2)))
+  ~I*integrate(Power(~E, ~I*(~c + ~d*~x))*Power(~e + ~f*~x, ~m)*Power(~I*~a + ~b*Power(~E, ~I*(~c + ~d*~x)) - Rt(Power(~b, 2) - Power(~a, 2), 2), -1), ~x) + ~I*integrate(Power(~E, ~I*(~c + ~d*~x))*Power(~e + ~f*~x, ~m)*Power(~I*~a + ~b*Power(~E, ~I*(~c + ~d*~x)) + Rt(Power(~b, 2) - Power(~a, 2), 2), -1), ~x) - ~I*Power(~e + ~f*~x, 1 + ~m)*Power(~b*~f*(1 + ~m), -1)
+end
+
+# line nr: 71
+@rule integrate(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), NegQ(Power(~a, 2) - Power(~b, 2)))
+  ~I*Power(~e + ~f*~x, 1 + ~m)*Power(~b*~f*(1 + ~m), -1) + integrate(Power(~E, ~I*(~c + ~d*~x))*Power(~e + ~f*~x, ~m)*Power(~I*~a + ~I*~b*Power(~E, ~I*(~c + ~d*~x)) - Rt(Power(~b, 2) - Power(~a, 2), 2), -1), ~x) + integrate(Power(~E, ~I*(~c + ~d*~x))*Power(~e + ~f*~x, ~m)*Power(~I*~a + ~I*~b*Power(~E, ~I*(~c + ~d*~x)) + Rt(Power(~b, 2) - Power(~a, 2), 2), -1), ~x)
+end
+
+# line nr: 79
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Pattern(~n, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m), ~x), IGtQ(~n, 1), EqQ(Power(~a, 2) - Power(~b, 2), 0))
+  Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(cos(~c + ~d*~x), ~n - 2), ~x) - Power(~b, -1)*integrate(sin(~c + ~d*~x)*Power(~e + ~f*~x, ~m)*Power(cos(~c + ~d*~x), ~n - 2), ~x)
+end
+
+# line nr: 86
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Pattern(~n, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m), ~x), IGtQ(~n, 1), EqQ(Power(~a, 2) - Power(~b, 2), 0))
+  Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(sin(~c + ~d*~x), ~n - 2), ~x) - Power(~b, -1)*integrate(cos(~c + ~d*~x)*Power(~e + ~f*~x, ~m)*Power(sin(~c + ~d*~x), ~n - 2), ~x)
+end
+
+# line nr: 93
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Pattern(~n, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~n, 1), NeQ(Power(~a, 2) - Power(~b, 2), 0), IGtQ(~m, 0))
+  ~a*integrate(Power(~e + ~f*~x, ~m)*Power(cos(~c + ~d*~x), ~n - 2), ~x)*Power(Power(~b, 2), -1) - Power(~b, -1)*integrate(sin(~c + ~d*~x)*Power(~e + ~f*~x, ~m)*Power(cos(~c + ~d*~x), ~n - 2), ~x) - (Power(~a, 2) - Power(~b, 2))*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*sin(~c + ~d*~x), -1)*Power(cos(~c + ~d*~x), ~n - 2), ~x)*Power(Power(~b, 2), -1)
+end
+
+# line nr: 101
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Pattern(~n, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~n, 1), NeQ(Power(~a, 2) - Power(~b, 2), 0), IGtQ(~m, 0))
+  ~a*integrate(Power(~e + ~f*~x, ~m)*Power(sin(~c + ~d*~x), ~n - 2), ~x)*Power(Power(~b, 2), -1) - Power(~b, -1)*integrate(cos(~c + ~d*~x)*Power(~e + ~f*~x, ~m)*Power(sin(~c + ~d*~x), ~n - 2), ~x) - (Power(~a, 2) - Power(~b, 2))*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*cos(~c + ~d*~x), -1)*Power(sin(~c + ~d*~x), ~n - 2), ~x)*Power(Power(~b, 2), -1)
+end
+
+# line nr: 109
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(tan(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0))
+  Power(~b, -1)*integrate(sec(~c + ~d*~x)*Power(~e + ~f*~x, ~m)*Power(tan(~c + ~d*~x), ~n - 1), ~x) - ~a*Power(~b, -1)*integrate(sec(~c + ~d*~x)*Power(~e + ~f*~x, ~m)*Power(~a + ~b*sin(~c + ~d*~x), -1)*Power(tan(~c + ~d*~x), ~n - 1), ~x)
+end
+
+# line nr: 115
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(cot(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0))
+  Power(~b, -1)*integrate(csc(~c + ~d*~x)*Power(~e + ~f*~x, ~m)*Power(cot(~c + ~d*~x), ~n - 1), ~x) - ~a*Power(~b, -1)*integrate(csc(~c + ~d*~x)*Power(~e + ~f*~x, ~m)*Power(~a + ~b*cos(~c + ~d*~x), -1)*Power(cot(~c + ~d*~x), ~n - 1), ~x)
+end
+
+# line nr: 121
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(cot(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0))
+  Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(cot(~c + ~d*~x), ~n), ~x) - ~b*Power(~a, -1)*integrate(cos(~c + ~d*~x)*Power(~e + ~f*~x, ~m)*Power(~a + ~b*sin(~c + ~d*~x), -1)*Power(cot(~c + ~d*~x), ~n - 1), ~x)
+end
+
+# line nr: 127
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(tan(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0))
+  Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(tan(~c + ~d*~x), ~n), ~x) - ~b*Power(~a, -1)*integrate(sin(~c + ~d*~x)*Power(~e + ~f*~x, ~m)*Power(~a + ~b*cos(~c + ~d*~x), -1)*Power(tan(~c + ~d*~x), ~n - 1), ~x)
+end
+
+# line nr: 133
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(sec(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~n), ~x), IGtQ(~m, 0), EqQ(Power(~a, 2) - Power(~b, 2), 0))
+  Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(sec(~c + ~d*~x), 2 + ~n), ~x) - Power(~b, -1)*integrate(tan(~c + ~d*~x)*Power(~e + ~f*~x, ~m)*Power(sec(~c + ~d*~x), 1 + ~n), ~x)
+end
+
+# line nr: 140
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(csc(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~n), ~x), IGtQ(~m, 0), EqQ(Power(~a, 2) - Power(~b, 2), 0))
+  Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(csc(~c + ~d*~x), 2 + ~n), ~x) - Power(~b, -1)*integrate(cot(~c + ~d*~x)*Power(~e + ~f*~x, ~m)*Power(csc(~c + ~d*~x), 1 + ~n), ~x)
+end
+
+# line nr: 147
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(sec(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), NeQ(Power(~a, 2) - Power(~b, 2), 0), IGtQ(~n, 0))
+  Power(Power(~a, 2) - Power(~b, 2), -1)*integrate((~a - ~b*sin(~c + ~d*~x))*Power(~e + ~f*~x, ~m)*Power(sec(~c + ~d*~x), ~n), ~x) - Power(~b, 2)*Power(Power(~a, 2) - Power(~b, 2), -1)*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*sin(~c + ~d*~x), -1)*Power(sec(~c + ~d*~x), ~n - 2), ~x)
+end
+
+# line nr: 154
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(csc(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), NeQ(Power(~a, 2) - Power(~b, 2), 0), IGtQ(~n, 0))
+  Power(Power(~a, 2) - Power(~b, 2), -1)*integrate((~a - ~b*cos(~c + ~d*~x))*Power(~e + ~f*~x, ~m)*Power(csc(~c + ~d*~x), ~n), ~x) - Power(~b, 2)*Power(Power(~a, 2) - Power(~b, 2), -1)*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*cos(~c + ~d*~x), -1)*Power(csc(~c + ~d*~x), ~n - 2), ~x)
+end
+
+# line nr: 161
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(csc(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0))
+  Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(csc(~c + ~d*~x), ~n), ~x) - ~b*Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*sin(~c + ~d*~x), -1)*Power(csc(~c + ~d*~x), ~n - 1), ~x)
+end
+
+# line nr: 167
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(sec(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0))
+  Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(sec(~c + ~d*~x), ~n), ~x) - ~b*Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*cos(~c + ~d*~x), -1)*Power(sec(~c + ~d*~x), ~n - 1), ~x)
+end
+
+# line nr: 173
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(Pattern(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())), ~F, Blank()), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m, ~n), ~x), TrigQ(~F))
+  Unintegrable(Power(~e + ~f*~x, ~m)*Power(~a + ~b*sin(~c + ~d*~x), -1)*Power(F(~c + ~d*~x), ~n), ~x)
+end
+
+# line nr: 179
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(Pattern(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())), ~F, Blank()), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m, ~n), ~x), TrigQ(~F))
+  Unintegrable(Power(~e + ~f*~x, ~m)*Power(~a + ~b*cos(~c + ~d*~x), -1)*Power(F(~c + ~d*~x), ~n), ~x)
+end
+
+# line nr: 185
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~p, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0))
+  Power(~b, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(cos(~c + ~d*~x), ~p)*Power(sin(~c + ~d*~x), ~n - 1), ~x) - ~a*Power(~b, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*sin(~c + ~d*~x), -1)*Power(cos(~c + ~d*~x), ~p)*Power(sin(~c + ~d*~x), ~n - 1), ~x)
+end
+
+# line nr: 192
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~p, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0))
+  Power(~b, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(cos(~c + ~d*~x), ~n - 1)*Power(sin(~c + ~d*~x), ~p), ~x) - ~a*Power(~b, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*cos(~c + ~d*~x), -1)*Power(cos(~c + ~d*~x), ~n - 1)*Power(sin(~c + ~d*~x), ~p), ~x)
+end
+
+# line nr: 199
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~p, Blank())))*Power(tan(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0))
+  Power(~b, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(cos(~c + ~d*~x), ~p - 1)*Power(tan(~c + ~d*~x), ~n - 1), ~x) - ~a*Power(~b, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*sin(~c + ~d*~x), -1)*Power(cos(~c + ~d*~x), ~p - 1)*Power(tan(~c + ~d*~x), ~n - 1), ~x)
+end
+
+# line nr: 206
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(cot(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~p, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0))
+  Power(~b, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(cot(~c + ~d*~x), ~n - 1)*Power(sin(~c + ~d*~x), ~p - 1), ~x) - ~a*Power(~b, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*cos(~c + ~d*~x), -1)*Power(cot(~c + ~d*~x), ~n - 1)*Power(sin(~c + ~d*~x), ~p - 1), ~x)
+end
+
+# line nr: 213
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~p, Blank())))*Power(cot(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0))
+  Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(cos(~c + ~d*~x), ~p)*Power(cot(~c + ~d*~x), ~n), ~x) - ~b*Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*sin(~c + ~d*~x), -1)*Power(cos(~c + ~d*~x), 1 + ~p)*Power(cot(~c + ~d*~x), ~n - 1), ~x)
+end
+
+# line nr: 220
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~p, Blank())))*Power(tan(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0))
+  Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(sin(~c + ~d*~x), ~p)*Power(tan(~c + ~d*~x), ~n), ~x) - ~b*Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*cos(~c + ~d*~x), -1)*Power(sin(~c + ~d*~x), 1 + ~p)*Power(tan(~c + ~d*~x), ~n - 1), ~x)
+end
+
+# line nr: 227
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~p, Blank())))*Power(csc(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0))
+  Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(cos(~c + ~d*~x), ~p)*Power(csc(~c + ~d*~x), ~n), ~x) - ~b*Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*sin(~c + ~d*~x), -1)*Power(cos(~c + ~d*~x), ~p)*Power(csc(~c + ~d*~x), ~n - 1), ~x)
+end
+
+# line nr: 234
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(sec(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~p, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), IGtQ(~m, 0), IGtQ(~n, 0), IGtQ(~p, 0))
+  Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(sec(~c + ~d*~x), ~n)*Power(sin(~c + ~d*~x), ~p), ~x) - ~b*Power(~a, -1)*integrate(Power(~e + ~f*~x, ~m)*Power(~a + ~b*cos(~c + ~d*~x), -1)*Power(sec(~c + ~d*~x), ~n - 1)*Power(sin(~c + ~d*~x), ~p), ~x)
+end
+
+# line nr: 241
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~p, Blank())))*Power(Pattern(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())), ~F, Blank()), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m, ~n, ~p), ~x), TrigQ(~F))
+  Unintegrable(Power(~e + ~f*~x, ~m)*Power(~a + ~b*sin(~c + ~d*~x), -1)*Power(cos(~c + ~d*~x), ~p)*Power(F(~c + ~d*~x), ~n), ~x)
+end
+
+# line nr: 247
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~p, Blank())))*Power(Pattern(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())), ~F, Blank()), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m, ~n), ~x), TrigQ(~F))
+  Unintegrable(Power(~e + ~f*~x, ~m)*Power(~a + ~b*cos(~c + ~d*~x), -1)*Power(sin(~c + ~d*~x), ~p)*Power(F(~c + ~d*~x), ~n), ~x)
+end
+
+# line nr: 253
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sec(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(Pattern(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())), ~F, Blank()), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), TrigQ(~F), IntegersQ(~m, ~n))
+  integrate(cos(~c + ~d*~x)*Power(~b + ~a*cos(~c + ~d*~x), -1)*Power(~e + ~f*~x, ~m)*Power(F(~c + ~d*~x), ~n), ~x)
+end
+
+# line nr: 259
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(csc(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(Pattern(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())), ~F, Blank()), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), TrigQ(~F), IntegersQ(~m, ~n))
+  integrate(sin(~c + ~d*~x)*Power(~e + ~f*~x, ~m)*Power(~b + ~a*sin(~c + ~d*~x), -1)*Power(F(~c + ~d*~x), ~n), ~x)
+end
+
+# line nr: 265
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(sec(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(Pattern(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())), ~F, Blank()), Optional(Pattern(~n, Blank())))*Power(Pattern(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())), ~G, Blank()), Optional(Pattern(~p, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), TrigQ(~F), TrigQ(~G), IntegersQ(~m, ~n, ~p))
+  integrate(cos(~c + ~d*~x)*Power(~b + ~a*cos(~c + ~d*~x), -1)*Power(~e + ~f*~x, ~m)*Power(F(~c + ~d*~x), ~n)*Power(G(~c + ~d*~x), ~p), ~x)
+end
+
+# line nr: 271
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(csc(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), -1)*Power(Pattern(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())), ~F, Blank()), Optional(Pattern(~n, Blank())))*Power(Pattern(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())), ~G, Blank()), Optional(Pattern(~p, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f), ~x), TrigQ(~F), TrigQ(~G), IntegersQ(~m, ~n, ~p))
+  integrate(sin(~c + ~d*~x)*Power(~e + ~f*~x, ~m)*Power(~b + ~a*sin(~c + ~d*~x), -1)*Power(F(~c + ~d*~x), ~n)*Power(G(~c + ~d*~x), ~p), ~x)
+end
+
+# line nr: 277
+@rule integrate(Power(sin(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), Optional(Pattern(~p, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~q, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~q), ~x), IGtQ(~p, 0), Not(IntegerQ(~q)))
+  integrate(ExpandIntegrand(Power(~I*Power(Power(~E, ~I*(~c + ~d*~x)), -1) - ~I*Power(~E, ~I*(~c + ~d*~x)), ~q), Power(~I*Power(Power(~E, ~I*(~a + ~b*~x)), -1) - ~I*Power(~E, ~I*(~a + ~b*~x)), ~p), ~x), ~x)*Power(Power(2, ~p + ~q), -1)
+end
+
+# line nr: 283
+@rule integrate(Power(cos(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), Optional(Pattern(~p, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~q, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~q), ~x), IGtQ(~p, 0), Not(IntegerQ(~q)))
+  integrate(ExpandIntegrand(Power(Power(~E, ~I*(~c + ~d*~x)) + Power(~E, -~I*(~c + ~d*~x)), ~q), Power(Power(~E, ~I*(~a + ~b*~x)) + Power(~E, -~I*(~a + ~b*~x)), ~p), ~x), ~x)*Power(Power(2, ~p + ~q), -1)
+end
+
+# line nr: 289
+@rule integrate(Power(sin(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), Optional(Pattern(~p, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~q, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~q), ~x), IGtQ(~p, 0), Not(IntegerQ(~q)))
+  integrate(ExpandIntegrand(Power(Power(~E, ~I*(~c + ~d*~x)) + Power(~E, -~I*(~c + ~d*~x)), ~q), Power(~I*Power(Power(~E, ~I*(~a + ~b*~x)), -1) - ~I*Power(~E, ~I*(~a + ~b*~x)), ~p), ~x), ~x)*Power(Power(2, ~p + ~q), -1)
+end
+
+# line nr: 295
+@rule integrate(Power(cos(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), Optional(Pattern(~p, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~q, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~q), ~x), IGtQ(~p, 0), Not(IntegerQ(~q)))
+  integrate(ExpandIntegrand(Power(~I*Power(Power(~E, ~I*(~c + ~d*~x)), -1) - ~I*Power(~E, ~I*(~c + ~d*~x)), ~q), Power(Power(~E, ~I*(~a + ~b*~x)) + Power(~E, -~I*(~a + ~b*~x)), ~p), ~x), ~x)*Power(Power(2, ~p + ~q), -1)
+end
+
+# line nr: 301
+@rule integrate(sin(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*tan(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ(Power(~b, 2) - Power(~d, 2), 0))
+  integrate(Power(~E, ~I*(~a + ~b*~x))*Power(1 + Power(~E, 2 * ~I*(~c + ~d*~x)), -1) + Power(~E, -~I*(~a + ~b*~x))*Power(2, -1) - Power(~E, -~I*(~a + ~b*~x))*Power(1 + Power(~E, 2 * ~I*(~c + ~d*~x)), -1) - Power(~E, ~I*(~a + ~b*~x))*Power(2, -1), ~x)
+end
+
+# line nr: 307
+@rule integrate(cos(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*cot(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ(Power(~b, 2) - Power(~d, 2), 0))
+  integrate(~I*Power(~E, ~I*(~a + ~b*~x))*Power(2, -1) + ~I*Power(~E, -~I*(~a + ~b*~x))*Power(2, -1) - ~I*Power(~E, ~I*(~a + ~b*~x))*Power(1 - Power(~E, 2 * ~I*(~c + ~d*~x)), -1) - ~I*Power(~E, -~I*(~a + ~b*~x))*Power(1 - Power(~E, 2 * ~I*(~c + ~d*~x)), -1), ~x)
+end
+
+# line nr: 313
+@rule integrate(sin(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*cot(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ(Power(~b, 2) - Power(~d, 2), 0))
+  integrate(Power(~E, ~I*(~a + ~b*~x))*Power(2, -1) + Power(~E, -~I*(~a + ~b*~x))*Power(1 - Power(~E, 2 * ~I*(~c + ~d*~x)), -1) - Power(~E, ~I*(~a + ~b*~x))*Power(1 - Power(~E, 2 * ~I*(~c + ~d*~x)), -1) - Power(~E, -~I*(~a + ~b*~x))*Power(2, -1), ~x)
+end
+
+# line nr: 319
+@rule integrate(cos(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*tan(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ(Power(~b, 2) - Power(~d, 2), 0))
+  integrate(~I*Power(~E, ~I*(~a + ~b*~x))*Power(1 + Power(~E, 2 * ~I*(~c + ~d*~x)), -1) + ~I*Power(~E, -~I*(~a + ~b*~x))*Power(1 + Power(~E, 2 * ~I*(~c + ~d*~x)), -1) - ~I*Power(~E, ~I*(~a + ~b*~x))*Power(2, -1) - ~I*Power(~E, -~I*(~a + ~b*~x))*Power(2, -1), ~x)
+end
+
+# line nr: 325
+@rule integrate(Power(sin(Optional(Pattern(~a, Blank()))*Power(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())), -1)), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~c, ~d), ~x), IGtQ(~n, 0))
+  -Power(~d, -1)*Subst(integrate(Power(sin(~a*~x), ~n)*Power(Power(~x, 2), -1), ~x), ~x, Power(~c + ~d*~x, -1))
+end
+
+# line nr: 331
+@rule integrate(Power(cos(Optional(Pattern(~a, Blank()))*Power(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())), -1)), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~c, ~d), ~x), IGtQ(~n, 0))
+  -Power(~d, -1)*Subst(integrate(Power(cos(~a*~x), ~n)*Power(Power(~x, 2), -1), ~x), ~x, Power(~c + ~d*~x, -1))
+end
+
+# line nr: 337
+@rule integrate(Power(sin((Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~e, Blank()))*Power(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())), -1)), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), IGtQ(~n, 0), NeQ(~b*~c - ~a*~d, 0))
+  -Power(~d, -1)*Subst(integrate(Power(sin(~b*~e*Power(~d, -1) - ~e*~x*(~b*~c - ~a*~d)*Power(~d, -1)), ~n)*Power(Power(~x, 2), -1), ~x), ~x, Power(~c + ~d*~x, -1))
+end
+
+# line nr: 343
+@rule integrate(Power(cos((Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~e, Blank()))*Power(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())), -1)), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), IGtQ(~n, 0), NeQ(~b*~c - ~a*~d, 0))
+  -Power(~d, -1)*Subst(integrate(Power(cos(~b*~e*Power(~d, -1) - ~e*~x*(~b*~c - ~a*~d)*Power(~d, -1)), ~n)*Power(Power(~x, 2), -1), ~x), ~x, Power(~c + ~d*~x, -1))
+end
+
+# line nr: 349
+@rule integrate(Power(sin(Pattern(~u, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(IGtQ(~n, 0), QuotientOfLinearsQ(~u, ~x))
+  Module(List(Set(~lst, QuotientOfLinearsParts(~u, ~x))), integrate(Power(sin((~x*Part(~lst, 2) + Part(~lst, 1))*Power(~x*Part(~lst, 4) + Part(~lst, 3), -1)), ~n), ~x))
+end
+
+# line nr: 356
+@rule integrate(Power(cos(Pattern(~u, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(IGtQ(~n, 0), QuotientOfLinearsQ(~u, ~x))
+  Module(List(Set(~lst, QuotientOfLinearsParts(~u, ~x))), integrate(Power(cos((~x*Part(~lst, 2) + Part(~lst, 1))*Power(~x*Part(~lst, 4) + Part(~lst, 3), -1)), ~n), ~x))
+end
+
+# line nr: 363
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(sin(Pattern(~v, Blank())), Optional(Pattern(~p, Blank())))*Power(sin(Pattern(~w, Blank())), Optional(Pattern(~q, Blank()))), Pattern(~x, Blank(~Symbol))) => if EqQ(~w, ~v)
+  integrate(~u*Power(sin(~v), ~p + ~q), ~x)
+end
+
+# line nr: 369
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(cos(Pattern(~v, Blank())), Optional(Pattern(~p, Blank())))*Power(cos(Pattern(~w, Blank())), Optional(Pattern(~q, Blank()))), Pattern(~x, Blank(~Symbol))) => if EqQ(~w, ~v)
+  integrate(~u*Power(cos(~v), ~p + ~q), ~x)
+end
+
+# line nr: 375
+@rule integrate(Power(sin(Pattern(~v, Blank())), Optional(Pattern(~p, Blank())))*Power(sin(Pattern(~w, Blank())), Optional(Pattern(~q, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(Or(And(PolynomialQ(~v, ~x), PolynomialQ(~w, ~x)), And(BinomialQ(List(~v, ~w), ~x), IndependentQ(Cancel(~v*Power(~w, -1)), ~x))), IGtQ(~p, 0), IGtQ(~q, 0))
+  integrate(ExpandTrigReduce(Power(sin(~v), ~p)*Power(sin(~w), ~q), ~x), ~x)
+end
+
+# line nr: 381
+@rule integrate(Power(cos(Pattern(~v, Blank())), Optional(Pattern(~p, Blank())))*Power(cos(Pattern(~w, Blank())), Optional(Pattern(~q, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(Or(And(PolynomialQ(~v, ~x), PolynomialQ(~w, ~x)), And(BinomialQ(List(~v, ~w), ~x), IndependentQ(Cancel(~v*Power(~w, -1)), ~x))), IGtQ(~p, 0), IGtQ(~q, 0))
+  integrate(ExpandTrigReduce(Power(cos(~v), ~p)*Power(cos(~w), ~q), ~x), ~x)
+end
+
+# line nr: 387
+@rule integrate(Power(sin(Pattern(~v, Blank())), Optional(Pattern(~p, Blank())))*Power(sin(Pattern(~w, Blank())), Optional(Pattern(~q, Blank())))*Power(Pattern(~x, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(IGtQ(~m, 0), IGtQ(~p, 0), IGtQ(~q, 0), Or(And(PolynomialQ(~v, ~x), PolynomialQ(~w, ~x)), And(BinomialQ(List(~v, ~w), ~x), IndependentQ(Cancel(~v*Power(~w, -1)), ~x))))
+  integrate(ExpandTrigReduce(Power(~x, ~m), Power(sin(~v), ~p)*Power(sin(~w), ~q), ~x), ~x)
+end
+
+# line nr: 393
+@rule integrate(Power(cos(Pattern(~v, Blank())), Optional(Pattern(~p, Blank())))*Power(cos(Pattern(~w, Blank())), Optional(Pattern(~q, Blank())))*Power(Pattern(~x, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(IGtQ(~m, 0), IGtQ(~p, 0), IGtQ(~q, 0), Or(And(PolynomialQ(~v, ~x), PolynomialQ(~w, ~x)), And(BinomialQ(List(~v, ~w), ~x), IndependentQ(Cancel(~v*Power(~w, -1)), ~x))))
+  integrate(ExpandTrigReduce(Power(~x, ~m), Power(cos(~v), ~p)*Power(cos(~w), ~q), ~x), ~x)
+end
+
+# line nr: 399
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(sin(Pattern(~v, Blank())), Optional(Pattern(~p, Blank())))*Power(cos(Pattern(~w, Blank())), Optional(Pattern(~p, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(EqQ(~w, ~v), IntegerQ(~p))
+  integrate(~u*Power(sin(2 * ~v), ~p), ~x)*Power(Power(2, ~p), -1)
+end
+
+# line nr: 405
+@rule integrate(Power(sin(Pattern(~v, Blank())), Optional(Pattern(~p, Blank())))*Power(cos(Pattern(~w, Blank())), Optional(Pattern(~q, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(IGtQ(~p, 0), IGtQ(~q, 0), Or(And(PolynomialQ(~v, ~x), PolynomialQ(~w, ~x)), And(BinomialQ(List(~v, ~w), ~x), IndependentQ(Cancel(~v*Power(~w, -1)), ~x))))
+  integrate(ExpandTrigReduce(Power(sin(~v), ~p)*Power(cos(~w), ~q), ~x), ~x)
+end
+
+# line nr: 411
+@rule integrate(Power(sin(Pattern(~v, Blank())), Optional(Pattern(~p, Blank())))*Power(cos(Pattern(~w, Blank())), Optional(Pattern(~q, Blank())))*Power(Pattern(~x, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(IGtQ(~m, 0), IGtQ(~p, 0), IGtQ(~q, 0), Or(And(PolynomialQ(~v, ~x), PolynomialQ(~w, ~x)), And(BinomialQ(List(~v, ~w), ~x), IndependentQ(Cancel(~v*Power(~w, -1)), ~x))))
+  integrate(ExpandTrigReduce(Power(~x, ~m), Power(sin(~v), ~p)*Power(cos(~w), ~q), ~x), ~x)
+end
+
+# line nr: 417
+@rule integrate(sin(Pattern(~v, Blank()))*Power(tan(Pattern(~w, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v))
+  cos(~v - ~w)*integrate(sec(~w)*Power(tan(~w), ~n - 1), ~x) - integrate(cos(~v)*Power(tan(~w), ~n - 1), ~x)
+end
+
+# line nr: 423
+@rule integrate(cos(Pattern(~v, Blank()))*Power(cot(Pattern(~w, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v))
+  cos(~v - ~w)*integrate(csc(~w)*Power(cot(~w), ~n - 1), ~x) - integrate(sin(~v)*Power(cot(~w), ~n - 1), ~x)
+end
+
+# line nr: 429
+@rule integrate(sin(Pattern(~v, Blank()))*Power(cot(Pattern(~w, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v))
+  sin(~v - ~w)*integrate(csc(~w)*Power(cot(~w), ~n - 1), ~x) + integrate(cos(~v)*Power(cot(~w), ~n - 1), ~x)
+end
+
+# line nr: 435
+@rule integrate(cos(Pattern(~v, Blank()))*Power(tan(Pattern(~w, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v))
+  integrate(sin(~v)*Power(tan(~w), ~n - 1), ~x) - sin(~v - ~w)*integrate(sec(~w)*Power(tan(~w), ~n - 1), ~x)
+end
+
+# line nr: 441
+@rule integrate(sin(Pattern(~v, Blank()))*Power(sec(Pattern(~w, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v))
+  cos(~v - ~w)*integrate(tan(~w)*Power(sec(~w), ~n - 1), ~x) + sin(~v - ~w)*integrate(Power(sec(~w), ~n - 1), ~x)
+end
+
+# line nr: 447
+@rule integrate(cos(Pattern(~v, Blank()))*Power(csc(Pattern(~w, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v))
+  cos(~v - ~w)*integrate(cot(~w)*Power(csc(~w), ~n - 1), ~x) - sin(~v - ~w)*integrate(Power(csc(~w), ~n - 1), ~x)
+end
+
+# line nr: 453
+@rule integrate(sin(Pattern(~v, Blank()))*Power(csc(Pattern(~w, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v))
+  sin(~v - ~w)*integrate(cot(~w)*Power(csc(~w), ~n - 1), ~x) + cos(~v - ~w)*integrate(Power(csc(~w), ~n - 1), ~x)
+end
+
+# line nr: 459
+@rule integrate(cos(Pattern(~v, Blank()))*Power(sec(Pattern(~w, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(GtQ(~n, 0), FreeQ(~v - ~w, ~x), NeQ(~w, ~v))
+  cos(~v - ~w)*integrate(Power(sec(~w), ~n - 1), ~x) - sin(~v - ~w)*integrate(tan(~w)*Power(sec(~w), ~n - 1), ~x)
+end
+
+# line nr: 465
+@rule integrate(Power(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m, ~n), ~x)
+  integrate(Power(~a + ~b*sin(2 * ~c + 2 * ~d*~x)*Power(2, -1), ~n)*Power(~e + ~f*~x, ~m), ~x)
+end
+
+# line nr: 471
+@rule integrate(Power(Optional(Pattern(~b, Blank()))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), 2) + Pattern(~a, Blank()), Pattern(~n, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ(~a + ~b, 0), IGtQ(~m, 0), ILtQ(~n, 0), Or(EqQ(~n, -1), And(EqQ(~m, 1), EqQ(~n, -2))))
+  integrate(Power(~x, ~m)*Power(~b + 2 * ~a - ~b*cos(2 * ~c + 2 * ~d*~x), ~n), ~x)*Power(Power(2, ~n), -1)
+end
+
+# line nr: 477
+@rule integrate(Power(Optional(Pattern(~b, Blank()))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), 2) + Pattern(~a, Blank()), Pattern(~n, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), NeQ(~a + ~b, 0), IGtQ(~m, 0), ILtQ(~n, 0), Or(EqQ(~n, -1), And(EqQ(~m, 1), EqQ(~n, -2))))
+  integrate(Power(~x, ~m)*Power(~b + 2 * ~a + ~b*cos(2 * ~c + 2 * ~d*~x), ~n), ~x)*Power(Power(2, ~n), -1)
+end
+
+# line nr: 483
+@rule integrate(Power(Optional(Pattern(~g, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~f, Blank())), Optional(Pattern(~m, Blank())))*Power(Optional(Pattern(~b, Blank()))*Power(cos(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank()))), 2) + Optional(Pattern(~c, Blank()))*Power(sin(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank()))), 2) + Optional(Pattern(~a, Blank())), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g), ~x), IGtQ(~m, 0), NeQ(~a + ~b, 0), NeQ(~a + ~c, 0))
+  2integrate(Power(~f + ~g*~x, ~m)*Power(~b + ~c + 2 * ~a + (~b - ~c)*cos(2 * ~d + 2 * ~e*~x), -1), ~x)
+end
+
+# line nr: 489
+@rule integrate(Power(Optional(Pattern(~g, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~f, Blank())), Optional(Pattern(~m, Blank())))*Power(Optional(Pattern(~c, Blank()))*Power(tan(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank()))), 2) + Pattern(~b, Blank()), -1)*Power(sec(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank()))), 2), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~b, ~c, ~d, ~e, ~f, ~g), ~x), IGtQ(~m, 0))
+  2integrate(Power(~f + ~g*~x, ~m)*Power(~b + ~c + (~b - ~c)*cos(2 * ~d + 2 * ~e*~x), -1), ~x)
+end
+
+# line nr: 495
+@rule integrate(Power(Optional(Pattern(~g, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~f, Blank())), Optional(Pattern(~m, Blank())))*Power(Optional(Pattern(~a, Blank()))*Power(sec(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank()))), 2) + Optional(Pattern(~c, Blank()))*Power(tan(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank()))), 2) + Optional(Pattern(~b, Blank())), -1)*Power(sec(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank()))), 2), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g), ~x), IGtQ(~m, 0), NeQ(~a + ~b, 0), NeQ(~a + ~c, 0))
+  2integrate(Power(~f + ~g*~x, ~m)*Power(~b + ~c + 2 * ~a + (~b - ~c)*cos(2 * ~d + 2 * ~e*~x), -1), ~x)
+end
+
+# line nr: 501
+@rule integrate(Power(Optional(Pattern(~g, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~f, Blank())), Optional(Pattern(~m, Blank())))*Power(Optional(Pattern(~b, Blank()))*Power(cot(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank()))), 2) + Pattern(~c, Blank()), -1)*Power(csc(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank()))), 2), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~b, ~c, ~d, ~e, ~f, ~g), ~x), IGtQ(~m, 0))
+  2integrate(Power(~f + ~g*~x, ~m)*Power(~b + ~c + (~b - ~c)*cos(2 * ~d + 2 * ~e*~x), -1), ~x)
+end
+
+# line nr: 507
+@rule integrate(Power(Optional(Pattern(~g, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~f, Blank())), Optional(Pattern(~m, Blank())))*Power(Optional(Pattern(~b, Blank()))*Power(cot(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank()))), 2) + Optional(Pattern(~a, Blank()))*Power(csc(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank()))), 2) + Optional(Pattern(~c, Blank())), -1)*Power(csc(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank()))), 2), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g), ~x), IGtQ(~m, 0), NeQ(~a + ~b, 0), NeQ(~a + ~c, 0))
+  2integrate(Power(~f + ~g*~x, ~m)*Power(~b + ~c + 2 * ~a + (~b - ~c)*cos(2 * ~d + 2 * ~e*~x), -1), ~x)
+end
+
+# line nr: 513
+@rule integrate((Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())))*(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~B, Blank())) + Pattern(~A, Blank()))*Power(Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), 2), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~A, ~B), ~x), EqQ(~A*~a - ~B*~b, 0))
+  ~B*~f*Power(~a*~d, -1)*integrate(cos(~c + ~d*~x)*Power(~a + ~b*sin(~c + ~d*~x), -1), ~x) - ~B*(~e + ~f*~x)*cos(~c + ~d*~x)*Power(~a*~d*(~a + ~b*sin(~c + ~d*~x)), -1)
+end
+
+# line nr: 520
+@rule integrate((cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~B, Blank())) + Pattern(~A, Blank()))*(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())))*Power(Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), 2), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~A, ~B), ~x), EqQ(~A*~a - ~B*~b, 0))
+  ~B*(~e + ~f*~x)*sin(~c + ~d*~x)*Power(~a*~d*(~a + ~b*cos(~c + ~d*~x)), -1) - ~B*~f*Power(~a*~d, -1)*integrate(sin(~c + ~d*~x)*Power(~a + ~b*cos(~c + ~d*~x), -1), ~x)
+end
+
+# line nr: 527
+@rule integrate(Power(Pattern(~x, Blank()), 2)*Power(Power(sin(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~c, Blank())) + cos(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()), 2), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~c, ~d), ~x), EqQ(~d + ~a*~c, 0))
+  ~x*Power(~a*~d*(~c*sin(~a*~x) + ~d*~x*cos(~a*~x))*sin(~a*~x), -1) + Power(Power(~d, 2), -1)*integrate(Power(Power(sin(~a*~x), 2), -1), ~x)
+end
+
+# line nr: 533
+@rule integrate(Power(Pattern(~x, Blank()), 2)*Power(Power(cos(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~c, Blank())) + sin(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()), 2), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~c, ~d), ~x), EqQ(~a*~c - ~d, 0))
+  Power(Power(~d, 2), -1)*integrate(Power(Power(cos(~a*~x), 2), -1), ~x) - ~x*Power(~a*~d*(~c*cos(~a*~x) + ~d*~x*sin(~a*~x))*cos(~a*~x), -1)
+end
+
+# line nr: 539
+@rule integrate(Power(sin(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank())), 2)*Power(Power(sin(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~c, Blank())) + cos(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()), 2), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~c, ~d), ~x), EqQ(~d + ~a*~c, 0))
+  sin(~a*~x)*Power(~a*~d*~x*(~c*sin(~a*~x) + ~d*~x*cos(~a*~x)), -1) + Power(~x*Power(~d, 2), -1)
+end
+
+# line nr: 545
+@rule integrate(Power(cos(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank())), 2)*Power(Power(cos(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~c, Blank())) + sin(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()), 2), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~c, ~d), ~x), EqQ(~a*~c - ~d, 0))
+  Power(~x*Power(~d, 2), -1) - cos(~a*~x)*Power(~a*~d*~x*(~c*cos(~a*~x) + ~d*~x*sin(~a*~x)), -1)
+end
+
+# line nr: 551
+@rule integrate(Power(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()), Pattern(~m, Blank()))*Power(sin(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank())), Pattern(~n, Blank()))*Power(Power(sin(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~c, Blank())) + cos(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()), 2), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), EqQ(~d + ~a*~c, 0), EqQ(~m, 2 - ~n))
+  ~b*Power(~b*~x, ~m - 1)*Power(~a*~d*(~c*sin(~a*~x) + ~d*~x*cos(~a*~x)), -1)*Power(sin(~a*~x), ~n - 1) - (~n - 1)*Power(~b, 2)*integrate(Power(~b*~x, ~m - 2)*Power(sin(~a*~x), ~n - 2), ~x)*Power(Power(~d, 2), -1)
+end
+
+# line nr: 558
+@rule integrate(Power(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()), Pattern(~m, Blank()))*Power(cos(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank())), Pattern(~n, Blank()))*Power(Power(cos(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~c, Blank())) + sin(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()), 2), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), EqQ(~a*~c - ~d, 0), EqQ(~m, 2 - ~n))
+  -(~n - 1)*Power(~b, 2)*integrate(Power(~b*~x, ~m - 2)*Power(cos(~a*~x), ~n - 2), ~x)*Power(Power(~d, 2), -1) - ~b*Power(~b*~x, ~m - 1)*Power(~a*~d*(~c*cos(~a*~x) + ~d*~x*sin(~a*~x)), -1)*Power(cos(~a*~x), ~n - 1)
+end
+
+# line nr: 565
+@rule integrate(Power(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()), Optional(Pattern(~m, Blank())))*Power(csc(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank())), Optional(Pattern(~n, Blank())))*Power(Power(sin(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~c, Blank())) + cos(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()), 2), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), EqQ(~d + ~a*~c, 0), EqQ(~m, 2 + ~n))
+  (1 + ~n)*Power(~b, 2)*integrate(Power(~b*~x, ~m - 2)*Power(csc(~a*~x), 2 + ~n), ~x)*Power(Power(~d, 2), -1) + ~b*Power(~b*~x, ~m - 1)*Power(~a*~d*(~c*sin(~a*~x) + ~d*~x*cos(~a*~x)), -1)*Power(csc(~a*~x), 1 + ~n)
+end
+
+# line nr: 572
+@rule integrate(Power(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()), Optional(Pattern(~m, Blank())))*Power(sec(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank())), Optional(Pattern(~n, Blank())))*Power(Power(cos(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~c, Blank())) + sin(Optional(Pattern(~a, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()), 2), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), EqQ(~a*~c - ~d, 0), EqQ(~m, 2 + ~n))
+  (1 + ~n)*Power(~b, 2)*integrate(Power(~b*~x, ~m - 2)*Power(sec(~a*~x), 2 + ~n), ~x)*Power(Power(~d, 2), -1) - ~b*Power(~b*~x, ~m - 1)*Power(~a*~d*(~c*cos(~a*~x) + ~d*~x*sin(~a*~x)), -1)*Power(sec(~a*~x), 1 + ~n)
+end
+
+# line nr: 579
+@rule integrate(Power(Optional(Pattern(~h, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~g, Blank())), Optional(Pattern(~p, Blank())))*Power(sin(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())))*Optional(Pattern(~d, Blank())) + Pattern(~c, Blank()), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~h), ~x), EqQ(~b*~c + ~a*~d, 0), EqQ(Power(~a, 2) - Power(~b, 2), 0), IntegerQ(~m), IGtQ(~n - ~m, 0))
+  Power(~a, ~m)*Power(~c, ~m)*integrate(Power(~c + ~d*sin(~e + ~f*~x), ~n - ~m)*Power(~g + ~h*~x, ~p)*Power(cos(~e + ~f*~x), 2 * ~m), ~x)
+end
+
+# line nr: 585
+@rule integrate(Power(Optional(Pattern(~h, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~g, Blank())), Optional(Pattern(~p, Blank())))*Power(cos(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())))*Optional(Pattern(~d, Blank())) + Pattern(~c, Blank()), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~h), ~x), EqQ(~b*~c + ~a*~d, 0), EqQ(Power(~a, 2) - Power(~b, 2), 0), IntegerQ(~m), IGtQ(~n - ~m, 0))
+  Power(~a, ~m)*Power(~c, ~m)*integrate(Power(~c + ~d*cos(~e + ~f*~x), ~n - ~m)*Power(~g + ~h*~x, ~p)*Power(sin(~e + ~f*~x), 2 * ~m), ~x)
+end
+
+# line nr: 591
+@rule integrate(Power(Optional(Pattern(~h, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~g, Blank())), Optional(Pattern(~p, Blank())))*Power(sin(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), Pattern(~m, Blank()))*Power(sin(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())))*Optional(Pattern(~d, Blank())) + Pattern(~c, Blank()), Pattern(~n, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~h), ~x), EqQ(~b*~c + ~a*~d, 0), EqQ(Power(~a, 2) - Power(~b, 2), 0), IntegerQ(~p), IntegerQ(2 * ~m), IGeQ(~n - ~m, 0))
+  Power(~a, IntPart(~m))*Power(~c, IntPart(~m))*Power(~a + ~b*sin(~e + ~f*~x), FracPart(~m))*Power(~c + ~d*sin(~e + ~f*~x), FracPart(~m))*integrate(Power(~c + ~d*sin(~e + ~f*~x), ~n - ~m)*Power(~g + ~h*~x, ~p)*Power(cos(~e + ~f*~x), 2 * ~m), ~x)*Power(Power(cos(~e + ~f*~x), 2FracPart(~m)), -1)
+end
+
+# line nr: 598
+@rule integrate(Power(Optional(Pattern(~h, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~g, Blank())), Optional(Pattern(~p, Blank())))*Power(cos(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())))*Optional(Pattern(~b, Blank())) + Pattern(~a, Blank()), Pattern(~m, Blank()))*Power(cos(Optional(Pattern(~f, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~e, Blank())))*Optional(Pattern(~d, Blank())) + Pattern(~c, Blank()), Pattern(~n, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~h), ~x), EqQ(~b*~c + ~a*~d, 0), EqQ(Power(~a, 2) - Power(~b, 2), 0), IntegerQ(~p), IntegerQ(2 * ~m), IGeQ(~n - ~m, 0))
+  Power(~a, IntPart(~m))*Power(~c, IntPart(~m))*Power(~a + ~b*cos(~e + ~f*~x), FracPart(~m))*Power(~c + ~d*cos(~e + ~f*~x), FracPart(~m))*integrate(Power(~c + ~d*cos(~e + ~f*~x), ~n - ~m)*Power(~g + ~h*~x, ~p)*Power(sin(~e + ~f*~x), 2 * ~m), ~x)*Power(Power(sin(~e + ~f*~x), 2FracPart(~m)), -1)
+end
+
+# line nr: 605
+@rule integrate(Power(Optional(Pattern(~b, Blank()))*tan(Pattern(~v, Blank())) + Pattern(~a, Blank()), Optional(Pattern(~n, Blank())))*Power(sec(Pattern(~v, Blank())), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b), ~x), IntegerQ((~m - 1)*Power(2, -1)), EqQ(~m + ~n, 0))
+  integrate(Power(~a*cos(~v) + ~b*sin(~v), ~n), ~x)
+end
+
+# line nr: 611
+@rule integrate(Power(Optional(Pattern(~b, Blank()))*cot(Pattern(~v, Blank())) + Pattern(~a, Blank()), Optional(Pattern(~n, Blank())))*Power(csc(Pattern(~v, Blank())), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b), ~x), IntegerQ((~m - 1)*Power(2, -1)), EqQ(~m + ~n, 0))
+  integrate(Power(~a*sin(~v) + ~b*cos(~v), ~n), ~x)
+end
+
+# line nr: 617
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(sin(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), Optional(Pattern(~m, Blank())))*Power(sin(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), IGtQ(~m, 0), IGtQ(~n, 0))
+  integrate(ExpandTrigReduce(~u, Power(sin(~a + ~b*~x), ~m)*Power(sin(~c + ~d*~x), ~n), ~x), ~x)
+end
+
+# line nr: 623
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(cos(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), Optional(Pattern(~m, Blank())))*Power(cos(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~c, Blank()))), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), IGtQ(~m, 0), IGtQ(~n, 0))
+  integrate(ExpandTrigReduce(~u, Power(cos(~a + ~b*~x), ~m)*Power(cos(~c + ~d*~x), ~n), ~x), ~x)
+end
+
+# line nr: 629
+@rule integrate(sec(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*sec(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Pattern(~c, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ(Power(~b, 2) - Power(~d, 2), 0), NeQ(~b*~c - ~a*~d, 0))
+  csc((~b*~c - ~a*~d)*Power(~b, -1))*integrate(tan(~c + ~d*~x), ~x) - csc((~b*~c - ~a*~d)*Power(~d, -1))*integrate(tan(~a + ~b*~x), ~x)
+end
+
+# line nr: 635
+@rule integrate(csc(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*csc(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Pattern(~c, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ(Power(~b, 2) - Power(~d, 2), 0), NeQ(~b*~c - ~a*~d, 0))
+  csc((~b*~c - ~a*~d)*Power(~b, -1))*integrate(cot(~a + ~b*~x), ~x) - csc((~b*~c - ~a*~d)*Power(~d, -1))*integrate(cot(~c + ~d*~x), ~x)
+end
+
+# line nr: 641
+@rule integrate(tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*tan(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Pattern(~c, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ(Power(~b, 2) - Power(~d, 2), 0), NeQ(~b*~c - ~a*~d, 0))
+  ~b*cos((~b*~c - ~a*~d)*Power(~d, -1))*Power(~d, -1)*integrate(sec(~a + ~b*~x)*sec(~c + ~d*~x), ~x) - ~b*~x*Power(~d, -1)
+end
+
+# line nr: 647
+@rule integrate(cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*cot(Optional(Pattern(~d, Blank()))*Pattern(~x, Blank()) + Pattern(~c, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d), ~x), EqQ(Power(~b, 2) - Power(~d, 2), 0), NeQ(~b*~c - ~a*~d, 0))
+  cos((~b*~c - ~a*~d)*Power(~d, -1))*integrate(csc(~a + ~b*~x)*csc(~c + ~d*~x), ~x) - ~b*~x*Power(~d, -1)
+end
+
+# line nr: 653
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~a, Blank()))*cos(Pattern(~v, Blank())) + Optional(Pattern(~b, Blank()))*sin(Pattern(~v, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~n), ~x), EqQ(Power(~a, 2) + Power(~b, 2), 0))
+  integrate(~u*Power(~a*Power(~E, -~a*~v*Power(~b, -1)), ~n), ~x)
+end
+
+# line nr: 659
+@rule integrate(sin(Optional(Pattern(~d, Blank()))*Power(Log(Optional(Pattern(~c, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n, Blank()))))*Optional(Pattern(~b, Blank())) + Optional(Pattern(~a, Blank())), 2)), Pattern(~x, Blank(~Symbol))) => if FreeQ(List(~a, ~b, ~c, ~d, ~n), ~x)
+  ~I*Power(2, -1)*integrate(Power(~E, -~I*~d*Power(~a + ~b*Log(~c*Power(~x, ~n)), 2)), ~x) - ~I*Power(2, -1)*integrate(Power(~E, ~I*~d*Power(~a + ~b*Log(~c*Power(~x, ~n)), 2)), ~x)
+end
+
+# line nr: 665
+@rule integrate(cos(Optional(Pattern(~d, Blank()))*Power(Log(Optional(Pattern(~c, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n, Blank()))))*Optional(Pattern(~b, Blank())) + Optional(Pattern(~a, Blank())), 2)), Pattern(~x, Blank(~Symbol))) => if FreeQ(List(~a, ~b, ~c, ~d, ~n), ~x)
+  Power(2, -1)*integrate(Power(~E, ~I*~d*Power(~a + ~b*Log(~c*Power(~x, ~n)), 2)), ~x) + Power(2, -1)*integrate(Power(~E, -~I*~d*Power(~a + ~b*Log(~c*Power(~x, ~n)), 2)), ~x)
+end
+
+# line nr: 671
+@rule integrate(sin(Optional(Pattern(~d, Blank()))*Power(Log(Optional(Pattern(~c, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n, Blank()))))*Optional(Pattern(~b, Blank())) + Optional(Pattern(~a, Blank())), 2))*Power(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if FreeQ(List(~a, ~b, ~c, ~d, ~e, ~m, ~n), ~x)
+  ~I*Power(2, -1)*integrate(Power(~E, -~I*~d*Power(~a + ~b*Log(~c*Power(~x, ~n)), 2))*Power(~e*~x, ~m), ~x) - ~I*Power(2, -1)*integrate(Power(~E, ~I*~d*Power(~a + ~b*Log(~c*Power(~x, ~n)), 2))*Power(~e*~x, ~m), ~x)
+end
+
+# line nr: 677
+@rule integrate(cos(Optional(Pattern(~d, Blank()))*Power(Log(Optional(Pattern(~c, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n, Blank()))))*Optional(Pattern(~b, Blank())) + Optional(Pattern(~a, Blank())), 2))*Power(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if FreeQ(List(~a, ~b, ~c, ~d, ~e, ~m, ~n), ~x)
+  Power(2, -1)*integrate(Power(~E, ~I*~d*Power(~a + ~b*Log(~c*Power(~x, ~n)), 2))*Power(~e*~x, ~m), ~x) + Power(2, -1)*integrate(Power(~E, -~I*~d*Power(~a + ~b*Log(~c*Power(~x, ~n)), 2))*Power(~e*~x, ~m), ~x)
+end
 
