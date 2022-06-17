@@ -15,12 +15,7 @@ for rubidir in [ rubirulesdir, rubitestdir ]
       !endswith(file, ".m") && continue
       fname = joinpath(root, file)
       open(fname, "r") do f
-        iter = readlines(f)
-        for line in iter
-          # skip any headers
-          startswith(line, startcodergx) && break
-        end
-        for line in iter
+        for line in readlines(f)
           for m in eachmatch(fncallrgx, line)
             fn = first(m.captures)
             if !in(fn, fns)
