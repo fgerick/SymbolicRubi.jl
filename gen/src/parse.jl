@@ -28,6 +28,10 @@ end
 
 convert2sym(x::Nothing, prefix="") = nothing
 
+convert2sym(x::MathLink.WInteger, prefix="") = parse(BigInt, x.value)
+
+convert2sym(x, prefix="") = x
+
 
 function convert2sym(x::MathLink.WExpr,prefix="")
   head0 = x.head
@@ -37,14 +41,7 @@ function convert2sym(x::MathLink.WExpr,prefix="")
   else
     f, argsn = flatten_function(x, x.args)
   end
-  args_ = []
-  for a in argsn
-    if typeof(a) in [ MathLink.WSymbol, MathLink.WExpr ]
-      push!(args_, convert2sym(a, prefix))
-    else
-      push!(args_, a)
-    end
-  end
+  args_ = [ convert2sym(a, prefix) for a in argsn ]
   return f(args_...)
 end
 
@@ -79,6 +76,7 @@ const W_IF                 = W"If"
 const W_TRUEQ_LOADSHOWSTEP = W"TrueQ"(W"$LoadShowSteps")
 const W_COMPOUNDEXPRESSION = W"CompoundExpression"
 const W_CONDITION          = W"Condition"
+const W_LIST               = W"List"
 
 
 
@@ -105,9 +103,8 @@ function parse_rubitest_file(filename)
         try
           push!( wexprs, RubiCodeBlock( (idx, MathLink.parseexpr(line)) ) )
         catch e
-          @warn "Problem on line nr. $idx"
-          # display(e)
-          # display(line)
+          e isa InterruptException && rethrow()
+          @warn "Problem at '$(filename):$(idx)', skipping ..."
         end
       else
         cm = match(RGX_END_COMMENT, line)
@@ -129,6 +126,8 @@ function load_rubi_testset(reload::Bool=false)
   thisdir = abspath(@__DIR__)
   rubitestdir = normpath(joinpath(thisdir, "..", "RubiTestFiles"))
 
+  reset_math_engine()
+
   testset = Dict{String,Vector{RubiCodeBlock}}()
   for (root, dirs, files) in walkdir(rubitestdir)
     for file in files
@@ -138,7 +137,6 @@ function load_rubi_testset(reload::Bool=false)
       testset[file] = parse_rubitest_file(fname)
     end
   end
-  return testset
 
   copy!(_RUBI_TESTSET, testset)
 
@@ -151,6 +149,8 @@ function load_rubi_ruleset(reload::Bool=false)
 
   thisdir = abspath(@__DIR__)
   rubirulesdir = normpath(joinpath(thisdir, "..", "Rubi", "IntegrationRules"))
+
+  reset_math_engine()
 
   ruleset = Dict{String,Vector{RubiCodeBlock}}()
   for (root, dirs, files) in walkdir(rubirulesdir)
@@ -165,6 +165,15 @@ function load_rubi_ruleset(reload::Bool=false)
   copy!(_RUBI_RULESET, ruleset)
 
   return _RUBI_RULESET
+end
+
+function reset_math_engine()
+  # invoke MathEngine once to clear possible corrupted state of MathEngine
+  # due to previous InterruptException
+  try
+    MathLink.parseexpr(ruleblock)
+  catch
+  end
 end
 
 
@@ -209,6 +218,7 @@ function parse_rubirule_file(filename)
             we = MathLink.parseexpr(ruleblock)
             we != W_NULL && push!( wexprs, RubiCodeBlock( (lineidx, we) ) )
           catch e
+            e isa InterruptException && rethrow()
             # Would like to catch on warning 'Expression "..." has no closing "]"', but
             # that does not have its own exception
             # if e isa ???
@@ -216,7 +226,7 @@ function parse_rubirule_file(filename)
             #   record_block = true
             #   continue
             # end
-            error("Problem at '$(filename):$(lineidx)'.")
+            @warn "Problem at '$(filename):$(lineidx)', skipping ..."
           end
           ruleblock = ""
         elseif record_block
@@ -307,4 +317,29 @@ end
 
 function build_jl_rule(linenr, ::Val{:variable}, variable, value)
   println("matched :variable")
+end
+
+
+unwrap_test(test::RubiCodeBlock) = (test[1], unwrap_test(test[2]))
+function unwrap_test(test::MathLink.WExpr)
+  if test.head != W"List" #|| length(test.args) != 4
+    error("Expected W\"List\" with 4 elements")
+  end
+  integrand, variable, n_tries, result = test.args[1:4]
+  return (integrand, variable, n_tries, result)
+end
+
+
+function build_jl_test(linenr_expr)
+  isnothing(linenr_expr[2]) && return (linenr_expr, nothing)
+  return (linenr_expr[1], build_jl_test(linenr_expr[2]...))
+end
+
+
+function build_jl_test(integrand, variable, n_tries, result)
+  jl_integrand = convert2sym(integrand) |> string
+  jl_variable = convert2sym(variable) |> string
+  jl_result = convert2sym(result) |> string
+  str_test = "@test integrate($jl_integrand, $jl_variable) == $jl_result"
+  return str_test
 end

@@ -13,6 +13,7 @@ include("fdict.jl")
 include("parse.jl")
 
 export load_rubi_ruleset, load_rubi_testset,
-       build_jl_rule, unwrap_rule
+       build_jl_rule, unwrap_rule,
+       build_jl_test, unwrap_test
 
 end
