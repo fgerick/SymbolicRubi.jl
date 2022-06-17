@@ -291,7 +291,7 @@ function unwrap_rule(rule::MathLink.WExpr)
       error("Unhandled 'If' with three branches")
     end
   else
-    error("Unhandled head '$(rule.head) encountered in '$rule'")
+    error("Unhandled head '$(rule.head)' encountered in '$rule'")
   end
 end
 

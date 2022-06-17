@@ -1,4 +1,5 @@
 using SymbolicRubiGen
+using Printf
 
 rubiruleset = load_rubi_ruleset()
 thisdir = abspath(@__DIR__)
@@ -6,7 +7,9 @@ jlruledir = normpath(joinpath(thisdir, "..", "rules"))
 mkpath(jlruledir)
 
 println("Enabled function transformations:")
-display(SymbolicRubiGen.fdict)
+for (k,v) in SymbolicRubiGen.fdict
+	@printf "%10s => %-10s\n" k v
+end
 
 for (name,rs) in pairs(rubiruleset)
 	println("Building rules from '$name' ...")

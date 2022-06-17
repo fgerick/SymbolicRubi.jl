@@ -1,4 +1,5 @@
 using SymbolicRubiGen
+using Printf
 
 rubitestset = load_rubi_testset()
 thisdir = abspath(@__DIR__)
@@ -6,7 +7,9 @@ jltestdir = normpath(joinpath(thisdir, "..", "tests"))
 mkpath(jltestdir)
 
 println("Enabled function transformations:")
-display(SymbolicRubiGen.fdict)
+for (k,v) in SymbolicRubiGen.fdict
+	@printf "%10s => %-10s\n" k v
+end
 
 vec_rubitestset = [ (k,v) for (k,v) in pairs(rubitestset) ]
 
