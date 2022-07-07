@@ -1,76 +1,95 @@
-@rule integrate(~u*((~c*cot(~a + ~b*~x))^~m)*((~d*tan(~a + ~b*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), KnownTangentIntegrandQ(~u, ~x)) 
- ((~c*cot(~a + ~b*~x))^~m)*((~d*tan(~a + ~b*~x))^~m)*integrate(((~d*tan(~a + ~b*~x))^(~n - ~m))*ActivateTrig(~u), ~x)
- end
+# line nr: 23
+@rule integrate(Pattern(~u, Blank())*Power(cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~c, Blank())), Optional(Pattern(~m, Blank())))*Power(tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~d, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), KnownTangentIntegrandQ(~u, ~x))
+  Power(~c*cot(~a + ~b*~x), ~m)*Power(~d*tan(~a + ~b*~x), ~m)*integrate(ActivateTrig(~u)*Power(~d*tan(~a + ~b*~x), ~n - ~m), ~x)
+end
 
-@rule integrate(~u*((~d*cos(~a + ~b*~x))^~n)*((~c*tan(~a + ~b*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), KnownCotangentIntegrandQ(~u, ~x)) 
- ((~d*cos(~a + ~b*~x))^~m)*((~c*tan(~a + ~b*~x))^~m)*((~d*sin(~a + ~b*~x))^(-~m))*integrate(((~d*cos(~a + ~b*~x))^(~n - ~m))*((~d*sin(~a + ~b*~x))^~m)*ActivateTrig(~u), ~x)
- end
+# line nr: 29
+@rule integrate(Pattern(~u, Blank())*Power(cos(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~d, Blank())), Optional(Pattern(~n, Blank())))*Power(tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~c, Blank())), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), KnownCotangentIntegrandQ(~u, ~x))
+  Power(~c*tan(~a + ~b*~x), ~m)*Power(~d*cos(~a + ~b*~x), ~m)*integrate(ActivateTrig(~u)*Power(~d*sin(~a + ~b*~x), ~m)*Power(Power(~d*cos(~a + ~b*~x), ~m - ~n), -1), ~x)*Power(Power(~d*sin(~a + ~b*~x), ~m), -1)
+end
 
-@rule integrate(~u*((~c*cot(~a + ~b*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~m), ~x), Not(IntegerQ(~m)), KnownTangentIntegrandQ(~u, ~x)) 
- ((~c*cot(~a + ~b*~x))^~m)*((~c*tan(~a + ~b*~x))^~m)*integrate(((~c*tan(~a + ~b*~x))^(-~m))*ActivateTrig(~u), ~x)
- end
+# line nr: 35
+@rule integrate(Pattern(~u, Blank())*Power(cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~c, Blank())), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~m), ~x), Not(IntegerQ(~m)), KnownTangentIntegrandQ(~u, ~x))
+  Power(~c*cot(~a + ~b*~x), ~m)*Power(~c*tan(~a + ~b*~x), ~m)*integrate(ActivateTrig(~u)*Power(Power(~c*tan(~a + ~b*~x), ~m), -1), ~x)
+end
 
-@rule integrate(~u*((~c*tan(~a + ~b*~x))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~m), ~x), Not(IntegerQ(~m)), KnownCotangentIntegrandQ(~u, ~x)) 
- ((~c*cot(~a + ~b*~x))^~m)*((~c*tan(~a + ~b*~x))^~m)*integrate(((~c*cot(~a + ~b*~x))^(-~m))*ActivateTrig(~u), ~x)
- end
+# line nr: 41
+@rule integrate(Pattern(~u, Blank())*Power(tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~c, Blank())), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~m), ~x), Not(IntegerQ(~m)), KnownCotangentIntegrandQ(~u, ~x))
+  Power(~c*cot(~a + ~b*~x), ~m)*Power(~c*tan(~a + ~b*~x), ~m)*integrate(ActivateTrig(~u)*Power(Power(~c*cot(~a + ~b*~x), ~m), -1), ~x)
+end
 
-@rule integrate(~u*(~A + ~B*cot(~a + ~b*~x))*((~c*tan(~a + ~b*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~n), ~x), KnownTangentIntegrandQ(~u, ~x)) 
- ~c*integrate((~B + ~A*tan(~a + ~b*~x))*((~c*tan(~a + ~b*~x))^(~n - 1))*ActivateTrig(~u), ~x)
- end
+# line nr: 47
+@rule integrate((cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~B, Blank())) + Pattern(~A, Blank()))*Pattern(~u, Blank())*Power(tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~c, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~n), ~x), KnownTangentIntegrandQ(~u, ~x))
+  ~c*integrate((~B + ~A*tan(~a + ~b*~x))*ActivateTrig(~u)*Power(~c*tan(~a + ~b*~x), ~n - 1), ~x)
+end
 
-@rule integrate(~u*(~A + ~B*tan(~a + ~b*~x))*((~c*cot(~a + ~b*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~n), ~x), KnownCotangentIntegrandQ(~u, ~x)) 
- ~c*integrate((~B + ~A*cot(~a + ~b*~x))*((~c*cot(~a + ~b*~x))^(~n - 1))*ActivateTrig(~u), ~x)
- end
+# line nr: 53
+@rule integrate((tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~B, Blank())) + Pattern(~A, Blank()))*Pattern(~u, Blank())*Power(cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~c, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~n), ~x), KnownCotangentIntegrandQ(~u, ~x))
+  ~c*integrate((~B + ~A*cot(~a + ~b*~x))*ActivateTrig(~u)*Power(~c*cot(~a + ~b*~x), ~n - 1), ~x)
+end
 
-@rule integrate(~u*(~A + ~B*cot(~a + ~b*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~A, ~B), ~x), KnownTangentIntegrandQ(~u, ~x)) 
- integrate((~B + ~A*tan(~a + ~b*~x))*(tan(~a + ~b*~x)^-1)*ActivateTrig(~u), ~x)
- end
+# line nr: 59
+@rule integrate((cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~B, Blank())) + Pattern(~A, Blank()))*Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~A, ~B), ~x), KnownTangentIntegrandQ(~u, ~x))
+  integrate((~B + ~A*tan(~a + ~b*~x))*ActivateTrig(~u)*Power(tan(~a + ~b*~x), -1), ~x)
+end
 
-@rule integrate(~u*(~A + ~B*tan(~a + ~b*~x)), ~x) =>  if And(FreeQ(List(~a, ~b, ~A, ~B), ~x), KnownCotangentIntegrandQ(~u, ~x)) 
- integrate((~B + ~A*cot(~a + ~b*~x))*(cot(~a + ~b*~x)^-1)*ActivateTrig(~u), ~x)
- end
+# line nr: 65
+@rule integrate((tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~B, Blank())) + Pattern(~A, Blank()))*Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~A, ~B), ~x), KnownCotangentIntegrandQ(~u, ~x))
+  integrate((~B + ~A*cot(~a + ~b*~x))*ActivateTrig(~u)*Power(cot(~a + ~b*~x), -1), ~x)
+end
 
-@rule integrate(~u*(~A + ~B*cot(~a + ~b*~x) + ~C*(cot(~a + ~b*~x)^2))*((~c*tan(~a + ~b*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~C, ~n), ~x), KnownTangentIntegrandQ(~u, ~x)) 
- ((~c)^2)*integrate((~C + ~A*(tan(~a + ~b*~x)^2) + ~B*tan(~a + ~b*~x))*((~c*tan(~a + ~b*~x))^(~n - 2))*ActivateTrig(~u), ~x)
- end
+# line nr: 71
+@rule integrate((cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~B, Blank())) + Optional(Pattern(~C, Blank()))*Power(cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), 2) + Optional(Pattern(~A, Blank())))*Optional(Pattern(~u, Blank()))*Power(tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~c, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~C, ~n), ~x), KnownTangentIntegrandQ(~u, ~x))
+  Power(~c, 2)*integrate((~C + ~B*tan(~a + ~b*~x) + ~A*Power(tan(~a + ~b*~x), 2))*ActivateTrig(~u)*Power(~c*tan(~a + ~b*~x), ~n - 2), ~x)
+end
 
-@rule integrate(~u*(~A + ~B*tan(~a + ~b*~x) + ~C*(tan(~a + ~b*~x)^2))*((~c*cot(~a + ~b*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~C, ~n), ~x), KnownCotangentIntegrandQ(~u, ~x)) 
- ((~c)^2)*integrate((~C + ~A*(cot(~a + ~b*~x)^2) + ~B*cot(~a + ~b*~x))*((~c*cot(~a + ~b*~x))^(~n - 2))*ActivateTrig(~u), ~x)
- end
+# line nr: 77
+@rule integrate((tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~B, Blank())) + Optional(Pattern(~C, Blank()))*Power(tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), 2) + Optional(Pattern(~A, Blank())))*Optional(Pattern(~u, Blank()))*Power(cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~c, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~C, ~n), ~x), KnownCotangentIntegrandQ(~u, ~x))
+  Power(~c, 2)*integrate((~C + ~A*Power(cot(~a + ~b*~x), 2) + ~B*cot(~a + ~b*~x))*ActivateTrig(~u)*Power(~c*cot(~a + ~b*~x), ~n - 2), ~x)
+end
 
-@rule integrate(~u*(~A + ~C*(cot(~a + ~b*~x)^2))*((~c*tan(~a + ~b*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~A, ~C, ~n), ~x), KnownTangentIntegrandQ(~u, ~x)) 
- ((~c)^2)*integrate((~C + ~A*(tan(~a + ~b*~x)^2))*((~c*tan(~a + ~b*~x))^(~n - 2))*ActivateTrig(~u), ~x)
- end
+# line nr: 83
+@rule integrate((Optional(Pattern(~C, Blank()))*Power(cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), 2) + Pattern(~A, Blank()))*Optional(Pattern(~u, Blank()))*Power(tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~c, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~A, ~C, ~n), ~x), KnownTangentIntegrandQ(~u, ~x))
+  Power(~c, 2)*integrate((~C + ~A*Power(tan(~a + ~b*~x), 2))*ActivateTrig(~u)*Power(~c*tan(~a + ~b*~x), ~n - 2), ~x)
+end
 
-@rule integrate(~u*(~A + ~C*(tan(~a + ~b*~x)^2))*((~c*cot(~a + ~b*~x))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~A, ~C, ~n), ~x), KnownCotangentIntegrandQ(~u, ~x)) 
- ((~c)^2)*integrate((~C + ~A*(cot(~a + ~b*~x)^2))*((~c*cot(~a + ~b*~x))^(~n - 2))*ActivateTrig(~u), ~x)
- end
+# line nr: 89
+@rule integrate((Optional(Pattern(~C, Blank()))*Power(tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), 2) + Pattern(~A, Blank()))*Optional(Pattern(~u, Blank()))*Power(cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~c, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~A, ~C, ~n), ~x), KnownCotangentIntegrandQ(~u, ~x))
+  Power(~c, 2)*integrate((~C + ~A*Power(cot(~a + ~b*~x), 2))*ActivateTrig(~u)*Power(~c*cot(~a + ~b*~x), ~n - 2), ~x)
+end
 
-@rule integrate(~u*(~A + ~B*cot(~a + ~b*~x) + ~C*(cot(~a + ~b*~x)^2)), ~x) =>  if And(FreeQ(List(~a, ~b, ~A, ~B, ~C), ~x), KnownTangentIntegrandQ(~u, ~x)) 
- integrate((~C + ~A*(tan(~a + ~b*~x)^2) + ~B*tan(~a + ~b*~x))*(tan(~a + ~b*~x)^-2)*ActivateTrig(~u), ~x)
- end
+# line nr: 95
+@rule integrate((cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~B, Blank())) + Optional(Pattern(~C, Blank()))*Power(cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), 2) + Optional(Pattern(~A, Blank())))*Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~A, ~B, ~C), ~x), KnownTangentIntegrandQ(~u, ~x))
+  integrate((~C + ~B*tan(~a + ~b*~x) + ~A*Power(tan(~a + ~b*~x), 2))*ActivateTrig(~u)*Power(Power(tan(~a + ~b*~x), 2), -1), ~x)
+end
 
-@rule integrate(~u*(~A + ~B*tan(~a + ~b*~x) + ~C*(tan(~a + ~b*~x)^2)), ~x) =>  if And(FreeQ(List(~a, ~b, ~A, ~B, ~C), ~x), KnownCotangentIntegrandQ(~u, ~x)) 
- integrate((~C + ~A*(cot(~a + ~b*~x)^2) + ~B*cot(~a + ~b*~x))*(cot(~a + ~b*~x)^-2)*ActivateTrig(~u), ~x)
- end
+# line nr: 101
+@rule integrate((tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~B, Blank())) + Optional(Pattern(~C, Blank()))*Power(tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), 2) + Optional(Pattern(~A, Blank())))*Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~A, ~B, ~C), ~x), KnownCotangentIntegrandQ(~u, ~x))
+  integrate((~C + ~A*Power(cot(~a + ~b*~x), 2) + ~B*cot(~a + ~b*~x))*ActivateTrig(~u)*Power(Power(cot(~a + ~b*~x), 2), -1), ~x)
+end
 
-@rule integrate(~u*(~A + ~C*(cot(~a + ~b*~x)^2)), ~x) =>  if And(FreeQ(List(~a, ~b, ~A, ~C), ~x), KnownTangentIntegrandQ(~u, ~x)) 
- integrate((~C + ~A*(tan(~a + ~b*~x)^2))*(tan(~a + ~b*~x)^-2)*ActivateTrig(~u), ~x)
- end
+# line nr: 107
+@rule integrate((Optional(Pattern(~C, Blank()))*Power(cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), 2) + Pattern(~A, Blank()))*Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~A, ~C), ~x), KnownTangentIntegrandQ(~u, ~x))
+  integrate((~C + ~A*Power(tan(~a + ~b*~x), 2))*ActivateTrig(~u)*Power(Power(tan(~a + ~b*~x), 2), -1), ~x)
+end
 
-@rule integrate(~u*(~A + ~C*(tan(~a + ~b*~x)^2)), ~x) =>  if And(FreeQ(List(~a, ~b, ~A, ~C), ~x), KnownCotangentIntegrandQ(~u, ~x)) 
- integrate((~C + ~A*(cot(~a + ~b*~x)^2))*(cot(~a + ~b*~x)^-2)*ActivateTrig(~u), ~x)
- end
+# line nr: 113
+@rule integrate((Optional(Pattern(~C, Blank()))*Power(tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), 2) + Pattern(~A, Blank()))*Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~A, ~C), ~x), KnownCotangentIntegrandQ(~u, ~x))
+  integrate((~C + ~A*Power(cot(~a + ~b*~x), 2))*ActivateTrig(~u)*Power(Power(cot(~a + ~b*~x), 2), -1), ~x)
+end
 
-@rule integrate(~u*(~A + ~B*tan(~a + ~b*~x) + ~C*cot(~a + ~b*~x)), ~x) =>  if FreeQ(List(~a, ~b, ~A, ~B, ~C), ~x) 
- integrate((~C + ~A*tan(~a + ~b*~x) + ~B*(tan(~a + ~b*~x)^2))*(tan(~a + ~b*~x)^-1)*ActivateTrig(~u), ~x)
- end
+# line nr: 119
+@rule integrate((tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~B, Blank())) + cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~C, Blank())) + Optional(Pattern(~A, Blank())))*Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => if FreeQ(List(~a, ~b, ~A, ~B, ~C), ~x)
+  integrate((~C + ~A*tan(~a + ~b*~x) + ~B*Power(tan(~a + ~b*~x), 2))*ActivateTrig(~u)*Power(tan(~a + ~b*~x), -1), ~x)
+end
 
-@rule integrate(~u*(~A*(tan(~a + ~b*~x)^~n) + ~B*(tan(~a + ~b*~x)^~n1) + ~C*(tan(~a + ~b*~x)^~n2)), ~x) =>  if And(FreeQ(List(~a, ~b, ~A, ~B, ~C, ~n), ~x), EqQ(~n1, 1 + ~n), EqQ(~n2, 2 + ~n)) 
- integrate((~A + ~B*tan(~a + ~b*~x) + ~C*(tan(~a + ~b*~x)^2))*(tan(~a + ~b*~x)^~n)*ActivateTrig(~u), ~x)
- end
+# line nr: 125
+@rule integrate((Optional(Pattern(~A, Blank()))*Power(tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), Optional(Pattern(~n, Blank()))) + Optional(Pattern(~B, Blank()))*Power(tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), Pattern(~n1, Blank())) + Optional(Pattern(~C, Blank()))*Power(tan(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), Pattern(~n2, Blank())))*Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~A, ~B, ~C, ~n), ~x), EqQ(~n1, 1 + ~n), EqQ(~n2, 2 + ~n))
+  integrate((~A + ~B*tan(~a + ~b*~x) + ~C*Power(tan(~a + ~b*~x), 2))*ActivateTrig(~u)*Power(tan(~a + ~b*~x), ~n), ~x)
+end
 
-@rule integrate(~u*(~A*(cot(~a + ~b*~x)^~n) + ~B*(cot(~a + ~b*~x)^~n1) + ~C*(cot(~a + ~b*~x)^~n2)), ~x) =>  if And(FreeQ(List(~a, ~b, ~A, ~B, ~C, ~n), ~x), EqQ(~n1, 1 + ~n), EqQ(~n2, 2 + ~n)) 
- integrate((~A + ~B*cot(~a + ~b*~x) + ~C*(cot(~a + ~b*~x)^2))*(cot(~a + ~b*~x)^~n)*ActivateTrig(~u), ~x)
- end
+# line nr: 131
+@rule integrate((Optional(Pattern(~A, Blank()))*Power(cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), Optional(Pattern(~n, Blank()))) + Optional(Pattern(~B, Blank()))*Power(cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), Pattern(~n1, Blank())) + Optional(Pattern(~C, Blank()))*Power(cot(Optional(Pattern(~b, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~a, Blank()))), Pattern(~n2, Blank())))*Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~A, ~B, ~C, ~n), ~x), EqQ(~n1, 1 + ~n), EqQ(~n2, 2 + ~n))
+  integrate((~A + ~B*cot(~a + ~b*~x) + ~C*Power(cot(~a + ~b*~x), 2))*ActivateTrig(~u)*Power(cot(~a + ~b*~x), ~n), ~x)
+end
 

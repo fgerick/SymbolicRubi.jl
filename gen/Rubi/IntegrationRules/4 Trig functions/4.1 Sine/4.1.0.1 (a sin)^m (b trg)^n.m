@@ -21,11 +21,9 @@
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   Int[DeactivateTrig[u,x],x] /;
 SimplifyFlag && FunctionOfTrigOfLinearQ[u,x],
-
 Int[u_,x_Symbol] :=
   Int[DeactivateTrig[u,x],x] /;
 FunctionOfTrigOfLinearQ[u,x]]

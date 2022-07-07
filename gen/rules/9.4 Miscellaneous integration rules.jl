@@ -1,248 +1,315 @@
-@rule integrate(((~a + ~b*(~F)(~c*(Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x)))^~n)*((~A + ~B*~x + ~C*((~x)^2))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~B, ~C, ~F), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~B*~e*~g - ~C*(~e*~f + ~d*~g), 0), IGtQ(~n, 0)) 
- 2 * ~e*~g*(((~C)^-1)*((~e*~f - ~d*~g)^-1))*Subst(integrate(((~x)^-1)*((~a + ~b*F(~c*~x))^~n), ~x), ~x, (Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x))
- end
-
-@rule integrate(((~A + ~C*((~x)^2))^-1)*((~a + ~b*(~F)(~c*(Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x)))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~C, ~F), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~e*~f + ~d*~g, 0), IGtQ(~n, 0)) 
- 2 * ~e*~g*(((~C)^-1)*((~e*~f - ~d*~g)^-1))*Subst(integrate(((~x)^-1)*((~a + ~b*F(~c*~x))^~n), ~x), ~x, (Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x))
- end
-
-@rule integrate(((~a + ~b*(~F)(~c*(Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x)))^~n)*((~A + ~B*~x + ~C*((~x)^2))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~B, ~C, ~F, ~n), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~B*~e*~g - ~C*(~e*~f + ~d*~g), 0), Not(IGtQ(~n, 0))) 
- Unintegrable(((~a + ~b*F(~c*(Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x)))^~n)*((~A + ~B*~x + ~C*((~x)^2))^-1), ~x)
- end
-
-@rule integrate(((~A + ~C*((~x)^2))^-1)*((~a + ~b*(~F)(~c*(Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x)))^~n), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~C, ~F, ~n), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~e*~f + ~d*~g, 0), Not(IGtQ(~n, 0))) 
- Unintegrable(((~A + ~C*((~x)^2))^-1)*((~a + ~b*F(~c*(Sqrt(~f + ~g*~x)^-1)*Sqrt(~d + ~e*~x)))^~n), ~x)
- end
-
-@rule integrate(~u*((~y)^-1), ~x) => With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Log(RemoveContent(~y, ~x)), Not(FalseQ(~q))))
-
-@rule integrate(~u*(((~w)^-1)*((~y)^-1)), ~x) => With(List(Set(~q, DerivativeDivides(~w*~y, ~u, ~x))), Condition(~q*Log(RemoveContent(~w*~y, ~x)), Not(FalseQ(~q))))
-
-@rule integrate(~u*((~y)^~m), ~x) =>  if And(FreeQ(~m, ~x), NeQ(~m, -1)) 
- With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*((~y)^(1 + ~m))*((1 + ~m)^-1), Not(FalseQ(~q))))
- end
-
-@rule integrate(~u*((~y)^~m)*((~z)^~n), ~x) =>  if And(FreeQ(List(~m, ~n), ~x), NeQ(~m, -1)) 
- With(List(Set(~q, DerivativeDivides(~y*~z, ~u*((~z)^(~n - ~m)), ~x))), Condition(~q*((~y)^(1 + ~m))*((~z)^(1 + ~m))*((1 + ~m)^-1), Not(FalseQ(~q))))
- end
-
-@rule integrate(~u, ~x) => With(List(Set(~v, SimplifyIntegrand(~u, ~x))), Condition(integrate(~v, ~x), SimplerIntegrandQ(~v, ~u, ~x)))
-
-@rule integrate(~u*((~e*Sqrt(~a + ~b*((~x)^~n)) + ~f*Sqrt(~c + ~d*((~x)^~n)))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~n), ~x), ILtQ(~m, 0), EqQ(~b*((~e)^2) - ~d*((~f)^2), 0)) 
- ((~a*((~e)^2) - ~c*((~f)^2))^~m)*integrate(ExpandIntegrand(~u*((~e*Sqrt(~a + ~b*((~x)^~n)) - ~f*Sqrt(~c + ~d*((~x)^~n)))^(-~m)), ~x), ~x)
- end
-
-@rule integrate(~u*((~e*Sqrt(~a + ~b*((~x)^~n)) + ~f*Sqrt(~c + ~d*((~x)^~n)))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~n), ~x), ILtQ(~m, 0), EqQ(~a*((~e)^2) - ~c*((~f)^2), 0)) 
- ((~b*((~e)^2) - ~d*((~f)^2))^~m)*integrate(ExpandIntegrand(~u*((~x)^(~m*~n))*((~e*Sqrt(~a + ~b*((~x)^~n)) - ~f*Sqrt(~c + ~d*((~x)^~n)))^(-~m)), ~x), ~x)
- end
-
-@rule integrate(~w*((~u)^~m)*((~v + ~a*((~u)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~m, ~n), ~x), IntegerQ(~p), Not(GtQ(~n, 0)), Not(FreeQ(~v, ~x))) 
- integrate(~w*((~u)^(~m + ~n*~p))*((~a + ~v*((~u)^(-~n)))^~p), ~x)
- end
-
-@rule integrate(~u*((~c + ~d*~v)^~n)*((~a + ~b*~y)^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), EqQ(~v, ~y)) 
- With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate(((~a + ~b*~x)^~m)*((~c + ~d*~x)^~n), ~x), ~x, ~y), Not(FalseQ(~q))))
- end
-
-@rule integrate(~u*((~c + ~d*~v)^~n)*((~a + ~b*~y)^~m)*((~e + ~f*~w)^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m, ~n, ~p), ~x), EqQ(~v, ~y), EqQ(~w, ~y)) 
- With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate(((~a + ~b*~x)^~m)*((~c + ~d*~x)^~n)*((~e + ~f*~x)^~p), ~x), ~x, ~y), Not(FalseQ(~q))))
- end
-
-@rule integrate(~u*((~c + ~d*~v)^~n)*((~a + ~b*~y)^~m)*((~e + ~f*~w)^~p)*((~g + ~h*~z)^~q), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~h, ~m, ~n, ~p, ~q), ~x), EqQ(~v, ~y), EqQ(~w, ~y), EqQ(~z, ~y)) 
- With(List(Set(~r, DerivativeDivides(~y, ~u, ~x))), Condition(~r*Subst(integrate(((~a + ~b*~x)^~m)*((~c + ~d*~x)^~n)*((~e + ~f*~x)^~p)*((~g + ~h*~x)^~q), ~x), ~x, ~y), Not(FalseQ(~r))))
- end
-
-@rule integrate(~u*(~a + ~b*((~y)^~n)), ~x) =>  if FreeQ(List(~a, ~b, ~n), ~x) 
- With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~a*integrate(~u, ~x) + ~b*~q*Subst(integrate((~x)^~n, ~x), ~x, ~y), Not(FalseQ(~q))))
- end
-
-@rule integrate(~u*((~a + ~b*((~y)^~n))^~p), ~x) =>  if FreeQ(List(~a, ~b, ~n, ~p), ~x) 
- With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate((~a + ~b*((~x)^~n))^~p, ~x), ~x, ~y), Not(FalseQ(~q))))
- end
-
-@rule integrate(~u*((~v)^~m)*((~a + ~b*((~y)^~n))^~p), ~x) =>  if FreeQ(List(~a, ~b, ~m, ~n, ~p), ~x) 
- Module(List(~q, ~r), Condition(~q*~r*Subst(integrate(((~x)^~m)*((~a + ~b*((~x)^~n))^~p), ~x), ~x, ~y), And(Not(FalseQ(Set(~r, Divides((~y)^~m, (~v)^~m, ~x)))), Not(FalseQ(Set(~q, DerivativeDivides(~y, ~u, ~x)))))))
- end
-
-@rule integrate(~u*((~a + ~b*((~y)^~n) + ~c*((~v)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~v, ~y)) 
- With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate((~a + ~b*((~x)^~n) + ~c*((~x)^(2 * ~n)))^~p, ~x), ~x, ~y), Not(FalseQ(~q))))
- end
-
-@rule integrate(~u*(~A + ~B*((~y)^~n))*((~a + ~b*((~v)^~n) + ~c*((~w)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~v, ~y), EqQ(~w, ~y)) 
- With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate((~A + ~B*((~x)^~n))*((~a + ~b*((~x)^~n) + ~c*((~x)^(2 * ~n)))^~p), ~x), ~x, ~y), Not(FalseQ(~q))))
- end
-
-@rule integrate(~u*(~A + ~B*((~y)^~n))*((~a + ~c*((~w)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~c, ~A, ~B, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~w, ~y)) 
- With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate((~A + ~B*((~x)^~n))*((~a + ~c*((~x)^(2 * ~n)))^~p), ~x), ~x, ~y), Not(FalseQ(~q))))
- end
-
-@rule integrate(~u*((~v)^~m)*((~a + ~b*((~y)^~n) + ~c*((~w)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~m, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~w, ~y)) 
- Module(List(~q, ~r), Condition(~q*~r*Subst(integrate(((~x)^~m)*((~a + ~b*((~x)^~n) + ~c*((~x)^(2 * ~n)))^~p), ~x), ~x, ~y), And(Not(FalseQ(Set(~r, Divides((~y)^~m, (~v)^~m, ~x)))), Not(FalseQ(Set(~q, DerivativeDivides(~y, ~u, ~x)))))))
- end
-
-@rule integrate(~u*(~A + ~B*((~y)^~n))*((~z)^~m)*((~a + ~b*((~v)^~n) + ~c*((~w)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~m, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~v, ~y), EqQ(~w, ~y)) 
- Module(List(~q, ~r), Condition(~q*~r*Subst(integrate((~A + ~B*((~x)^~n))*((~x)^~m)*((~a + ~b*((~x)^~n) + ~c*((~x)^(2 * ~n)))^~p), ~x), ~x, ~y), And(Not(FalseQ(Set(~r, Divides((~y)^~m, (~z)^~m, ~x)))), Not(FalseQ(Set(~q, DerivativeDivides(~y, ~u, ~x)))))))
- end
-
-@rule integrate(~u*(~A + ~B*((~y)^~n))*((~z)^~m)*((~a + ~c*((~w)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~c, ~A, ~B, ~m, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~w, ~y)) 
- Module(List(~q, ~r), Condition(~q*~r*Subst(integrate((~A + ~B*((~x)^~n))*((~x)^~m)*((~a + ~c*((~x)^(2 * ~n)))^~p), ~x), ~x, ~y), And(Not(FalseQ(Set(~r, Divides((~y)^~m, (~z)^~m, ~x)))), Not(FalseQ(Set(~q, DerivativeDivides(~y, ~u, ~x)))))))
- end
-
-@rule integrate(~u*((~c + ~d*((~v)^~n))^~p)*((~a + ~b*((~y)^~n))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n, ~p), ~x), EqQ(~v, ~y)) 
- With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate(((~a + ~b*((~x)^~n))^~m)*((~c + ~d*((~x)^~n))^~p), ~x), ~x, ~y), Not(FalseQ(~q))))
- end
-
-@rule integrate(~u*((~c + ~d*((~v)^~n))^~p)*((~e + ~f*((~w)^~n))^~q)*((~a + ~b*((~y)^~n))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m, ~n, ~p, ~q), ~x), EqQ(~v, ~y), EqQ(~w, ~y)) 
- With(List(Set(~r, DerivativeDivides(~y, ~u, ~x))), Condition(~r*Subst(integrate(((~a + ~b*((~x)^~n))^~m)*((~c + ~d*((~x)^~n))^~p)*((~e + ~f*((~x)^~n))^~q), ~x), ~x, ~y), Not(FalseQ(~r))))
- end
-
-@rule integrate(~u*((~F)^~v), ~x) =>  if FreeQ(~F, ~x) 
- With(List(Set(~q, DerivativeDivides(~v, ~u, ~x))), Condition(~q*((~F)^~v)*(Log(~F)^-1), Not(FalseQ(~q))))
- end
-
-@rule integrate(~u*((~F)^~v)*((~w)^~m), ~x) =>  if And(FreeQ(List(~F, ~m), ~x), EqQ(~w, ~v)) 
- With(List(Set(~q, DerivativeDivides(~v, ~u, ~x))), Condition(~q*Subst(integrate(((~F)^~x)*((~x)^~m), ~x), ~x, ~v), Not(FalseQ(~q))))
- end
-
-@rule integrate(~u*((~a + ~b*((~v)^~p)*((~w)^~p))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~p), ~x), IntegerQ(~p)) 
- With(List(Set(~c, Simplify(~u*((~v*D(~w, ~x) + ~w*D(~v, ~x))^-1)))), Condition(~c*Subst(integrate((~a + ~b*((~x)^~p))^~m, ~x), ~x, ~v*~w), FreeQ(~c, ~x)))
- end
-
-@rule integrate(~u*((~v)^~r)*((~a + ~b*((~v)^~p)*((~w)^~q))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~p, ~q, ~r), ~x), EqQ(~p, ~q*(1 + ~r)), NeQ(~r, -1), IntegerQ(~p*((1 + ~r)^-1))) 
- With(List(Set(~c, Simplify(~u*((~q*~v*D(~w, ~x) + ~p*~w*D(~v, ~x))^-1)))), Condition(~c*~p*((1 + ~r)^-1)*Subst(integrate((~a + ~b*((~x)^(~p*((1 + ~r)^-1))))^~m, ~x), ~x, ~w*((~v)^(1 + ~r))), FreeQ(~c, ~x)))
- end
-
-@rule integrate(~u*((~v)^~r)*((~w)^~s)*((~a + ~b*((~v)^~p)*((~w)^~q))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~p, ~q, ~r, ~s), ~x), EqQ(~p*(1 + ~s), ~q*(1 + ~r)), NeQ(~r, -1), IntegerQ(~p*((1 + ~r)^-1))) 
- With(List(Set(~c, Simplify(~u*((~q*~v*D(~w, ~x) + ~p*~w*D(~v, ~x))^-1)))), Condition(~c*~p*((1 + ~r)^-1)*Subst(integrate((~a + ~b*((~x)^(~p*((1 + ~r)^-1))))^~m, ~x), ~x, ((~v)^(1 + ~r))*((~w)^(1 + ~s))), FreeQ(~c, ~x)))
- end
-
-@rule integrate(~u*((~a*((~v)^~p) + ~b*((~w)^~q))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~p, ~q), ~x), EqQ(~p + ~q*(1 + ~m*~p), 0), IntegerQ(~p), IntegerQ(~m)) 
- With(List(Set(~c, Simplify(~u*((~p*~w*D(~v, ~x) - ~q*~v*D(~w, ~x))^-1)))), Condition(~c*~p*Subst(integrate((~b + ~a*((~x)^~p))^~m, ~x), ~x, ~v*((~w)^(1 + ~m*~q))), FreeQ(~c, ~x)))
- end
-
-@rule integrate(~u*((~v)^~r)*((~a*((~v)^~p) + ~b*((~w)^~q))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~p, ~q, ~r), ~x), EqQ(~p + ~q*(1 + ~r + ~m*~p), 0), IntegerQ(~q), IntegerQ(~m)) 
- With(List(Set(~c, Simplify(~u*((~p*~w*D(~v, ~x) - ~q*~v*D(~w, ~x))^-1)))), Condition(-~c*~q*Subst(integrate((~a + ~b*((~x)^~q))^~m, ~x), ~x, ~w*((~v)^(1 + ~r + ~m*~p))), FreeQ(~c, ~x)))
- end
-
-@rule integrate(~u*((~w)^~s)*((~a*((~v)^~p) + ~b*((~w)^~q))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~p, ~q, ~s), ~x), EqQ(~p*(1 + ~s) + ~q*(1 + ~m*~p), 0), NeQ(~s, -1), IntegerQ(~q*((1 + ~s)^-1)), IntegerQ(~m)) 
- With(List(Set(~c, Simplify(~u*((~p*~w*D(~v, ~x) - ~q*~v*D(~w, ~x))^-1)))), Condition(-~c*~q*((1 + ~s)^-1)*Subst(integrate((~a + ~b*((~x)^(~q*((1 + ~s)^-1))))^~m, ~x), ~x, ((~v)^(1 + ~m*~p))*((~w)^(1 + ~s))), FreeQ(~c, ~x)))
- end
-
-@rule integrate(~u*((~v)^~r)*((~w)^~s)*((~a*((~v)^~p) + ~b*((~w)^~q))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~p, ~q, ~r, ~s), ~x), EqQ(~p*(1 + ~s) + ~q*(1 + ~r + ~m*~p), 0), NeQ(~s, -1), IntegerQ(~q*((1 + ~s)^-1)), IntegerQ(~m)) 
- With(List(Set(~c, Simplify(~u*((~p*~w*D(~v, ~x) - ~q*~v*D(~w, ~x))^-1)))), Condition(-~c*~q*((1 + ~s)^-1)*Subst(integrate((~a + ~b*((~x)^(~q*((1 + ~s)^-1))))^~m, ~x), ~x, ((~v)^(1 + ~r + ~m*~p))*((~w)^(1 + ~s))), FreeQ(~c, ~x)))
- end
-
-@rule integrate(~u*((~x)^~m), ~x) =>  if And(FreeQ(~m, ~x), NeQ(~m, -1), FunctionOfQ((~x)^(1 + ~m), ~u, ~x)) 
- ((1 + ~m)^-1)*Subst(integrate(SubstFor((~x)^(1 + ~m), ~u, ~x), ~x), ~x, (~x)^(1 + ~m))
- end
-
-@rule integrate(~u, ~x) => With(List(Set(~lst, SubstForFractionalPowerOfLinear(~u, ~x))), Condition(Part(~lst, 2)*Part(~lst, 4)*Subst(integrate(Part(~lst, 1), ~x), ~x, Part(~lst, 3)^(Part(~lst, 2)^-1)), And(Not(FalseQ(~lst)), SubstForFractionalPowerQ(~u, Part(~lst, 3), ~x))))
-
-@rule integrate(~u, ~x) => With(List(Set(~lst, SubstForFractionalPowerOfQuotientOfLinears(~u, ~x))), Condition(Part(~lst, 2)*Part(~lst, 4)*Subst(integrate(Part(~lst, 1), ~x), ~x, Part(~lst, 3)^(Part(~lst, 2)^-1)), Not(FalseQ(~lst))))
-
-@rule integrate(~u*((~a*((~v)^~m)*((~w)^~n)*((~z)^~q))^~p), ~x) =>  if And(FreeQ(List(~a, ~m, ~n, ~p, ~q), ~x), Not(IntegerQ(~p)), Not(FreeQ(~v, ~x)), Not(FreeQ(~w, ~x)), Not(FreeQ(~z, ~x))) 
- ((~a)^IntPart(~p))*((~a*((~v)^~m)*((~w)^~n)*((~z)^~q))^FracPart(~p))*(((~v)^(-~m*FracPart(~p)))*((~w)^(-~n*FracPart(~p)))*((~z)^(-~q*FracPart(~p))))*integrate(~u*((~v)^(~m*~p))*((~w)^(~n*~p))*((~z)^(~p*~q)), ~x)
- end
-
-@rule integrate(~u*((~a*((~v)^~m)*((~w)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~m, ~n, ~p), ~x), Not(IntegerQ(~p)), Not(FreeQ(~v, ~x)), Not(FreeQ(~w, ~x))) 
- ((~a)^IntPart(~p))*(((~v)^(-~m*FracPart(~p)))*((~w)^(-~n*FracPart(~p))))*((~a*((~v)^~m)*((~w)^~n))^FracPart(~p))*integrate(~u*((~v)^(~m*~p))*((~w)^(~n*~p)), ~x)
- end
-
-@rule integrate(~u*((~a*((~v)^~m))^~p), ~x) =>  if And(FreeQ(List(~a, ~m, ~p), ~x), Not(IntegerQ(~p)), Not(FreeQ(~v, ~x)), Not(And(EqQ(~a, 1), EqQ(~m, 1))), Not(And(EqQ(~v, ~x), EqQ(~m, 1)))) 
- ((~a)^IntPart(~p))*((~v)^(-~m*FracPart(~p)))*((~a*((~v)^~m))^FracPart(~p))*integrate(~u*((~v)^(~m*~p)), ~x)
- end
-
-@rule integrate(~u*((~a + ~b*((~x)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~p), ~x), Not(IntegerQ(~p)), ILtQ(~n, 0), Not(RationalFunctionQ(~u, ~x)), IntegerQ(~p + 2^-1)) 
- ((~b)^IntPart(~p))*((~a + ~b*((~x)^~n))^FracPart(~p))*(((~x)^(-~n*FracPart(~p)))*((1 + ~a*((~b)^-1)*((~x)^(-~n)))^(-FracPart(~p))))*integrate(~u*((~x)^(~n*~p))*((1 + ~a*((~b)^-1)*((~x)^(-~n)))^~p), ~x)
- end
-
-@rule integrate(~u*((~a + ~b*((~v)^~n))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~p), ~x), Not(IntegerQ(~p)), ILtQ(~n, 0), BinomialQ(~v, ~x), Not(LinearQ(~v, ~x))) 
- ((~a + ~b*((~v)^~n))^FracPart(~p))*(((~v)^(-~n*FracPart(~p)))*((~b + ~a*((~v)^(-~n)))^(-FracPart(~p))))*integrate(~u*((~v)^(~n*~p))*((~b + ~a*((~v)^(-~n)))^~p), ~x)
- end
-
-@rule integrate(~u*((~a + ~b*((~v)^~n)*((~x)^~m))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~p), ~x), Not(IntegerQ(~p)), ILtQ(~n, 0), BinomialQ(~v, ~x)) 
- ((~a + ~b*((~v)^~n)*((~x)^~m))^FracPart(~p))*(((~v)^(-~n*FracPart(~p)))*((~a*((~v)^(-~n)) + ~b*((~x)^~m))^(-FracPart(~p))))*integrate(~u*((~v)^(~n*~p))*((~a*((~v)^(-~n)) + ~b*((~x)^~m))^~p), ~x)
- end
-
-@rule integrate(~u*((~a*((~x)^~r) + ~b*((~x)^~s))^~m), ~x) =>  if And(FreeQ(List(~a, ~b, ~m, ~r, ~s), ~x), Not(IntegerQ(~m)), PosQ(~s - ~r)) 
- With(List(Set(~v, (((~x)^(-~r*FracPart(~m)))*((~a + ~b*((~x)^(~s - ~r)))^(-FracPart(~m))))*((~a*((~x)^~r) + ~b*((~x)^~s))^FracPart(~m)))), Condition(~v*integrate(~u*((~x)^(~m*~r))*((~a + ~b*((~x)^(~s - ~r)))^~m), ~x), NeQ(Simplify(~v), 1)))
- end
-
-@rule integrate(~u*((~a + ~b*((~x)^~n))^-1), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ(~n, 0)) 
- With(List(Set(~v, RationalFunctionExpand(~u*((~a + ~b*((~x)^~n))^-1), ~x))), Condition(integrate(~v, ~x), SumQ(~v)))
- end
-
-@rule integrate(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n), ~x), EqQ(~n2, 2 * ~n), EqQ((~b)^2 - 4 * ~a*~c, 0), IntegerQ(~p), Not(AlgebraicFunctionQ(~u, ~x))) 
- (((~c)^(-~p))*(4^(-~p)))*integrate(~u*((~b + 2 * ~c*((~x)^~n))^(2 * ~p)), ~x)
- end
-
-@rule integrate(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ((~b)^2 - 4 * ~a*~c, 0), Not(IntegerQ(~p)), Not(AlgebraicFunctionQ(~u, ~x))) 
- ((~b + 2 * ~c*((~x)^~n))^(-2 * ~p))*((~a + ~b*((~x)^~n) + ~c*((~x)^(2 * ~n)))^~p)*integrate(~u*((~b + 2 * ~c*((~x)^~n))^(2 * ~p)), ~x)
- end
-
-@rule integrate(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^~n2))^-1), ~x) =>  if And(FreeQ(List(~a, ~b, ~c), ~x), EqQ(~n2, 2 * ~n), IGtQ(~n, 0)) 
- With(List(Set(~v, RationalFunctionExpand(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^(2 * ~n)))^-1), ~x))), Condition(integrate(~v, ~x), SumQ(~v)))
- end
-
-@rule integrate(~u*((~a*((~x)^~m) + ~b*Sqrt(~c*((~x)^~n)))^-1), ~x) =>  if FreeQ(List(~a, ~b, ~c, ~m, ~n), ~x) 
- integrate(~u*((((~a)^2)*((~x)^(2 * ~m)) - ~c*((~b)^2)*((~x)^~n))^-1)*(~a*((~x)^~m) - ~b*Sqrt(~c*((~x)^~n))), ~x)
- end
-
-@rule integrate(~u, ~x) => With(List(Set(~lst, FunctionOfLinear(~u, ~x))), Condition(Dist(Part(~lst, 3)^-1, Subst(integrate(Part(~lst, 1), ~x), ~x, ~x*Part(~lst, 3) + Part(~lst, 2)), ~x), Not(FalseQ(~lst))))
-
-@rule integrate(~u*((~x)^-1), ~x) =>  if And(NonsumQ(~u), Not(RationalFunctionQ(~u, ~x))) 
- With(List(Set(~lst, PowerVariableExpn(~u, 0, ~x))), Condition((Part(~lst, 2)^-1)*Subst(integrate(NormalizeIntegrand(Simplify(((~x)^-1)*Part(~lst, 1)), ~x), ~x), ~x, (~x*Part(~lst, 3))^Part(~lst, 2)), And(Not(FalseQ(~lst)), NeQ(Part(~lst, 2), 0))))
- end
-
-@rule integrate(~u*((~x)^~m), ~x) =>  if And(IntegerQ(~m), NeQ(~m, -1), NonsumQ(~u), Or(GtQ(~m, 0), Not(AlgebraicFunctionQ(~u, ~x)))) 
- With(List(Set(~lst, PowerVariableExpn(~u, 1 + ~m, ~x))), Condition((Part(~lst, 2)^-1)*Subst(integrate(NormalizeIntegrand(Simplify(((~x)^-1)*Part(~lst, 1)), ~x), ~x), ~x, (~x*Part(~lst, 3))^Part(~lst, 2)), And(Not(FalseQ(~lst)), NeQ(Part(~lst, 2), 1 + ~m))))
- end
-
-@rule integrate(~u*((~x)^~m), ~x) =>  if FractionQ(~m) 
- With(List(Set(~k, Denominator(~m))), ~k*Subst(integrate(((~x)^(~k*(1 + ~m) - 1))*ReplaceAll(~u, Rule(~x, (~x)^~k)), ~x), ~x, (~x)^((~k)^-1)))
- end
-
-@rule integrate(~u, ~x) =>  if EulerIntegrandQ(~u, ~x) 
- With(List(Set(~lst, FunctionOfSquareRootOfQuadratic(~u, ~x))), Condition(2Subst(integrate(Part(~lst, 1), ~x), ~x, Part(~lst, 2)), And(Not(FalseQ(~lst)), EqQ(Part(~lst, 3), 1))))
- end
-
-@rule integrate(~u, ~x) =>  if EulerIntegrandQ(~u, ~x) 
- With(List(Set(~lst, FunctionOfSquareRootOfQuadratic(~u, ~x))), Condition(2Subst(integrate(Part(~lst, 1), ~x), ~x, Part(~lst, 2)), And(Not(FalseQ(~lst)), EqQ(Part(~lst, 3), 2))))
- end
-
-@rule integrate(~u, ~x) =>  if EulerIntegrandQ(~u, ~x) 
- With(List(Set(~lst, FunctionOfSquareRootOfQuadratic(~u, ~x))), Condition(2Subst(integrate(Part(~lst, 1), ~x), ~x, Part(~lst, 2)), And(Not(FalseQ(~lst)), EqQ(Part(~lst, 3), 3))))
- end
-
-@rule integrate((~a + ~b*((~v)^2))^-1, ~x) =>  if FreeQ(List(~a, ~b), ~x) 
- ((1//2)*((~a)^-1))*integrate(Together((1 + ~v*(Rt(-~a*((~b)^-1), 2)^-1))^-1), ~x) + ((1//2)*((~a)^-1))*integrate(Together((1 - ~v*(Rt(-~a*((~b)^-1), 2)^-1))^-1), ~x)
- end
-
-@rule integrate((~a + ~b*((~v)^~n))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ((1//2)*~n, 1)) 
- Dist(2(((~a)^-1)*((~n)^-1)), Sum(integrate(Together((1 - ((~v)^2)*(((-1)^(-4 * ~k*((~n)^-1)))*(Rt(-~a*((~b)^-1), (1//2)*~n)^-1)))^-1), ~x), List(~k, 1, (1//2)*~n)), ~x)
- end
-
-@rule integrate((~a + ~b*((~v)^~n))^-1, ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ((1//2)*(~n - 1), 0)) 
- Dist((~a*~n)^-1, Sum(integrate(Together((1 - ~v*(((-1)^(-2 * ~k*((~n)^-1)))*(Rt(-~a*((~b)^-1), ~n)^-1)))^-1), ~x), List(~k, 1, ~n)), ~x)
- end
-
-@rule integrate(~v*((~a + ~b*((~u)^~n))^-1), ~x) =>  if And(FreeQ(List(~a, ~b), ~x), IGtQ(~n, 0), PolynomialInQ(~v, ~u, ~x)) 
- integrate(ReplaceAll(ExpandIntegrand(((~a + ~b*((~x)^~n))^-1)*PolynomialInSubst(~v, ~u, ~x), ~x), Rule(~x, ~u)), ~x)
- end
-
-@rule integrate(~u, ~x) => With(List(Set(~v, NormalizeIntegrand(~u, ~x))), Condition(integrate(~v, ~x), UnsameQ(~v, ~u)))
-
-@rule integrate(~u, ~x) => With(List(Set(~v, ExpandIntegrand(~u, ~x))), Condition(integrate(~v, ~x), SumQ(~v)))
-
-@rule integrate(~u*((~a + ~b*((~x)^~m))^~p)*((~c + ~d*((~x)^~n))^~q), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n, ~p, ~q), ~x), EqQ(~a + ~d, 0), EqQ(~b + ~c, 0), EqQ(~m + ~n, 0), EqQ(~p + ~q, 0)) 
- ((~x)^(-~m*~p))*((~a + ~b*((~x)^~m))^~p)*((~c + ~d*((~x)^~n))^~q)*integrate(~u*((~x)^(~m*~p)), ~x)
- end
-
-@rule integrate(~u*((~a + ~b*((~x)^~n) + ~c*((~x)^~n2))^~p), ~x) =>  if And(FreeQ(List(~a, ~b, ~c, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ((~b)^2 - 4 * ~a*~c, 0), IntegerQ(~p - (1//2))) 
- (((~b + 2 * ~c*((~x)^~n))^-1)*((4 * ~c)^((1//2) - ~p)))*Sqrt(~a + ~b*((~x)^~n) + ~c*((~x)^(2 * ~n)))*integrate(~u*((~b + 2 * ~c*((~x)^~n))^(2 * ~p)), ~x)
- end
-
-@rule integrate(~u, ~x) => With(List(Set(~lst, SubstForFractionalPowerOfLinear(~u, ~x))), Condition(Part(~lst, 2)*Part(~lst, 4)*Subst(integrate(Part(~lst, 1), ~x), ~x, Part(~lst, 3)^(Part(~lst, 2)^-1)), Not(FalseQ(~lst))))
-
-@rule integrate(~u, ~x) => CannotIntegrate(~u, ~x)
+# line nr: 23
+@rule integrate(Power(Optional(Pattern(~b, Blank()))*Pattern(Sqrt(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank())))*Optional(Pattern(~c, Blank()))*Power(Sqrt(Optional(Pattern(~g, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~f, Blank()))), -1), ~F, Blank()) + Optional(Pattern(~a, Blank())), Optional(Pattern(~n, Blank())))*Power(Optional(Pattern(~B, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~C, Blank()))*Power(Pattern(~x, Blank()), 2) + Optional(Pattern(~A, Blank())), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~B, ~C, ~F), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~B*~e*~g - ~C*(~e*~f + ~d*~g), 0), IGtQ(~n, 0))
+  2 * ~e*~g*Power(~C*(~e*~f - ~d*~g), -1)*Subst(integrate(Power(~x, -1)*Power(~a + ~b*F(~c*~x), ~n), ~x), ~x, Sqrt(~d + ~e*~x)*Power(Sqrt(~f + ~g*~x), -1))
+end
+
+# line nr: 29
+@rule integrate(Power(Optional(Pattern(~C, Blank()))*Power(Pattern(~x, Blank()), 2) + Optional(Pattern(~A, Blank())), -1)*Power(Optional(Pattern(~b, Blank()))*Pattern(Sqrt(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank())))*Optional(Pattern(~c, Blank()))*Power(Sqrt(Optional(Pattern(~g, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~f, Blank()))), -1), ~F, Blank()) + Optional(Pattern(~a, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~C, ~F), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~e*~f + ~d*~g, 0), IGtQ(~n, 0))
+  2 * ~e*~g*Power(~C*(~e*~f - ~d*~g), -1)*Subst(integrate(Power(~x, -1)*Power(~a + ~b*F(~c*~x), ~n), ~x), ~x, Sqrt(~d + ~e*~x)*Power(Sqrt(~f + ~g*~x), -1))
+end
+
+# line nr: 35
+@rule integrate(Power(Optional(Pattern(~b, Blank()))*Pattern(Sqrt(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank())))*Optional(Pattern(~c, Blank()))*Power(Sqrt(Optional(Pattern(~g, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~f, Blank()))), -1), ~F, Blank()) + Optional(Pattern(~a, Blank())), Pattern(~n, Blank()))*Power(Optional(Pattern(~B, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~C, Blank()))*Power(Pattern(~x, Blank()), 2) + Optional(Pattern(~A, Blank())), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~B, ~C, ~F, ~n), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~B*~e*~g - ~C*(~e*~f + ~d*~g), 0), Not(IGtQ(~n, 0)))
+  Unintegrable(Power(~a + ~b*F(~c*Sqrt(~d + ~e*~x)*Power(Sqrt(~f + ~g*~x), -1)), ~n)*Power(~A + ~B*~x + ~C*Power(~x, 2), -1), ~x)
+end
+
+# line nr: 41
+@rule integrate(Power(Optional(Pattern(~b, Blank()))*Pattern(Sqrt(Optional(Pattern(~e, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~d, Blank())))*Optional(Pattern(~c, Blank()))*Power(Sqrt(Optional(Pattern(~g, Blank()))*Pattern(~x, Blank()) + Optional(Pattern(~f, Blank()))), -1), ~F, Blank()) + Optional(Pattern(~a, Blank())), Pattern(~n, Blank()))*Power(Optional(Pattern(~C, Blank()))*Power(Pattern(~x, Blank()), 2) + Pattern(~A, Blank()), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~A, ~C, ~F, ~n), ~x), EqQ(~C*~d*~f - ~A*~e*~g, 0), EqQ(~e*~f + ~d*~g, 0), Not(IGtQ(~n, 0)))
+  Unintegrable(Power(~a + ~b*F(~c*Sqrt(~d + ~e*~x)*Power(Sqrt(~f + ~g*~x), -1)), ~n)*Power(~A + ~C*Power(~x, 2), -1), ~x)
+end
+
+# line nr: 47
+@rule integrate(Pattern(~u, Blank())*Power(Pattern(~y, Blank()), -1), Pattern(~x, Blank(~Symbol))) => With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Log(RemoveContent(~y, ~x)), Not(FalseQ(~q))))
+
+# line nr: 54
+@rule integrate(Pattern(~u, Blank())*Power(Pattern(~w, Blank())*Pattern(~y, Blank()), -1), Pattern(~x, Blank(~Symbol))) => With(List(Set(~q, DerivativeDivides(~w*~y, ~u, ~x))), Condition(~q*Log(RemoveContent(~w*~y, ~x)), Not(FalseQ(~q))))
+
+# line nr: 61
+@rule integrate(Pattern(~u, Blank())*Power(Pattern(~y, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(~m, ~x), NeQ(~m, -1))
+  With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Power(~y, 1 + ~m)*Power(1 + ~m, -1), Not(FalseQ(~q))))
+end
+
+# line nr: 69
+@rule integrate(Pattern(~u, Blank())*Power(Pattern(~y, Blank()), Optional(Pattern(~m, Blank())))*Power(Pattern(~z, Blank()), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~m, ~n), ~x), NeQ(~m, -1))
+  With(List(Set(~q, DerivativeDivides(~y*~z, ~u*Power(~z, ~n - ~m), ~x))), Condition(~q*Power(~y, 1 + ~m)*Power(~z, 1 + ~m)*Power(1 + ~m, -1), Not(FalseQ(~q))))
+end
+
+# line nr: 77
+@rule integrate(Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => With(List(Set(~v, SimplifyIntegrand(~u, ~x))), Condition(integrate(~v, ~x), SimplerIntegrandQ(~v, ~u, ~x)))
+
+# line nr: 84
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Sqrt(Optional(Pattern(~b, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n, Blank()))) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~e, Blank())) + Sqrt(Optional(Pattern(~d, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n, Blank()))) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~f, Blank())), Pattern(~m, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~n), ~x), ILtQ(~m, 0), EqQ(~b*Power(~e, 2) - ~d*Power(~f, 2), 0))
+  Power(~a*Power(~e, 2) - ~c*Power(~f, 2), ~m)*integrate(ExpandIntegrand(~u*Power(~e*Sqrt(~a + ~b*Power(~x, ~n)) - ~f*Sqrt(~c + ~d*Power(~x, ~n)), -~m), ~x), ~x)
+end
+
+# line nr: 90
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Sqrt(Optional(Pattern(~b, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n, Blank()))) + Optional(Pattern(~a, Blank())))*Optional(Pattern(~e, Blank())) + Sqrt(Optional(Pattern(~d, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n, Blank()))) + Optional(Pattern(~c, Blank())))*Optional(Pattern(~f, Blank())), Pattern(~m, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~n), ~x), ILtQ(~m, 0), EqQ(~a*Power(~e, 2) - ~c*Power(~f, 2), 0))
+  Power(~b*Power(~e, 2) - ~d*Power(~f, 2), ~m)*integrate(ExpandIntegrand(~u*Power(~x, ~m*~n)*Power(~e*Sqrt(~a + ~b*Power(~x, ~n)) - ~f*Sqrt(~c + ~d*Power(~x, ~n)), -~m), ~x), ~x)
+end
+
+# line nr: 96
+@rule integrate(Pattern(~w, Blank())*Power(Optional(Pattern(~a, Blank()))*Power(Pattern(~u, Blank()), Pattern(~n, Blank())) + Pattern(~v, Blank()), Optional(Pattern(~p, Blank())))*Power(Pattern(~u, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~m, ~n), ~x), IntegerQ(~p), Not(GtQ(~n, 0)), Not(FreeQ(~v, ~x)))
+  integrate(~w*Power(~u, ~m + ~n*~p)*Power(~a + ~v*Power(~u, -~n), ~p), ~x)
+end
+
+# line nr: 102
+@rule integrate(Pattern(~u, Blank())*Power(Optional(Pattern(~d, Blank()))*Pattern(~v, Blank()) + Optional(Pattern(~c, Blank())), Optional(Pattern(~n, Blank())))*Power(Optional(Pattern(~b, Blank()))*Pattern(~y, Blank()) + Optional(Pattern(~a, Blank())), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n), ~x), EqQ(~v, ~y))
+  With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate(Power(~a + ~b*~x, ~m)*Power(~c + ~d*~x, ~n), ~x), ~x, ~y), Not(FalseQ(~q))))
+end
+
+# line nr: 110
+@rule integrate(Pattern(~u, Blank())*Power(Optional(Pattern(~d, Blank()))*Pattern(~v, Blank()) + Optional(Pattern(~c, Blank())), Optional(Pattern(~n, Blank())))*Power(Optional(Pattern(~f, Blank()))*Pattern(~w, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~p, Blank())))*Power(Optional(Pattern(~b, Blank()))*Pattern(~y, Blank()) + Optional(Pattern(~a, Blank())), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m, ~n, ~p), ~x), EqQ(~v, ~y), EqQ(~w, ~y))
+  With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate(Power(~a + ~b*~x, ~m)*Power(~c + ~d*~x, ~n)*Power(~e + ~f*~x, ~p), ~x), ~x, ~y), Not(FalseQ(~q))))
+end
+
+# line nr: 118
+@rule integrate(Pattern(~u, Blank())*Power(Optional(Pattern(~d, Blank()))*Pattern(~v, Blank()) + Optional(Pattern(~c, Blank())), Optional(Pattern(~n, Blank())))*Power(Optional(Pattern(~f, Blank()))*Pattern(~w, Blank()) + Optional(Pattern(~e, Blank())), Optional(Pattern(~p, Blank())))*Power(Optional(Pattern(~b, Blank()))*Pattern(~y, Blank()) + Optional(Pattern(~a, Blank())), Optional(Pattern(~m, Blank())))*Power(Optional(Pattern(~h, Blank()))*Pattern(~z, Blank()) + Optional(Pattern(~g, Blank())), Optional(Pattern(~q, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~g, ~h, ~m, ~n, ~p, ~q), ~x), EqQ(~v, ~y), EqQ(~w, ~y), EqQ(~z, ~y))
+  With(List(Set(~r, DerivativeDivides(~y, ~u, ~x))), Condition(~r*Subst(integrate(Power(~a + ~b*~x, ~m)*Power(~c + ~d*~x, ~n)*Power(~e + ~f*~x, ~p)*Power(~g + ~h*~x, ~q), ~x), ~x, ~y), Not(FalseQ(~r))))
+end
+
+# line nr: 126
+@rule integrate((Optional(Pattern(~b, Blank()))*Power(Pattern(~y, Blank()), Pattern(~n, Blank())) + Pattern(~a, Blank()))*Optional(Pattern(~u, Blank())), Pattern(~x, Blank(~Symbol))) => if FreeQ(List(~a, ~b, ~n), ~x)
+  With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~a*integrate(~u, ~x) + ~b*~q*Subst(integrate(Power(~x, ~n), ~x), ~x, ~y), Not(FalseQ(~q))))
+end
+
+# line nr: 134
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~y, Blank()), Pattern(~n, Blank())) + Optional(Pattern(~a, Blank())), Pattern(~p, Blank())), Pattern(~x, Blank(~Symbol))) => if FreeQ(List(~a, ~b, ~n, ~p), ~x)
+  With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate(Power(~a + ~b*Power(~x, ~n), ~p), ~x), ~x, ~y), Not(FalseQ(~q))))
+end
+
+# line nr: 142
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~y, Blank()), Pattern(~n, Blank())) + Optional(Pattern(~a, Blank())), Optional(Pattern(~p, Blank())))*Power(Pattern(~v, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if FreeQ(List(~a, ~b, ~m, ~n, ~p), ~x)
+  Module(List(~q, ~r), Condition(~q*~r*Subst(integrate(Power(~x, ~m)*Power(~a + ~b*Power(~x, ~n), ~p), ~x), ~x, ~y), And(Not(FalseQ(Set(~r, Divides(Power(~y, ~m), Power(~v, ~m), ~x)))), Not(FalseQ(Set(~q, DerivativeDivides(~y, ~u, ~x)))))))
+end
+
+# line nr: 150
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~y, Blank()), Pattern(~n, Blank())) + Optional(Pattern(~c, Blank()))*Power(Pattern(~v, Blank()), Optional(Pattern(~n2, Blank()))) + Optional(Pattern(~a, Blank())), Pattern(~p, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~v, ~y))
+  With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate(Power(~a + ~b*Power(~x, ~n) + ~c*Power(~x, 2 * ~n), ~p), ~x), ~x, ~y), Not(FalseQ(~q))))
+end
+
+# line nr: 158
+@rule integrate((Optional(Pattern(~B, Blank()))*Power(Pattern(~y, Blank()), Pattern(~n, Blank())) + Pattern(~A, Blank()))*Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~v, Blank()), Pattern(~n, Blank())) + Optional(Pattern(~c, Blank()))*Power(Pattern(~w, Blank()), Optional(Pattern(~n2, Blank()))) + Optional(Pattern(~a, Blank())), Optional(Pattern(~p, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~v, ~y), EqQ(~w, ~y))
+  With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate((~A + ~B*Power(~x, ~n))*Power(~a + ~b*Power(~x, ~n) + ~c*Power(~x, 2 * ~n), ~p), ~x), ~x, ~y), Not(FalseQ(~q))))
+end
+
+# line nr: 166
+@rule integrate((Optional(Pattern(~B, Blank()))*Power(Pattern(~y, Blank()), Pattern(~n, Blank())) + Pattern(~A, Blank()))*Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~c, Blank()))*Power(Pattern(~w, Blank()), Optional(Pattern(~n2, Blank()))) + Optional(Pattern(~a, Blank())), Optional(Pattern(~p, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~c, ~A, ~B, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~w, ~y))
+  With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate((~A + ~B*Power(~x, ~n))*Power(~a + ~c*Power(~x, 2 * ~n), ~p), ~x), ~x, ~y), Not(FalseQ(~q))))
+end
+
+# line nr: 174
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~c, Blank()))*Power(Pattern(~w, Blank()), Optional(Pattern(~n2, Blank()))) + Optional(Pattern(~b, Blank()))*Power(Pattern(~y, Blank()), Pattern(~n, Blank())) + Optional(Pattern(~a, Blank())), Optional(Pattern(~p, Blank())))*Power(Pattern(~v, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~m, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~w, ~y))
+  Module(List(~q, ~r), Condition(~q*~r*Subst(integrate(Power(~x, ~m)*Power(~a + ~b*Power(~x, ~n) + ~c*Power(~x, 2 * ~n), ~p), ~x), ~x, ~y), And(Not(FalseQ(Set(~r, Divides(Power(~y, ~m), Power(~v, ~m), ~x)))), Not(FalseQ(Set(~q, DerivativeDivides(~y, ~u, ~x)))))))
+end
+
+# line nr: 182
+@rule integrate((Optional(Pattern(~B, Blank()))*Power(Pattern(~y, Blank()), Pattern(~n, Blank())) + Pattern(~A, Blank()))*Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~v, Blank()), Pattern(~n, Blank())) + Optional(Pattern(~c, Blank()))*Power(Pattern(~w, Blank()), Optional(Pattern(~n2, Blank()))) + Optional(Pattern(~a, Blank())), Optional(Pattern(~p, Blank())))*Power(Pattern(~z, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~A, ~B, ~m, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~v, ~y), EqQ(~w, ~y))
+  Module(List(~q, ~r), Condition(~q*~r*Subst(integrate((~A + ~B*Power(~x, ~n))*Power(~x, ~m)*Power(~a + ~b*Power(~x, ~n) + ~c*Power(~x, 2 * ~n), ~p), ~x), ~x, ~y), And(Not(FalseQ(Set(~r, Divides(Power(~y, ~m), Power(~z, ~m), ~x)))), Not(FalseQ(Set(~q, DerivativeDivides(~y, ~u, ~x)))))))
+end
+
+# line nr: 190
+@rule integrate((Optional(Pattern(~B, Blank()))*Power(Pattern(~y, Blank()), Pattern(~n, Blank())) + Pattern(~A, Blank()))*Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~c, Blank()))*Power(Pattern(~w, Blank()), Optional(Pattern(~n2, Blank()))) + Optional(Pattern(~a, Blank())), Optional(Pattern(~p, Blank())))*Power(Pattern(~z, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~c, ~A, ~B, ~m, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(~w, ~y))
+  Module(List(~q, ~r), Condition(~q*~r*Subst(integrate((~A + ~B*Power(~x, ~n))*Power(~x, ~m)*Power(~a + ~c*Power(~x, 2 * ~n), ~p), ~x), ~x, ~y), And(Not(FalseQ(Set(~r, Divides(Power(~y, ~m), Power(~z, ~m), ~x)))), Not(FalseQ(Set(~q, DerivativeDivides(~y, ~u, ~x)))))))
+end
+
+# line nr: 198
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~y, Blank()), Pattern(~n, Blank())) + Optional(Pattern(~a, Blank())), Optional(Pattern(~m, Blank())))*Power(Optional(Pattern(~d, Blank()))*Power(Pattern(~v, Blank()), Pattern(~n, Blank())) + Optional(Pattern(~c, Blank())), Optional(Pattern(~p, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n, ~p), ~x), EqQ(~v, ~y))
+  With(List(Set(~q, DerivativeDivides(~y, ~u, ~x))), Condition(~q*Subst(integrate(Power(~a + ~b*Power(~x, ~n), ~m)*Power(~c + ~d*Power(~x, ~n), ~p), ~x), ~x, ~y), Not(FalseQ(~q))))
+end
+
+# line nr: 206
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~y, Blank()), Pattern(~n, Blank())) + Optional(Pattern(~a, Blank())), Optional(Pattern(~m, Blank())))*Power(Optional(Pattern(~d, Blank()))*Power(Pattern(~v, Blank()), Pattern(~n, Blank())) + Optional(Pattern(~c, Blank())), Optional(Pattern(~p, Blank())))*Power(Optional(Pattern(~f, Blank()))*Power(Pattern(~w, Blank()), Pattern(~n, Blank())) + Optional(Pattern(~e, Blank())), Optional(Pattern(~q, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~e, ~f, ~m, ~n, ~p, ~q), ~x), EqQ(~v, ~y), EqQ(~w, ~y))
+  With(List(Set(~r, DerivativeDivides(~y, ~u, ~x))), Condition(~r*Subst(integrate(Power(~a + ~b*Power(~x, ~n), ~m)*Power(~c + ~d*Power(~x, ~n), ~p)*Power(~e + ~f*Power(~x, ~n), ~q), ~x), ~x, ~y), Not(FalseQ(~r))))
+end
+
+# line nr: 214
+@rule integrate(Pattern(~u, Blank())*Power(Pattern(~F, Blank()), Pattern(~v, Blank())), Pattern(~x, Blank(~Symbol))) => if FreeQ(~F, ~x)
+  With(List(Set(~q, DerivativeDivides(~v, ~u, ~x))), Condition(~q*Power(~F, ~v)*Power(Log(~F), -1), Not(FalseQ(~q))))
+end
+
+# line nr: 222
+@rule integrate(Pattern(~u, Blank())*Power(Pattern(~F, Blank()), Pattern(~v, Blank()))*Power(Pattern(~w, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~F, ~m), ~x), EqQ(~w, ~v))
+  With(List(Set(~q, DerivativeDivides(~v, ~u, ~x))), Condition(~q*Subst(integrate(Power(~F, ~x)*Power(~x, ~m), ~x), ~x, ~v), Not(FalseQ(~q))))
+end
+
+# line nr: 230
+@rule integrate(Pattern(~u, Blank())*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~v, Blank()), Optional(Pattern(~p, Blank())))*Power(Pattern(~w, Blank()), Optional(Pattern(~p, Blank()))) + Pattern(~a, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~m, ~p), ~x), IntegerQ(~p))
+  With(List(Set(~c, Simplify(~u*Power(~v*D(~w, ~x) + ~w*D(~v, ~x), -1)))), Condition(~c*Subst(integrate(Power(~a + ~b*Power(~x, ~p), ~m), ~x), ~x, ~v*~w), FreeQ(~c, ~x)))
+end
+
+# line nr: 238
+@rule integrate(Pattern(~u, Blank())*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~v, Blank()), Optional(Pattern(~p, Blank())))*Power(Pattern(~w, Blank()), Optional(Pattern(~q, Blank()))) + Pattern(~a, Blank()), Optional(Pattern(~m, Blank())))*Power(Pattern(~v, Blank()), Optional(Pattern(~r, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~m, ~p, ~q, ~r), ~x), EqQ(~p, ~q*(1 + ~r)), NeQ(~r, -1), IntegerQ(~p*Power(1 + ~r, -1)))
+  With(List(Set(~c, Simplify(~u*Power(~q*~v*D(~w, ~x) + ~p*~w*D(~v, ~x), -1)))), Condition(~c*~p*Power(1 + ~r, -1)*Subst(integrate(Power(~a + ~b*Power(~x, ~p*Power(1 + ~r, -1)), ~m), ~x), ~x, ~w*Power(~v, 1 + ~r)), FreeQ(~c, ~x)))
+end
+
+# line nr: 246
+@rule integrate(Pattern(~u, Blank())*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~v, Blank()), Optional(Pattern(~p, Blank())))*Power(Pattern(~w, Blank()), Optional(Pattern(~q, Blank()))) + Pattern(~a, Blank()), Optional(Pattern(~m, Blank())))*Power(Pattern(~v, Blank()), Optional(Pattern(~r, Blank())))*Power(Pattern(~w, Blank()), Optional(Pattern(~s, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~m, ~p, ~q, ~r, ~s), ~x), EqQ(~p*(1 + ~s), ~q*(1 + ~r)), NeQ(~r, -1), IntegerQ(~p*Power(1 + ~r, -1)))
+  With(List(Set(~c, Simplify(~u*Power(~q*~v*D(~w, ~x) + ~p*~w*D(~v, ~x), -1)))), Condition(~c*~p*Power(1 + ~r, -1)*Subst(integrate(Power(~a + ~b*Power(~x, ~p*Power(1 + ~r, -1)), ~m), ~x), ~x, Power(~v, 1 + ~r)*Power(~w, 1 + ~s)), FreeQ(~c, ~x)))
+end
+
+# line nr: 254
+@rule integrate(Pattern(~u, Blank())*Power(Optional(Pattern(~a, Blank()))*Power(Pattern(~v, Blank()), Optional(Pattern(~p, Blank()))) + Optional(Pattern(~b, Blank()))*Power(Pattern(~w, Blank()), Optional(Pattern(~q, Blank()))), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~m, ~p, ~q), ~x), EqQ(~p + ~q*(1 + ~m*~p), 0), IntegerQ(~p), IntegerQ(~m))
+  With(List(Set(~c, Simplify(~u*Power(~p*~w*D(~v, ~x) - ~q*~v*D(~w, ~x), -1)))), Condition(~c*~p*Subst(integrate(Power(~b + ~a*Power(~x, ~p), ~m), ~x), ~x, ~v*Power(~w, 1 + ~m*~q)), FreeQ(~c, ~x)))
+end
+
+# line nr: 270
+@rule integrate(Pattern(~u, Blank())*Power(Optional(Pattern(~a, Blank()))*Power(Pattern(~v, Blank()), Optional(Pattern(~p, Blank()))) + Optional(Pattern(~b, Blank()))*Power(Pattern(~w, Blank()), Optional(Pattern(~q, Blank()))), Optional(Pattern(~m, Blank())))*Power(Pattern(~v, Blank()), Optional(Pattern(~r, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~m, ~p, ~q, ~r), ~x), EqQ(~p + ~q*(1 + ~r + ~m*~p), 0), IntegerQ(~q), IntegerQ(~m))
+  With(List(Set(~c, Simplify(~u*Power(~p*~w*D(~v, ~x) - ~q*~v*D(~w, ~x), -1)))), Condition(-~c*~q*Subst(integrate(Power(~a + ~b*Power(~x, ~q), ~m), ~x), ~x, ~w*Power(~v, 1 + ~r + ~m*~p)), FreeQ(~c, ~x)))
+end
+
+# line nr: 278
+@rule integrate(Pattern(~u, Blank())*Power(Optional(Pattern(~a, Blank()))*Power(Pattern(~v, Blank()), Optional(Pattern(~p, Blank()))) + Optional(Pattern(~b, Blank()))*Power(Pattern(~w, Blank()), Optional(Pattern(~q, Blank()))), Optional(Pattern(~m, Blank())))*Power(Pattern(~w, Blank()), Optional(Pattern(~s, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~m, ~p, ~q, ~s), ~x), EqQ(~p*(1 + ~s) + ~q*(1 + ~m*~p), 0), NeQ(~s, -1), IntegerQ(~q*Power(1 + ~s, -1)), IntegerQ(~m))
+  With(List(Set(~c, Simplify(~u*Power(~p*~w*D(~v, ~x) - ~q*~v*D(~w, ~x), -1)))), Condition(-~c*~q*Power(1 + ~s, -1)*Subst(integrate(Power(~a + ~b*Power(~x, ~q*Power(1 + ~s, -1)), ~m), ~x), ~x, Power(~v, 1 + ~m*~p)*Power(~w, 1 + ~s)), FreeQ(~c, ~x)))
+end
+
+# line nr: 286
+@rule integrate(Pattern(~u, Blank())*Power(Optional(Pattern(~a, Blank()))*Power(Pattern(~v, Blank()), Optional(Pattern(~p, Blank()))) + Optional(Pattern(~b, Blank()))*Power(Pattern(~w, Blank()), Optional(Pattern(~q, Blank()))), Optional(Pattern(~m, Blank())))*Power(Pattern(~v, Blank()), Optional(Pattern(~r, Blank())))*Power(Pattern(~w, Blank()), Optional(Pattern(~s, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~m, ~p, ~q, ~r, ~s), ~x), EqQ(~p*(1 + ~s) + ~q*(1 + ~r + ~m*~p), 0), NeQ(~s, -1), IntegerQ(~q*Power(1 + ~s, -1)), IntegerQ(~m))
+  With(List(Set(~c, Simplify(~u*Power(~p*~w*D(~v, ~x) - ~q*~v*D(~w, ~x), -1)))), Condition(-~c*~q*Power(1 + ~s, -1)*Subst(integrate(Power(~a + ~b*Power(~x, ~q*Power(1 + ~s, -1)), ~m), ~x), ~x, Power(~v, 1 + ~r + ~m*~p)*Power(~w, 1 + ~s)), FreeQ(~c, ~x)))
+end
+
+# line nr: 294
+@rule integrate(Pattern(~u, Blank())*Power(Pattern(~x, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(~m, ~x), NeQ(~m, -1), FunctionOfQ(Power(~x, 1 + ~m), ~u, ~x))
+  Power(1 + ~m, -1)*Subst(integrate(SubstFor(Power(~x, 1 + ~m), ~u, ~x), ~x), ~x, Power(~x, 1 + ~m))
+end
+
+# line nr: 300
+@rule integrate(Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => With(List(Set(~lst, SubstForFractionalPowerOfLinear(~u, ~x))), Condition(Part(~lst, 2)*Part(~lst, 4)*Subst(integrate(Part(~lst, 1), ~x), ~x, Power(Part(~lst, 3), Power(Part(~lst, 2), -1))), And(Not(FalseQ(~lst)), SubstForFractionalPowerQ(~u, Part(~lst, 3), ~x))))
+
+# line nr: 315
+@rule integrate(Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => With(List(Set(~lst, SubstForFractionalPowerOfQuotientOfLinears(~u, ~x))), Condition(Part(~lst, 2)*Part(~lst, 4)*Subst(integrate(Part(~lst, 1), ~x), ~x, Power(Part(~lst, 3), Power(Part(~lst, 2), -1))), Not(FalseQ(~lst))))
+
+# line nr: 330
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~a, Blank()))*Power(Pattern(~v, Blank()), Optional(Pattern(~m, Blank())))*Power(Pattern(~w, Blank()), Optional(Pattern(~n, Blank())))*Power(Pattern(~z, Blank()), Optional(Pattern(~q, Blank()))), Pattern(~p, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~m, ~n, ~p, ~q), ~x), Not(IntegerQ(~p)), Not(FreeQ(~v, ~x)), Not(FreeQ(~w, ~x)), Not(FreeQ(~z, ~x)))
+  Power(~a, IntPart(~p))*Power(Power(~v, ~m*FracPart(~p))*Power(~w, ~n*FracPart(~p))*Power(~z, ~q*FracPart(~p)), -1)*Power(~a*Power(~v, ~m)*Power(~w, ~n)*Power(~z, ~q), FracPart(~p))*integrate(~u*Power(~v, ~m*~p)*Power(~w, ~n*~p)*Power(~z, ~p*~q), ~x)
+end
+
+# line nr: 336
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~a, Blank()))*Power(Pattern(~v, Blank()), Optional(Pattern(~m, Blank())))*Power(Pattern(~w, Blank()), Optional(Pattern(~n, Blank()))), Pattern(~p, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~m, ~n, ~p), ~x), Not(IntegerQ(~p)), Not(FreeQ(~v, ~x)), Not(FreeQ(~w, ~x)))
+  Power(~a, IntPart(~p))*Power(Power(~v, ~m*FracPart(~p))*Power(~w, ~n*FracPart(~p)), -1)*Power(~a*Power(~v, ~m)*Power(~w, ~n), FracPart(~p))*integrate(~u*Power(~v, ~m*~p)*Power(~w, ~n*~p), ~x)
+end
+
+# line nr: 342
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~a, Blank()))*Power(Pattern(~v, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~p, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~m, ~p), ~x), Not(IntegerQ(~p)), Not(FreeQ(~v, ~x)), Not(And(EqQ(~a, 1), EqQ(~m, 1))), Not(And(EqQ(~v, ~x), EqQ(~m, 1))))
+  Power(~a, IntPart(~p))*Power(~a*Power(~v, ~m), FracPart(~p))*integrate(~u*Power(~v, ~m*~p), ~x)*Power(Power(~v, ~m*FracPart(~p)), -1)
+end
+
+# line nr: 348
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~x, Blank()), Pattern(~n, Blank())) + Optional(Pattern(~a, Blank())), Pattern(~p, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~p), ~x), Not(IntegerQ(~p)), ILtQ(~n, 0), Not(RationalFunctionQ(~u, ~x)), IntegerQ(~p + Power(2, -1)))
+  Power(~b, IntPart(~p))*Power(~a + ~b*Power(~x, ~n), FracPart(~p))*Power(Power(~x, ~n*FracPart(~p))*Power(1 + ~a*Power(~b, -1)*Power(~x, -~n), FracPart(~p)), -1)*integrate(~u*Power(~x, ~n*~p)*Power(1 + ~a*Power(~b, -1)*Power(~x, -~n), ~p), ~x)
+end
+
+# line nr: 354
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~v, Blank()), Pattern(~n, Blank())) + Optional(Pattern(~a, Blank())), Pattern(~p, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~p), ~x), Not(IntegerQ(~p)), ILtQ(~n, 0), BinomialQ(~v, ~x), Not(LinearQ(~v, ~x)))
+  Power(~a + ~b*Power(~v, ~n), FracPart(~p))*Power(Power(~v, ~n*FracPart(~p))*Power(~b + ~a*Power(~v, -~n), FracPart(~p)), -1)*integrate(~u*Power(~v, ~n*~p)*Power(~b + ~a*Power(~v, -~n), ~p), ~x)
+end
+
+# line nr: 360
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~v, Blank()), Pattern(~n, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~m, Blank()))) + Optional(Pattern(~a, Blank())), Pattern(~p, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~m, ~p), ~x), Not(IntegerQ(~p)), ILtQ(~n, 0), BinomialQ(~v, ~x))
+  Power(~a + ~b*Power(~v, ~n)*Power(~x, ~m), FracPart(~p))*Power(Power(~v, ~n*FracPart(~p))*Power(~a*Power(~v, -~n) + ~b*Power(~x, ~m), FracPart(~p)), -1)*integrate(~u*Power(~v, ~n*~p)*Power(~a*Power(~v, -~n) + ~b*Power(~x, ~m), ~p), ~x)
+end
+
+# line nr: 366
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~a, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~r, Blank()))) + Optional(Pattern(~b, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~s, Blank()))), Pattern(~m, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~m, ~r, ~s), ~x), Not(IntegerQ(~m)), PosQ(~s - ~r))
+  With(List(Set(~v, Power(~a*Power(~x, ~r) + ~b*Power(~x, ~s), FracPart(~m))*Power(Power(~x, ~r*FracPart(~m))*Power(~a + ~b*Power(~x, ~s - ~r), FracPart(~m)), -1))), Condition(~v*integrate(~u*Power(~x, ~m*~r)*Power(~a + ~b*Power(~x, ~s - ~r), ~m), ~x), NeQ(Simplify(~v), 1)))
+end
+
+# line nr: 374
+@rule integrate(Pattern(~u, Blank())*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~x, Blank()), Pattern(~n, Blank())) + Pattern(~a, Blank()), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b), ~x), IGtQ(~n, 0))
+  With(List(Set(~v, RationalFunctionExpand(~u*Power(~a + ~b*Power(~x, ~n), -1), ~x))), Condition(integrate(~v, ~x), SumQ(~v)))
+end
+
+# line nr: 382
+@rule integrate(Pattern(~u, Blank())*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n, Blank()))) + Optional(Pattern(~c, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n2, Blank()))) + Optional(Pattern(~a, Blank())), Optional(Pattern(~p, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~n), ~x), EqQ(~n2, 2 * ~n), EqQ(Power(~b, 2) - 4 * ~a*~c, 0), IntegerQ(~p), Not(AlgebraicFunctionQ(~u, ~x)))
+  Power(Power(~c, ~p)*Power(4, ~p), -1)*integrate(~u*Power(~b + 2 * ~c*Power(~x, ~n), 2 * ~p), ~x)
+end
+
+# line nr: 388
+@rule integrate(Pattern(~u, Blank())*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n, Blank()))) + Optional(Pattern(~c, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n2, Blank()))) + Optional(Pattern(~a, Blank())), Pattern(~p, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(Power(~b, 2) - 4 * ~a*~c, 0), Not(IntegerQ(~p)), Not(AlgebraicFunctionQ(~u, ~x)))
+  Power(~a + ~b*Power(~x, ~n) + ~c*Power(~x, 2 * ~n), ~p)*integrate(~u*Power(~b + 2 * ~c*Power(~x, ~n), 2 * ~p), ~x)*Power(Power(~b + 2 * ~c*Power(~x, ~n), 2 * ~p), -1)
+end
+
+# line nr: 394
+@rule integrate(Pattern(~u, Blank())*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n, Blank()))) + Optional(Pattern(~c, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n2, Blank()))) + Optional(Pattern(~a, Blank())), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c), ~x), EqQ(~n2, 2 * ~n), IGtQ(~n, 0))
+  With(List(Set(~v, RationalFunctionExpand(~u*Power(~a + ~b*Power(~x, ~n) + ~c*Power(~x, 2 * ~n), -1), ~x))), Condition(integrate(~v, ~x), SumQ(~v)))
+end
+
+# line nr: 402
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Sqrt(Optional(Pattern(~c, Blank()))*Power(Pattern(~x, Blank()), Pattern(~n, Blank())))*Optional(Pattern(~b, Blank())) + Optional(Pattern(~a, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~m, Blank()))), -1), Pattern(~x, Blank(~Symbol))) => if FreeQ(List(~a, ~b, ~c, ~m, ~n), ~x)
+  integrate(~u*(~a*Power(~x, ~m) - ~b*Sqrt(~c*Power(~x, ~n)))*Power(Power(~a, 2)*Power(~x, 2 * ~m) - ~c*Power(~b, 2)*Power(~x, ~n), -1), ~x)
+end
+
+# line nr: 408
+@rule integrate(Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => With(List(Set(~lst, FunctionOfLinear(~u, ~x))), Condition(Dist(Power(Part(~lst, 3), -1), Subst(integrate(Part(~lst, 1), ~x), ~x, ~x*Part(~lst, 3) + Part(~lst, 2)), ~x), Not(FalseQ(~lst))))
+
+# line nr: 422
+@rule integrate(Pattern(~u, Blank())*Power(Pattern(~x, Blank()), -1), Pattern(~x, Blank(~Symbol))) => if And(NonsumQ(~u), Not(RationalFunctionQ(~u, ~x)))
+  With(List(Set(~lst, PowerVariableExpn(~u, 0, ~x))), Condition(Power(Part(~lst, 2), -1)*Subst(integrate(NormalizeIntegrand(Simplify(Part(~lst, 1)*Power(~x, -1)), ~x), ~x), ~x, Power(~x*Part(~lst, 3), Part(~lst, 2))), And(Not(FalseQ(~lst)), NeQ(Part(~lst, 2), 0))))
+end
+
+# line nr: 437
+@rule integrate(Pattern(~u, Blank())*Power(Pattern(~x, Blank()), Optional(Pattern(~m, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(IntegerQ(~m), NeQ(~m, -1), NonsumQ(~u), Or(GtQ(~m, 0), Not(AlgebraicFunctionQ(~u, ~x))))
+  With(List(Set(~lst, PowerVariableExpn(~u, 1 + ~m, ~x))), Condition(Power(Part(~lst, 2), -1)*Subst(integrate(NormalizeIntegrand(Simplify(Part(~lst, 1)*Power(~x, -1)), ~x), ~x), ~x, Power(~x*Part(~lst, 3), Part(~lst, 2))), And(Not(FalseQ(~lst)), NeQ(Part(~lst, 2), 1 + ~m))))
+end
+
+# line nr: 453
+@rule integrate(Pattern(~u, Blank())*Power(Pattern(~x, Blank()), Pattern(~m, Blank())), Pattern(~x, Blank(~Symbol))) => if FractionQ(~m)
+  With(List(Set(~k, Denominator(~m))), ~k*Subst(integrate(ReplaceAll(~u, Rule(~x, Power(~x, ~k)))*Power(~x, ~k*(1 + ~m) - 1), ~x), ~x, Power(~x, Power(~k, -1))))
+end
+
+# line nr: 460
+@rule integrate(Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => if EulerIntegrandQ(~u, ~x)
+  With(List(Set(~lst, FunctionOfSquareRootOfQuadratic(~u, ~x))), Condition(2Subst(integrate(Part(~lst, 1), ~x), ~x, Part(~lst, 2)), And(Not(FalseQ(~lst)), EqQ(Part(~lst, 3), 1))))
+end
+
+# line nr: 477
+@rule integrate(Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => if EulerIntegrandQ(~u, ~x)
+  With(List(Set(~lst, FunctionOfSquareRootOfQuadratic(~u, ~x))), Condition(2Subst(integrate(Part(~lst, 1), ~x), ~x, Part(~lst, 2)), And(Not(FalseQ(~lst)), EqQ(Part(~lst, 3), 2))))
+end
+
+# line nr: 494
+@rule integrate(Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => if EulerIntegrandQ(~u, ~x)
+  With(List(Set(~lst, FunctionOfSquareRootOfQuadratic(~u, ~x))), Condition(2Subst(integrate(Part(~lst, 1), ~x), ~x, Part(~lst, 2)), And(Not(FalseQ(~lst)), EqQ(Part(~lst, 3), 3))))
+end
+
+# line nr: 512
+@rule integrate(Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~v, Blank()), 2) + Pattern(~a, Blank()), -1), Pattern(~x, Blank(~Symbol))) => if FreeQ(List(~a, ~b), ~x)
+  Power(2 * ~a, -1)*integrate(Together(Power(1 + ~v*Power(Rt(-~a*Power(~b, -1), 2), -1), -1)), ~x) + Power(2 * ~a, -1)*integrate(Together(Power(1 - ~v*Power(Rt(-~a*Power(~b, -1), 2), -1), -1)), ~x)
+end
+
+# line nr: 519
+@rule integrate(Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~v, Blank()), Pattern(~n, Blank())) + Pattern(~a, Blank()), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b), ~x), IGtQ(~n*Power(2, -1), 1))
+  Dist(2Power(~a*~n, -1), Sum(integrate(Together(Power(1 - Power(~v, 2)*Power(Rt(-~a*Power(~b, -1), ~n*Power(2, -1))*Power(-1, 4 * ~k*Power(~n, -1)), -1), -1)), ~x), List(~k, 1, ~n*Power(2, -1))), ~x)
+end
+
+# line nr: 525
+@rule integrate(Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~v, Blank()), Pattern(~n, Blank())) + Pattern(~a, Blank()), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b), ~x), IGtQ((~n - 1)*Power(2, -1), 0))
+  Dist(Power(~a*~n, -1), Sum(integrate(Together(Power(1 - ~v*Power(Rt(-~a*Power(~b, -1), ~n)*Power(-1, 2 * ~k*Power(~n, -1)), -1), -1)), ~x), List(~k, 1, ~n)), ~x)
+end
+
+# line nr: 531
+@rule integrate(Pattern(~v, Blank())*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~u, Blank()), Optional(Pattern(~n, Blank()))) + Pattern(~a, Blank()), -1), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b), ~x), IGtQ(~n, 0), PolynomialInQ(~v, ~u, ~x))
+  integrate(ReplaceAll(ExpandIntegrand(PolynomialInSubst(~v, ~u, ~x)*Power(~a + ~b*Power(~x, ~n), -1), ~x), Rule(~x, ~u)), ~x)
+end
+
+# line nr: 537
+@rule integrate(Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => With(List(Set(~v, NormalizeIntegrand(~u, ~x))), Condition(integrate(~v, ~x), UnsameQ(~v, ~u)))
+
+# line nr: 544
+@rule integrate(Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => With(List(Set(~v, ExpandIntegrand(~u, ~x))), Condition(integrate(~v, ~x), SumQ(~v)))
+
+# line nr: 551
+@rule integrate(Optional(Pattern(~u, Blank()))*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~m, Blank()))) + Optional(Pattern(~a, Blank())), Optional(Pattern(~p, Blank())))*Power(Optional(Pattern(~d, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n, Blank()))) + Optional(Pattern(~c, Blank())), Optional(Pattern(~q, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~d, ~m, ~n, ~p, ~q), ~x), EqQ(~a + ~d, 0), EqQ(~b + ~c, 0), EqQ(~m + ~n, 0), EqQ(~p + ~q, 0))
+  Power(~a + ~b*Power(~x, ~m), ~p)*Power(~c + ~d*Power(~x, ~n), ~q)*integrate(~u*Power(~x, ~m*~p), ~x)*Power(Power(~x, ~m*~p), -1)
+end
+
+# line nr: 557
+@rule integrate(Pattern(~u, Blank())*Power(Optional(Pattern(~b, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n, Blank()))) + Optional(Pattern(~c, Blank()))*Power(Pattern(~x, Blank()), Optional(Pattern(~n2, Blank()))) + Pattern(~a, Blank()), Pattern(~p, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c, ~n, ~p), ~x), EqQ(~n2, 2 * ~n), EqQ(Power(~b, 2) - 4 * ~a*~c, 0), IntegerQ(~p - Power(2, -1)))
+  Sqrt(~a + ~b*Power(~x, ~n) + ~c*Power(~x, 2 * ~n))*integrate(~u*Power(~b + 2 * ~c*Power(~x, ~n), 2 * ~p), ~x)*Power((~b + 2 * ~c*Power(~x, ~n))*Power(4 * ~c, ~p - Power(2, -1)), -1)
+end
+
+# line nr: 563
+@rule integrate(Pattern(~u, Blank()), Pattern(~x, Blank(~Symbol))) => With(List(Set(~lst, SubstForFractionalPowerOfLinear(~u, ~x))), Condition(Part(~lst, 2)*Part(~lst, 4)*Subst(integrate(Part(~lst, 1), ~x), ~x, Power(Part(~lst, 3), Power(Part(~lst, 2), -1))), Not(FalseQ(~lst))))
+
+# line nr: 578
+@rule integrate(Pattern(~u, Blank()), Pattern(~x, Blank())) => CannotIntegrate(~u, ~x)
 

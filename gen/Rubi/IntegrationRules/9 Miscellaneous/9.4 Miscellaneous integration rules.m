@@ -298,7 +298,6 @@ FreeQ[m,x] && NeQ[m,-1] && FunctionOfQ[x^(m+1),u,x]
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   With[{lst=SubstForFractionalPowerOfLinear[u,x]},
   ShowStep["","Int[F[(a+b*x)^(1/n),x],x]",
@@ -306,7 +305,6 @@ Int[u_,x_Symbol] :=
   lst[[2]]*lst[[4]]*Subst[Int[lst[[1]],x],x,lst[[3]]^(1/lst[[2]])]]] /;
  Not[FalseQ[lst]] && SubstForFractionalPowerQ[u,lst[[3]],x]] /;
 SimplifyFlag,
-
 Int[u_,x_Symbol] :=
   With[{lst=SubstForFractionalPowerOfLinear[u,x]},
   lst[[2]]*lst[[4]]*Subst[Int[lst[[1]],x],x,lst[[3]]^(1/lst[[2]])] /;
@@ -315,7 +313,6 @@ Int[u_,x_Symbol] :=
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   With[{lst=SubstForFractionalPowerOfQuotientOfLinears[u,x]},
   ShowStep["","Int[F[((a+b*x)/(c+d*x))^(1/n),x],x]",
@@ -323,7 +320,6 @@ Int[u_,x_Symbol] :=
   lst[[2]]*lst[[4]]*Subst[Int[lst[[1]],x],x,lst[[3]]^(1/lst[[2]])]]] /;
  Not[FalseQ[lst]]] /;
 SimplifyFlag,
-
 Int[u_,x_Symbol] :=
   With[{lst=SubstForFractionalPowerOfQuotientOfLinears[u,x]},
   lst[[2]]*lst[[4]]*Subst[Int[lst[[1]],x],x,lst[[3]]^(1/lst[[2]])] /;
@@ -410,14 +406,12 @@ FreeQ[{a,b,c,m,n},x]
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   With[{lst=FunctionOfLinear[u,x]},
   ShowStep["","Int[F[a+b*x],x]","Subst[Int[F[x],x],x,a+b*x]/b",Hold[
   Dist[1/lst[[3]],Subst[Int[lst[[1]],x],x,lst[[2]]+lst[[3]]*x],x]]] /;
  Not[FalseQ[lst]]] /;
 SimplifyFlag,
-
 Int[u_,x_Symbol] :=
   With[{lst=FunctionOfLinear[u,x]},
   Dist[1/lst[[3]],Subst[Int[lst[[1]],x],x,lst[[2]]+lst[[3]]*x],x] /;
@@ -426,14 +420,12 @@ Int[u_,x_Symbol] :=
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_/x_,x_Symbol] :=
   With[{lst=PowerVariableExpn[u,0,x]},
   ShowStep["","Int[F[(c*x)^n]/x,x]","Subst[Int[F[x]/x,x],x,(c*x)^n]/n",Hold[
   1/lst[[2]]*Subst[Int[NormalizeIntegrand[Simplify[lst[[1]]/x],x],x],x,(lst[[3]]*x)^lst[[2]]]]] /;
  Not[FalseQ[lst]] && NeQ[lst[[2]],0]] /;
 SimplifyFlag && NonsumQ[u] && Not[RationalFunctionQ[u,x]],
-
 Int[u_/x_,x_Symbol] :=
   With[{lst=PowerVariableExpn[u,0,x]},
   1/lst[[2]]*Subst[Int[NormalizeIntegrand[Simplify[lst[[1]]/x],x],x],x,(lst[[3]]*x)^lst[[2]]] /;
@@ -443,7 +435,6 @@ NonsumQ[u] && Not[RationalFunctionQ[u,x]]]
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_*x_^m_.,x_Symbol] :=
   With[{lst=PowerVariableExpn[u,m+1,x]},
   ShowStep["If g=GCD[m+1,n]>1,","Int[x^m*F[x^n],x]",
@@ -451,7 +442,6 @@ Int[u_*x_^m_.,x_Symbol] :=
   1/lst[[2]]*Subst[Int[NormalizeIntegrand[Simplify[lst[[1]]/x],x],x],x,(lst[[3]]*x)^lst[[2]]]]] /;
  Not[FalseQ[lst]] && NeQ[lst[[2]],m+1]] /;
 SimplifyFlag && IntegerQ[m] && NeQ[m,-1] && NonsumQ[u] && (GtQ[m,0] || Not[AlgebraicFunctionQ[u,x]]),
-
 Int[u_*x_^m_.,x_Symbol] :=
   With[{lst=PowerVariableExpn[u,m+1,x]},
   1/lst[[2]]*Subst[Int[NormalizeIntegrand[Simplify[lst[[1]]/x],x],x],x,(lst[[3]]*x)^lst[[2]]] /;
@@ -468,7 +458,6 @@ FractionQ[m]
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   With[{lst=FunctionOfSquareRootOfQuadratic[u,x]},
   ShowStep["","Int[F[Sqrt[a+b*x+c*x^2],x],x]",
@@ -477,7 +466,6 @@ Int[u_,x_Symbol] :=
 			Hold[2*Subst[Int[lst[[1]],x],x,lst[[2]]]]] /;
  Not[FalseQ[lst]] && EqQ[lst[[3]],1]] /;
 SimplifyFlag && EulerIntegrandQ[u,x],
-
 Int[u_,x_Symbol] :=
   With[{lst=FunctionOfSquareRootOfQuadratic[u,x]},
   2*Subst[Int[lst[[1]],x],x,lst[[2]]] /;
@@ -487,7 +475,6 @@ EulerIntegrandQ[u,x]]
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   With[{lst=FunctionOfSquareRootOfQuadratic[u,x]},
   ShowStep["","Int[F[Sqrt[a+b*x+c*x^2],x],x]",
@@ -496,7 +483,6 @@ Int[u_,x_Symbol] :=
 			Hold[2*Subst[Int[lst[[1]],x],x,lst[[2]]]]] /;
  Not[FalseQ[lst]] && EqQ[lst[[3]],2]] /;
 SimplifyFlag && EulerIntegrandQ[u,x],
-
 Int[u_,x_Symbol] :=
   With[{lst=FunctionOfSquareRootOfQuadratic[u,x]},
   2*Subst[Int[lst[[1]],x],x,lst[[2]]] /;
@@ -506,7 +492,6 @@ EulerIntegrandQ[u,x]]
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   With[{lst=FunctionOfSquareRootOfQuadratic[u,x]},
   ShowStep["","Int[F[Sqrt[a+b*x+c*x^2],x],x]",
@@ -516,7 +501,6 @@ Int[u_,x_Symbol] :=
 		   Hold[2*Subst[Int[lst[[1]],x],x,lst[[2]]]]] /;
  Not[FalseQ[lst]] && EqQ[lst[[3]],3]] /;
 SimplifyFlag && EulerIntegrandQ[u,x],
-
 Int[u_,x_Symbol] :=
   With[{lst=FunctionOfSquareRootOfQuadratic[u,x]},
   2*Subst[Int[lst[[1]],x],x,lst[[2]]] /;
@@ -577,7 +561,6 @@ FreeQ[{a,b,c,n,p},x] && EqQ[n2,2*n] && EqQ[b^2-4*a*c,0] && IntegerQ[p-1/2]
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   With[{lst=SubstForFractionalPowerOfLinear[u,x]},
   ShowStep["","Int[F[(a+b*x)^(1/n),x],x]",
@@ -585,7 +568,6 @@ Int[u_,x_Symbol] :=
   lst[[2]]*lst[[4]]*Subst[Int[lst[[1]],x],x,lst[[3]]^(1/lst[[2]])]]] /;
  Not[FalseQ[lst]]] /;
 SimplifyFlag,
-
 Int[u_,x_Symbol] :=
   With[{lst=SubstForFractionalPowerOfLinear[u,x]},
   lst[[2]]*lst[[4]]*Subst[Int[lst[[1]],x],x,lst[[3]]^(1/lst[[2]])] /;

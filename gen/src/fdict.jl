@@ -8,28 +8,274 @@ function Pattern(args...)
     end
 end
 
+
 Blank(x=nothing) = nothing
 
 
-const fdict = Dict( "Sin" => sin, 
-					"Cos" => cos, 
-					"Tan" => tan,
-					"Cot" => cot,
-					"Atan" => atan,
-					"Asin" => asin,
-					"Acos" => acos,
-					"Exp" => exp, 
-					# "Sqrt" => sqrt, #don't use it, or it will hardcode floats
-					"Times" => *, 
-					"Power" => SymbolicUtils.Pow, 
-					"Rational" => //,
-					"Plus" => +,
-					"Minus" => -,
-					"Pattern" => Pattern, #not pretty, but it seems to work (at least in the parsing)
-					"Blank" => Blank,
-					"Optional" => x->x, #does this have any consequences?
-					"Int" => integrate,
-					# "And" => And, # can't use (x,y) -> x && y
-					# "Log" => log, #can't just use log, as there is Log[x,b]
-					# "NeQ" => !=, #can't use it, as there is SymbolicUtils.Sym{Bool,nothing}, also can't use !isequal, as this is evaluated
+const fdict = Dict{String,Any}(
+"Times" => *,
+"Rational" => //,
+"Plus" => +,
+"Minus" => -,
+"Int" => integrate,
+"ArcCosh" => acosh,
+"ArcTan" => atan,
+"ArcSin" => asin,
+"Cos" => cos,
+"ArcTanh" => atanh,
+"ArcSinh" => asinh,
+"ArcCos" => acos,
+"Exp" => exp,
+"Sin" => sin,
+"Tan" => tan,
+"Sec" => sec,
+"Csc" => csc,
+"Cot" => cot,
+"ArcCsc" => acsc,
+"ArcSec" => asec,
+"ArcCot" => acot,
+"ArcCsch" => acsch,
+"ArcSech" => asech,
+"Coth" => coth,
+"Tanh" => tanh,
+"ArcCoth" => acoth,
+"Sech" => sech,
+"Csch" => csch,
+"Cosh" => cosh,
+"Sinh" => sinh,
+# "Power" => SymbolicUtils.Pow,
+# "Pattern" => Pattern, #not pretty, but it seems to work (at least in the parsing)
+# "Optional" => x->x, #does this have any consequences?
+# "Blank" => Blank,
+# "Log" => log, #can't just use log, as there is Log[x,b]
+# "Sqrt" => sqrt, #don't use it, or it will hardcode floats
+# "And" => And, # can't use (x,y) -> x && y
+# "NeQ" => !=, #can't use it, as there is SymbolicUtils.Sym{Bool,nothing}, also can't use !isequal, as this is evaluated
+# "FreeQ"
+# "RemoveContent"
+# "Coefficient"
+# "Subst"
+# "LinearQ"
+# "EqQ"
+# "IGtQ"
+# "ILtQ"
+# "IntegerQ"
+# "Not"
+# "LtQ"
+# "LeQ"
+# "NegQ"
+# "ILeQ"
+# "FractionQ"
+# "RationalQ"
+# "IntegersQ"
+# "Module"
+# "Floor"
+# "Sign"
+# "Mod"
+# "OddQ"
+# "If"
+# "IGeQ"
+# "Function"
+# "TrueQ"
+# "MemberQ"
+# "FalseQ"
+# "sin"
+# "cos"
+# "sec"
+# "csc"
+# "tan"
+# "cot"
+# "Complex"
+# "Abs"
+# "IndependentQ"
+# "GtQ"
+# "FracPart"
+# "ExpandIntegrand"
+# "Simplify"
+# "SumSimplerQ"
+# "GeQ"
+# "IntLinearQ"
+# "With"
+# "Rt"
+# "PosQ"
+# "Denominator"
+# "AtomQ"
+# "Hypergeometric2F1"
+# "IntPart"
+# "Simp"
+# "SimplerQ"
+# "FractionalPart"
+# "IntegerPart"
+# "EllipticE"
+# "EllipticF"
+# "ExpandToSum"
+# "AppellF1"
+# "CannotIntegrate"
+# "LinearMatchQ"
+# "PolyQ"
+# "PolynomialQuotient"
+# "PolynomialRemainder"
+# "Expon"
+# "Coeff"
+# "MatchQ"
+# "D"
+# "SubstFor"
+# "Numerator"
+# "Dist"
+# "Sum"
+# "SplitProduct"
+# "Numer"
+# "Denom"
+# "GCD"
+# "IntBinomialQ"
+# "BinomialParts"
+# "BinomialQ"
+# "PolynomialDivide"
+# "SimplifyIntegrand"
+# "LinearPairQ"
+# "SimplerSqrtQ"
+# "NormalizePseudoBinomial"
+# "PseudoBinomialPairQ"
+# "Together"
+# "EllipticPi"
+# "SumQ"
+# "Unintegrable"
+# "ReplaceAll"
+# "PolynomialQ"
+# "IntHide"
+# "Quotient"
+# "PerfectSquareQ"
+# "NiceSqrtQ"
+# "ExpandLinearProduct"
+# "IntQuadraticQ"
+# "LeafCount"
+# "Cancel"
+# "RationalFunctionExpand"
+# "PolyGCD"
+# "MinimumMonomialExponent"
+# "Distrib"
+# "EveryQ"
+# "Factor"
+# "NonfreeFactors"
+# "DistributeDegree"
+# "QuadraticProductQ"
+# "RationalFunctionQ"
+# "QuadraticQ"
+# "QuadraticMatchQ"
+# "BinomialMatchQ"
+# "BinomialDegree"
+# "GeneralizedBinomialQ"
+# "GeneralizedBinomialMatchQ"
+# "TrinomialQ"
+# "TrinomialMatchQ"
+# "GeneralizedTrinomialQ"
+# "GeneralizedTrinomialMatchQ"
+# "GeneralizedTrinomialDegree"
+# "ExpIntegralEi"
+# "Gamma"
+# "NormalizePowerOfLinear"
+# "PowerOfLinearQ"
+# "PowerOfLinearMatchQ"
+# "PowerQ"
+# "uu"
+# "Erfi"
+# "Erf"
+# "FunctionExpand"
+# "ExpIntegralE"
+# "FullSimplify"
+# "Expand"
+# "FunctionOfExponential"
+# "FunctionOfExponentialFunction"
+# "FunctionOfExponentialQ"
+# "F_"
+# "InverseFunctionQ"
+# "F"
+# "NormalizeIntegrand"
+# "Exponent"
+# "LogIntegral"
+# "PolyLog"
+# "InverseFunctionFreeQ"
+# "AlgebraicFunctionQ"
+# "NonsumQ"
+# "IntegralFreeQ"
+# "RationalFunctionExponents"
+# "DerivativeDivides"
+# "SubstForFractionalPowerOfLinear"
+# "lst"
+# "ProductQ"
+# "FunctionOfQ"
+# "PowerVariableExpn"
+# "FunctionOfLog"
+# "ShowStep"
+# "Hold"
+# "LogGamma"
+# "DeactivateTrig"
+# "FunctionOfTrigOfLinearQ"
+# "FreeFactors"
+# "ExpandTrig"
+# "SinhIntegral"
+# "SinIntegral"
+# "CoshIntegral"
+# "CosIntegral"
+# "ComplexFreeQ"
+# "ExpandTrigReduce"
+# "FresnelS"
+# "FresnelC"
+# "ActivateTrig"
+# "trig_"
+# "Apart"
+# "KnownSineIntegrandQ"
+# "KnownTangentIntegrandQ"
+# "KnownCotangentIntegrandQ"
+# "KnownSecantIntegrandQ"
+# "InertTrigQ"
+# "TryPureTanSubst"
+# "FunctionOfTrig"
+# "G_"
+# "G"
+# "H_"
+# "H"
+# "InertTrigFreeQ"
+# "TrigSimplify"
+# "TrigSimplifyQ"
+# "Block"
+# "CalculusFreeQ"
+# "TrigQ"
+# "ExpandTrigExpand"
+# "ExpandTrigToExp"
+# "QuotientOfLinearsParts"
+# "QuotientOfLinearsQ"
+# "HalfIntegerQ"
+# "HypergeometricPFQ"
+# "ExpandExpression"
+# "InverseFunctionOfLinear"
+# "f"
+# "Discriminant"
+# "tmp"
+# "SubstForInverseFunction"
+# "Head"
+# "FunctionOfLinear"
+# "Integral"
+# "HyperbolicQ"
+# "Erfc"
+# "BesselJ"
+# "PolyGamma"
+# "Zeta"
+# "ProductLog"
+# "Identity"
+# "Integrate"
+# "IntSum"
+# "Derivative"
+# "g_"
+# "f_"
+# "g"
+# "PiecewiseLinearQ"
+# "SimplerIntegrandQ"
+# "Divides"
+# "SubstForFractionalPowerQ"
+# "SubstForFractionalPowerOfQuotientOfLinears"
+# "FunctionOfSquareRootOfQuadratic"
+# "EulerIntegrandQ"
+# "PolynomialInSubst"
+# "PolynomialInQ"
 )

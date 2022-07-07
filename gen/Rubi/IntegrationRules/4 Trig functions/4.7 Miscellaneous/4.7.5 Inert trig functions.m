@@ -180,7 +180,6 @@ FreeQ[{a,b,c},x] && IntegerQ[n]
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   With[{v=FunctionOfTrig[u,x]},
   ShowStep["","Int[F[Cot[a+b*x]],x]","-1/b*Subst[Int[F[x]/(1+x^2),x],x,Cot[a+b*x]]",Hold[
@@ -188,7 +187,6 @@ Int[u_,x_Symbol] :=
   Dist[-d/Coefficient[v,x,1],Subst[Int[SubstFor[1/(1+d^2*x^2),Cot[v]/d,u,x],x],x,Cot[v]/d],x]]]] /;
  Not[FalseQ[v]] && FunctionOfQ[NonfreeFactors[Cot[v],x],u,x,True] && TryPureTanSubst[ActivateTrig[u],x]] /;
 SimplifyFlag,
-
 Int[u_,x_Symbol] :=
   With[{v=FunctionOfTrig[u,x]},
   With[{d=FreeFactors[Cot[v],x]},
@@ -198,7 +196,6 @@ Int[u_,x_Symbol] :=
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   With[{v=FunctionOfTrig[u,x]},
   ShowStep["","Int[F[Tan[a+b*x]],x]","1/b*Subst[Int[F[x]/(1+x^2),x],x,Tan[a+b*x]]",Hold[
@@ -206,7 +203,6 @@ Int[u_,x_Symbol] :=
   Dist[d/Coefficient[v,x,1],Subst[Int[SubstFor[1/(1+d^2*x^2),Tan[v]/d,u,x],x],x,Tan[v]/d],x]]]] /;
  Not[FalseQ[v]] && FunctionOfQ[NonfreeFactors[Tan[v],x],u,x,True] && TryPureTanSubst[ActivateTrig[u],x]] /;
 SimplifyFlag,
-
 Int[u_,x_Symbol] :=
   With[{v=FunctionOfTrig[u,x]},
   With[{d=FreeFactors[Tan[v],x]},
@@ -404,7 +400,6 @@ FreeQ[{a,b,c,d},x] && Not[FreeQ[v,x]] && IntegerQ[(n-1)/2] && NonsumQ[u] && (EqQ
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   With[{v=FunctionOfTrig[u,x]},
   ShowStep["","Int[F[Sin[a+b*x]]*Cos[a+b*x],x]","Subst[Int[F[x],x],x,Sin[a+b*x]]/b",Hold[
@@ -412,7 +407,6 @@ Int[u_,x_Symbol] :=
   Dist[d/Coefficient[v,x,1],Subst[Int[SubstFor[1,Sin[v]/d,u/Cos[v],x],x],x,Sin[v]/d],x]]]] /;
  Not[FalseQ[v]] && FunctionOfQ[NonfreeFactors[Sin[v],x],u/Cos[v],x]] /;
 SimplifyFlag,
-
 Int[u_,x_Symbol] :=
   With[{v=FunctionOfTrig[u,x]},
   With[{d=FreeFactors[Sin[v],x]},
@@ -422,7 +416,6 @@ Int[u_,x_Symbol] :=
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   With[{v=FunctionOfTrig[u,x]},
   ShowStep["","Int[F[Cos[a+b*x]]*Sin[a+b*x],x]","-Subst[Int[F[x],x],x,Cos[a+b*x]]/b",Hold[
@@ -430,7 +423,6 @@ Int[u_,x_Symbol] :=
   Dist[-d/Coefficient[v,x,1],Subst[Int[SubstFor[1,Cos[v]/d,u/Sin[v],x],x],x,Cos[v]/d],x]]]] /;
  Not[FalseQ[v]] && FunctionOfQ[NonfreeFactors[Cos[v],x],u/Sin[v],x]] /;
 SimplifyFlag,
-
 Int[u_,x_Symbol] :=
   With[{v=FunctionOfTrig[u,x]},
   With[{d=FreeFactors[Cos[v],x]},
@@ -505,7 +497,6 @@ FreeQ[{a,b,c,d,n,p},x] && InertTrigQ[F] && Not[IntegerQ[n]] && Not[IntegerQ[p]]
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   With[{v=FunctionOfTrig[u,x]},
   ShowStep["","Int[F[Tan[a+b*x]],x]","1/b*Subst[Int[F[x]/(1+x^2),x],x,Tan[a+b*x]]",Hold[
@@ -514,7 +505,6 @@ Int[u_,x_Symbol] :=
  Not[FalseQ[v]] && FunctionOfQ[NonfreeFactors[Tan[v],x],u,x]] /;
 SimplifyFlag && InverseFunctionFreeQ[u,x] && 
   Not[MatchQ[u,v_.*(c_.*tan[w_]^n_.*tan[z_]^n_.)^p_. /; FreeQ[{c,p},x] && IntegerQ[n] && LinearQ[w,x] && EqQ[z,2*w]]],
-
 Int[u_,x_Symbol] :=
   With[{v=FunctionOfTrig[u,x]},
   With[{d=FreeFactors[Tan[v],x]},
@@ -605,7 +595,6 @@ Not[InertTrigFreeQ[u]]
 
 (* ::Code:: *)
 If[TrueQ[$LoadShowSteps],
-
 Int[u_,x_Symbol] :=
   With[{w=Block[{$ShowSteps=False,$StepCounter=Null}, 
 			Int[SubstFor[1/(1+FreeFactors[Tan[FunctionOfTrig[u,x]/2],x]^2*x^2),Tan[FunctionOfTrig[u,x]/2]/FreeFactors[Tan[FunctionOfTrig[u,x]/2],x],u,x],x]]},  
@@ -615,7 +604,6 @@ Int[u_,x_Symbol] :=
   Dist[2*d/Coefficient[v,x,1],Subst[Int[SubstFor[1/(1+d^2*x^2),Tan[v/2]/d,u,x],x],x,Tan[v/2]/d],x]]]] /;
  CalculusFreeQ[w,x]] /;
 SimplifyFlag && InverseFunctionFreeQ[u,x] && Not[FalseQ[FunctionOfTrig[u,x]]],
-
 Int[u_,x_Symbol] :=
   With[{w=Block[{$ShowSteps=False,$StepCounter=Null}, 
 			Int[SubstFor[1/(1+FreeFactors[Tan[FunctionOfTrig[u,x]/2],x]^2*x^2),Tan[FunctionOfTrig[u,x]/2]/FreeFactors[Tan[FunctionOfTrig[u,x]/2],x],u,x],x]]},  

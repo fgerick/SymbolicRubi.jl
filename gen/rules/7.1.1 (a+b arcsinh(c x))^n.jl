@@ -1,12 +1,15 @@
-@rule integrate((~a + ~b*ArcSinh(~c*~x))^~n, ~x) =>  if And(FreeQ(List(~a, ~b, ~c), ~x), GtQ(~n, 0)) 
- ~x*((~a + ~b*ArcSinh(~c*~x))^~n) - ~b*~c*~n*integrate(~x*((~a + ~b*ArcSinh(~c*~x))^(~n - 1))*(Sqrt(1 + ((~c)^2)*((~x)^2))^-1), ~x)
- end
+# line nr: 23
+@rule integrate(Power(asinh(Optional(Pattern(~c, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~b, Blank())) + Optional(Pattern(~a, Blank())), Optional(Pattern(~n, Blank()))), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c), ~x), GtQ(~n, 0))
+  ~x*Power(~a + ~b*asinh(~c*~x), ~n) - ~b*~c*~n*integrate(~x*Power(~a + ~b*asinh(~c*~x), ~n - 1)*Power(Sqrt(1 + Power(~c, 2)*Power(~x, 2)), -1), ~x)
+end
 
-@rule integrate((~a + ~b*ArcSinh(~c*~x))^~n, ~x) =>  if And(FreeQ(List(~a, ~b, ~c), ~x), LtQ(~n, -1)) 
- ((~a + ~b*ArcSinh(~c*~x))^(1 + ~n))*(((~b)^-1)*((~c)^-1)*((1 + ~n)^-1))*Sqrt(1 + ((~c)^2)*((~x)^2)) - ~c*(((~b)^-1)*((1 + ~n)^-1))*integrate(~x*((~a + ~b*ArcSinh(~c*~x))^(1 + ~n))*(Sqrt(1 + ((~c)^2)*((~x)^2))^-1), ~x)
- end
+# line nr: 30
+@rule integrate(Power(asinh(Optional(Pattern(~c, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~b, Blank())) + Optional(Pattern(~a, Blank())), Pattern(~n, Blank())), Pattern(~x, Blank(~Symbol))) => if And(FreeQ(List(~a, ~b, ~c), ~x), LtQ(~n, -1))
+  Sqrt(1 + Power(~c, 2)*Power(~x, 2))*Power(~a + ~b*asinh(~c*~x), 1 + ~n)*Power(~b*~c*(1 + ~n), -1) - ~c*Power(~b*(1 + ~n), -1)*integrate(~x*Power(~a + ~b*asinh(~c*~x), 1 + ~n)*Power(Sqrt(1 + Power(~c, 2)*Power(~x, 2)), -1), ~x)
+end
 
-@rule integrate((~a + ~b*ArcSinh(~c*~x))^~n, ~x) =>  if FreeQ(List(~a, ~b, ~c, ~n), ~x) 
- (((~b)^-1)*((~c)^-1))*Subst(integrate(((~x)^~n)*Cosh(~x*((~b)^-1) - ~a*((~b)^-1)), ~x), ~x, ~a + ~b*ArcSinh(~c*~x))
- end
+# line nr: 37
+@rule integrate(Power(asinh(Optional(Pattern(~c, Blank()))*Pattern(~x, Blank()))*Optional(Pattern(~b, Blank())) + Optional(Pattern(~a, Blank())), Pattern(~n, Blank())), Pattern(~x, Blank(~Symbol))) => if FreeQ(List(~a, ~b, ~c, ~n), ~x)
+  Power(~b*~c, -1)*Subst(integrate(cosh(~x*Power(~b, -1) - ~a*Power(~b, -1))*Power(~x, ~n), ~x), ~x, ~a + ~b*asinh(~c*~x))
+end
 
